@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
 import { 
   Plus, DollarSign, Calendar, CheckCircle2, 
-  Clock, TrendingUp, X, Layers, Briefcase, 
-  ChevronRight, ArrowUpRight, ShieldCheck, Filter
+  Clock, TrendingUp, X, Filter, ChevronRight,
+  ShieldCheck, ArrowUpRight, Sparkles, AlertCircle
 } from 'lucide-react';
 
 export default function ProjectsView() {
@@ -73,127 +73,101 @@ export default function ProjectsView() {
   };
 
   return (
-    <div className="space-y-7 animate-in fade-in duration-200">
-      {/* 1. Page Header */}
+    <div className="space-y-6 animate-in fade-in duration-200">
+      {/* 1. Header with Single Action */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
-              Commercial Portfolio
-            </span>
-            <span className="text-xs text-slate-400">Software House Contracts</span>
-          </div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
             Projects & Financial Ledger
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Track active client contracts, development progress, milestones, and incoming disbursements
+          <p className="text-xs text-slate-400 mt-0.5">
+            Software house contracts, sprint progress, and revenue ledger
           </p>
         </div>
 
         {isLeader && (
           <button
             onClick={() => setShowAddModal(true)}
-            className="btn-gold text-xs py-2.5 px-4 shadow-sm shrink-0"
+            className="btn-gold text-xs py-2 px-4 shadow-sm shrink-0"
           >
             <Plus className="w-4 h-4" />
-            <span>New Commercial Contract</span>
+            <span>Create Project</span>
           </button>
         )}
       </div>
 
-      {/* 2. Top Summary Metrics (Clean, Spacious, Not Cramped) */}
+      {/* 2. TOP 3 FINANCIAL KPI CARDS - Minimal, Beautiful, Unified Luxury Style */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Pipeline Value */}
-        <div className="clean-card p-6 flex items-center justify-between shadow-xs">
+        {/* Box 1: Total Pipeline */}
+        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-amber-300 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Total Pipeline Value</span>
+            <div className="icon-badge-gold">
+              <DollarSign className="w-4 h-4 text-amber-700" />
+            </div>
+          </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Total Contract Pipeline
-            </span>
-            <div className="text-2xl font-black text-slate-900 mt-2 font-mono tracking-tight">
+            <div className="text-2xl font-bold text-slate-900 tracking-tight">
               PKR {totalBudget.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-500 mt-1.5 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" />
-              <span>{projects.length} Active signed contracts</span>
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-2xl icon-badge-gold flex items-center justify-center shrink-0">
-            <DollarSign className="w-6 h-6 text-amber-700" />
+            <p className="text-[11px] text-slate-400 mt-0.5">{projects.length} Active commercial contracts</p>
           </div>
         </div>
 
-        {/* Payments Cleared */}
-        <div className="clean-card p-6 flex items-center justify-between shadow-xs">
+        {/* Box 2: Payments Cleared */}
+        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-amber-300 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Payments Cleared</span>
+            <div className="icon-badge-gold">
+              <Sparkles className="w-4 h-4 text-amber-600" />
+            </div>
+          </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Verified Revenue Cleared
-            </span>
-            <div className="text-2xl font-black text-amber-700 mt-2 font-mono tracking-tight">
+            <div className="text-2xl font-bold text-amber-700 tracking-tight">
               PKR {totalPaid.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-500 mt-1.5 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-              <span>
-                <strong className="text-slate-800 font-semibold">
-                  {Math.round((totalPaid / (totalBudget || 1)) * 100)}%
-                </strong> collected of pipeline
-              </span>
+            <p className="text-[11px] text-amber-700 font-semibold mt-0.5">
+              {Math.round((totalPaid / (totalBudget || 1)) * 100)}% verified revenue collected
             </p>
-          </div>
-          <div className="w-12 h-12 rounded-2xl icon-badge-gold flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-6 h-6 text-amber-700" />
           </div>
         </div>
 
-        {/* Outstanding Receivables */}
-        <div className="clean-card p-6 flex items-center justify-between shadow-xs">
+        {/* Box 3: Outstanding Receivables */}
+        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-500">Outstanding Receivables</span>
+            <div className="icon-badge-silver">
+              <Clock className="w-4 h-4 text-slate-600" />
+            </div>
+          </div>
           <div>
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-              Outstanding Receivables
-            </span>
-            <div className="text-2xl font-black text-slate-800 mt-2 font-mono tracking-tight">
+            <div className="text-2xl font-bold text-slate-900 tracking-tight">
               PKR {totalBalance.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-500 mt-1.5 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-slate-400 inline-block" />
-              <span>Due on milestone sign-offs</span>
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-2xl icon-badge-silver flex items-center justify-center shrink-0">
-            <Clock className="w-6 h-6 text-slate-600" />
+            <p className="text-[11px] text-slate-400 mt-0.5">Due across upcoming deliverables</p>
           </div>
         </div>
       </div>
 
-      {/* 3. Category Filter Bar (Clean pill buttons with breathing space) */}
-      <div className="flex items-center justify-between gap-3 flex-wrap border-b border-slate-200/80 pb-3">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-bold text-slate-400 mr-1 flex items-center gap-1">
-            <Filter className="w-3.5 h-3.5" /> Filter:
-          </span>
-          {['all', 'Web App', 'Mobile App', 'UI/UX Design', 'AI Integration', 'Custom Software'].map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilterCategory(cat)}
-              className={`text-xs px-3 py-1.5 rounded-xl font-semibold transition-all ${
-                filterCategory === cat
-                  ? 'bg-amber-600 text-white shadow-xs'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              {cat === 'all' ? 'All Categories' : cat}
-            </button>
-          ))}
-        </div>
-
-        <span className="text-xs font-medium text-slate-500">
-          Showing <strong className="text-slate-800">{filteredProjects.length}</strong> of {projects.length} contracts
-        </span>
+      {/* 3. Category Pills (Neat & Minimal) */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+        {['all', 'Web App', 'Mobile App', 'UI/UX Design', 'AI Integration', 'Custom Software'].map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setFilterCategory(cat)}
+            className={`text-xs px-3 py-1.5 rounded-lg font-semibold transition-all shrink-0 ${
+              filterCategory === cat
+                ? 'bg-amber-100/80 text-amber-900 border border-amber-300'
+                : 'bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50'
+            }`}
+          >
+            {cat === 'all' ? 'All Contracts' : cat}
+          </button>
+        ))}
       </div>
 
-      {/* 4. Projects List (Spacious, well-separated cards) */}
-      <div className="space-y-6">
+      {/* 4. Projects Cards - Cool, Clean, Spacious */}
+      <div className="space-y-5">
         {filteredProjects.map((project) => {
           const balance = project.totalBudget - project.paidAmount;
           const isFullyPaid = balance <= 0;
@@ -202,113 +176,61 @@ export default function ProjectsView() {
           return (
             <div 
               key={project.id}
-              className="clean-card p-6 md:p-7 hover:border-amber-300/80 transition-all shadow-xs hover:shadow-md space-y-6"
+              className="clean-card p-6 hover:border-amber-200/80 transition-all space-y-5"
             >
-              {/* Card Top: Title, Badges & Financial Strip */}
-              <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-6 pb-6 border-b border-slate-100">
-                {/* Left: Info */}
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200/90 px-2.5 py-0.5 rounded-md">
+              {/* Row 1: Project Header + Minimal Financial Pill */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
                       {project.category}
                     </span>
-                    <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md capitalize">
-                      Status: {project.status.replace('_', ' ')}
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400">
-                      ID: {project.id}
+                    <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md capitalize">
+                      {project.status.replace('_', ' ')}
                     </span>
                   </div>
-
-                  <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+                  <h3 className="text-lg font-bold text-slate-900">
                     {project.name}
                   </h3>
-
-                  <p className="text-xs text-slate-500 leading-relaxed max-w-3xl">
-                    {project.description}
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Client: <strong className="text-slate-700">{project.clientName}</strong> ({project.clientEmail})
                   </p>
-
-                  <div className="pt-1 flex items-center gap-4 text-xs text-slate-600 flex-wrap">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-slate-400">Client:</span>
-                      <strong className="text-slate-800 font-semibold">{project.clientName}</strong>
-                    </div>
-                    <span className="text-slate-300">&bull;</span>
-                    <div className="text-slate-500 font-mono text-[11px]">
-                      {project.clientEmail}
-                    </div>
-                    <span className="text-slate-300">&bull;</span>
-                    <div className="flex items-center gap-1 text-slate-500">
-                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                      <span>Target: <strong className="text-slate-700 font-mono">{project.deadline}</strong></span>
-                    </div>
-                  </div>
                 </div>
 
-                {/* Right: Financial Ledger Box (Separated, airy card) */}
-                <div className="bg-slate-50 border border-slate-200/90 p-4 sm:p-5 rounded-2xl flex flex-col gap-3 min-w-[320px] sm:min-w-[360px] shrink-0">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Financial Clearance
+                {/* Minimal Financial Snapshot with +Pay Button */}
+                <div className="flex items-center gap-3 bg-slate-50/80 border border-slate-200/80 px-4 py-2.5 rounded-xl self-start lg:self-auto">
+                  <div className="text-xs">
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Budget</span>
+                    <span className="font-bold text-slate-900">PKR {project.totalBudget.toLocaleString()}</span>
+                  </div>
+                  <div className="h-7 w-[1px] bg-slate-200" />
+                  <div className="text-xs">
+                    <span className="text-[10px] text-emerald-600 uppercase tracking-wider block font-semibold">Paid</span>
+                    <span className="font-bold text-emerald-700">PKR {project.paidAmount.toLocaleString()}</span>
+                  </div>
+                  <div className="h-7 w-[1px] bg-slate-200" />
+                  <div className="text-xs">
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Balance</span>
+                    <span className={`font-bold ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
+                      {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
                     </span>
-                    <span className="text-xs font-mono font-bold text-amber-800 bg-amber-100/70 border border-amber-200 px-2 py-0.5 rounded">
-                      {paidPercentage}% Paid
-                    </span>
                   </div>
 
-                  {/* 3 Metric Columns */}
-                  <div className="grid grid-cols-3 gap-3 text-center sm:text-left">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total</span>
-                      <div className="text-xs sm:text-sm font-bold text-slate-900 mt-1 font-mono">
-                        PKR {(project.totalBudget / 1000).toFixed(0)}k
-                      </div>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">Received</span>
-                      <div className="text-xs sm:text-sm font-bold text-emerald-700 mt-1 font-mono">
-                        PKR {(project.paidAmount / 1000).toFixed(0)}k
-                      </div>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Remaining</span>
-                      <div className={`text-xs sm:text-sm font-bold mt-1 font-mono ${isFullyPaid ? 'text-slate-400' : 'text-slate-800'}`}>
-                        {isFullyPaid ? 'Settled ✓' : `PKR ${(balance / 1000).toFixed(0)}k`}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Small progress line */}
-                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                    <div 
-                      className="bg-amber-600 h-full rounded-full transition-all duration-300"
-                      style={{ width: `${paidPercentage}%` }}
-                    />
-                  </div>
-
-                  {/* Payment Button */}
                   {isLeader && !isFullyPaid && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="btn-gold text-xs py-1.5 px-3 w-full justify-center mt-1"
+                      className="btn-gold text-xs py-1 px-3 ml-2"
                     >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Record Client Payment</span>
+                      + Pay
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Card Middle: Development Velocity Control */}
-              <div className="bg-slate-50/60 border border-slate-200/80 p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-3 flex-1">
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <TrendingUp className="w-4 h-4 text-amber-600" />
-                    <span className="text-xs font-bold text-slate-700">Sprint Delivery Velocity:</span>
-                  </div>
-
+              {/* Row 2: Velocity Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-3 flex-1 max-w-lg">
+                  <span className="font-semibold text-slate-600 shrink-0">Project Velocity:</span>
                   <input
                     type="range"
                     min="0"
@@ -316,74 +238,55 @@ export default function ProjectsView() {
                     step="5"
                     value={project.progressPercentage}
                     onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                    className="flex-1 max-w-md h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
+                    className="flex-1 h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-amber-600"
                   />
-
-                  <span className="text-xs font-mono font-bold text-amber-800 bg-amber-50 border border-amber-300 px-2.5 py-0.5 rounded-md shrink-0">
-                    {project.progressPercentage}% Complete
+                  <span className="font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded text-[11px] shrink-0">
+                    {project.progressPercentage}%
                   </span>
                 </div>
 
-                <div className="text-xs text-slate-500 shrink-0">
-                  Total Milestones: <strong className="text-slate-800 font-semibold">{project.milestones.filter(m => m.completed).length} / {project.milestones.length} Delivered</strong>
+                <div className="text-slate-400 shrink-0">
+                  Handover Target: <strong className="text-slate-700 font-mono">{project.deadline}</strong>
                 </div>
               </div>
 
-              {/* Card Bottom: Milestone Checklist with clear separation */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">
-                    Contract Deliverables & Milestones:
-                  </span>
-                  <span className="text-[11px] text-slate-400">
-                    Click milestone to toggle status
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {project.milestones.map((m) => (
-                    <div
-                      key={m.id}
-                      onClick={() => toggleMilestone(project.id, m.id)}
-                      className={`cursor-pointer p-4 rounded-xl border flex items-center justify-between transition-all select-none ${
+              {/* Row 3: Deliverables / Milestones (Cool clean badges, not cluttered) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                {project.milestones.map((m) => (
+                  <div
+                    key={m.id}
+                    onClick={() => toggleMilestone(project.id, m.id)}
+                    className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-colors select-none ${
+                      m.completed 
+                        ? 'bg-amber-50/50 border-amber-200/90 text-slate-900' 
+                        : 'bg-white border-slate-200/80 text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                      <span className={`w-4 h-4 rounded flex items-center justify-center text-[10px] font-bold shrink-0 ${
                         m.completed 
-                          ? 'bg-amber-50/40 border-amber-200 text-slate-900 shadow-2xs' 
-                          : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50/50'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3 min-w-0 pr-2">
-                        <span className={`w-5 h-5 rounded-md flex items-center justify-center text-xs font-bold shrink-0 transition-colors ${
-                          m.completed 
-                            ? 'bg-amber-600 text-white shadow-2xs' 
-                            : 'border border-slate-300 bg-slate-50 text-slate-400'
-                        }`}>
-                          {m.completed ? '✓' : ''}
-                        </span>
-                        <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-900' : 'text-slate-700'}`}>
-                          {m.title}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                          m.completed ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-500'
-                        }`}>
-                          {m.completed ? 'Completed' : 'Pending'}
-                        </span>
-                        <span className="text-[11px] font-mono text-slate-400">
-                          {m.dueDate}
-                        </span>
-                      </div>
+                          ? 'bg-amber-600 text-white' 
+                          : 'border border-slate-300 bg-slate-50 text-slate-300'
+                      }`}>
+                        {m.completed && '✓'}
+                      </span>
+                      <span className="text-xs font-medium truncate">
+                        {m.title}
+                      </span>
                     </div>
-                  ))}
-                </div>
+
+                    <span className="text-[11px] font-mono text-slate-400 shrink-0">
+                      {m.dueDate}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Payment Recording Modal */}
+      {/* Record Payment Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
@@ -395,7 +298,7 @@ export default function ProjectsView() {
             </div>
 
             <p className="text-xs text-slate-500">
-              Enter the amount received from client via Bank Wire or Cheque:
+              Enter amount received from client:
             </p>
 
             <div>
