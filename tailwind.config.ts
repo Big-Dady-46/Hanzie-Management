@@ -9,20 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        sans: ["var(--font-inter)", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
       },
       colors: {
-        pastel: {
-          purple: "#f4f2ff",
-          purpleIcon: "#7c3aed",
-          yellow: "#fffbf0",
-          yellowIcon: "#f59e0b",
-          pink: "#fff2f5",
-          pinkIcon: "#f43f5e",
-          green: "#f0fbf6",
-          greenIcon: "#10b981",
-          blue: "#eff6ff",
-          blueIcon: "#3b82f6",
+        hanzei: {
+          blue: "#2563eb",
+          dark: "#0f172a",
+          surface: "#ffffff",
+          bg: "#edf2f7",
         },
       },
       borderRadius: {
