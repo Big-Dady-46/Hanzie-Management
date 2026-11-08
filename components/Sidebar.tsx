@@ -37,20 +37,20 @@ export default function Sidebar() {
     <aside className="w-[235px] bg-white border-r border-slate-200/90 flex flex-col justify-between h-full select-none shrink-0 py-6 px-4">
       {/* Top Part: Logo & Navigation */}
       <div>
-        {/* Luxury Gold & Silver Brand Logo */}
-        <div className="flex items-center gap-3 px-2 mb-6">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#b8860b] via-[#f5c842] to-[#d4af37] flex items-center justify-center text-slate-950 font-black text-base shadow-md shadow-amber-500/25 shrink-0" style={{ fontFamily: "'Cinzel', serif" }}>
+        {/* Modern Tech-Sharp Brand Logo */}
+        <div className="flex items-center gap-2.5 px-2 mb-6">
+          <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-700/80 flex items-center justify-center text-amber-400 font-extrabold text-sm shadow-sm shrink-0" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             H
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <h1 className="text-lg brand-logo-text leading-none uppercase">
+              <h1 className="text-xl brand-logo-text leading-none tracking-tight">
                 Hanzie
               </h1>
-              <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-400 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
             </div>
-            <span className="text-[10px] text-amber-700/80 font-bold tracking-wider uppercase block mt-1">
-              Software House
+            <span className="text-[9px] text-slate-400 font-bold tracking-widest uppercase block mt-1 font-mono">
+              SOFTWARE HOUSE
             </span>
           </div>
         </div>
