@@ -43,14 +43,14 @@ export default function PayrollView() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+          <h2 className="text-2xl font-extrabold text-[#0f172a] tracking-tight">
             Salaries & Office Payroll
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-[#94a3b8] mt-1 font-medium">
             Transparent salary disbursements visible to the entire software house
           </p>
         </div>
@@ -58,125 +58,133 @@ export default function PayrollView() {
         {isLeader && (
           <button
             onClick={() => generateMonthlyPayroll(selectedMonth)}
-            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-xs"
+            className="flex items-center gap-2 bg-[#0f172a] hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-2xl transition-all shadow-sm"
           >
             <span>Run Payroll ({selectedMonth})</span>
           </button>
         )}
       </div>
 
-      {/* 3 Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+      {/* 3 Metric Cards with generous padding */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="bg-white rounded-3xl p-7 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400">Total Month Budget</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Cycle Budget</span>
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="text-xs font-bold bg-[#f8fafc] border border-slate-200/80 rounded-lg px-2 py-0.5 text-indigo-600"
+              className="text-xs font-bold bg-[#f8fafc] border border-slate-200 rounded-lg px-2.5 py-1 text-blue-600"
             >
               <option value="November 2026">Nov 2026</option>
               <option value="October 2026">Oct 2026</option>
             </select>
           </div>
-          <div className="text-2xl font-bold text-slate-800 mt-2">
+          <div className="text-3xl font-black text-[#0f172a] mt-3">
             PKR {totalMonthlyOutflow.toLocaleString()}
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">{filteredPayroll.length} Active team members</p>
+          <p className="text-xs text-slate-400 mt-1">{filteredPayroll.length} Active team members</p>
         </div>
 
-        <div className="bg-[#f0fbf6] rounded-2xl p-5 border border-[#cbf2de]">
-          <span className="text-xs font-semibold text-emerald-800">Disbursed & Paid</span>
-          <div className="text-2xl font-bold text-emerald-800 mt-2">
+        <div className="bg-[#eafaf2] rounded-3xl p-7 border border-[#d2f5e3]">
+          <span className="text-xs font-semibold text-[#065f46] uppercase tracking-wider block">Disbursed & Cleared</span>
+          <div className="text-3xl font-black text-[#065f46] mt-3">
             PKR {totalPaidOutflow.toLocaleString()}
           </div>
-          <p className="text-[11px] text-emerald-700 mt-0.5">
+          <p className="text-xs text-emerald-700 mt-1">
             {filteredPayroll.filter(p => p.status === 'paid').length} Staff verified paid
           </p>
         </div>
 
-        <div className="bg-[#fffbf0] rounded-2xl p-5 border border-[#faeec7]">
-          <span className="text-xs font-semibold text-amber-800">Pending Release</span>
-          <div className="text-2xl font-bold text-amber-800 mt-2">
+        <div className="bg-[#fff9ea] rounded-3xl p-7 border border-[#faeed0]">
+          <span className="text-xs font-semibold text-[#92400e] uppercase tracking-wider block">Pending Release</span>
+          <div className="text-3xl font-black text-[#92400e] mt-3">
             PKR {totalPendingOutflow.toLocaleString()}
           </div>
-          <p className="text-[11px] text-amber-700 mt-0.5">
+          <p className="text-xs text-amber-700 mt-1">
             {filteredPayroll.filter(p => p.status === 'pending').length} Awaiting leader release
           </p>
         </div>
       </div>
 
-      {/* Transparent Ledger Table */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-        <h3 className="text-sm font-bold text-slate-800 mb-4">
-          Transparent Office Salary Ledger ({selectedMonth})
-        </h3>
+      {/* Transparent Ledger Table (Spacious & Clean) */}
+      <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-base font-bold text-[#0f172a]">
+              Transparent Office Salary Ledger ({selectedMonth})
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">Visible to all employees to confirm company salary clearances</p>
+          </div>
+          <span className="text-xs font-semibold text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+            Verified Records
+          </span>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-medium">
             <thead>
-              <tr className="border-b border-slate-100 text-slate-400 pb-3">
-                <th className="pb-3 pl-2 font-semibold">Staff Member</th>
-                <th className="pb-3 font-semibold">Department</th>
-                <th className="pb-3 font-semibold">Base Salary</th>
-                <th className="pb-3 font-semibold">Bonus</th>
-                <th className="pb-3 font-semibold">Net Pay</th>
-                <th className="pb-3 font-semibold">Status</th>
-                <th className="pb-3 font-semibold">Method & Date</th>
-                <th className="pb-3 pr-2 text-right font-semibold">Action</th>
+              <tr className="border-b border-slate-100 text-slate-400 pb-4">
+                <th className="pb-4 pl-3 font-semibold uppercase tracking-wider text-[11px]">Staff Member</th>
+                <th className="pb-4 font-semibold uppercase tracking-wider text-[11px]">Department</th>
+                <th className="pb-4 font-semibold uppercase tracking-wider text-[11px]">Base Salary</th>
+                <th className="pb-4 font-semibold uppercase tracking-wider text-[11px]">Bonus</th>
+                <th className="pb-4 font-semibold uppercase tracking-wider text-[11px]">Net Pay</th>
+                <th className="pb-4 font-semibold uppercase tracking-wider text-[11px]">Status</th>
+                <th className="pb-4 font-semibold uppercase tracking-wider text-[11px]">Method & Date</th>
+                <th className="pb-4 pr-3 text-right font-semibold uppercase tracking-wider text-[11px]">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-slate-100">
               {filteredPayroll.map((item) => {
                 const isPaid = item.status === 'paid';
                 return (
-                  <tr key={item.id} className="hover:bg-slate-50/60">
-                    <td className="py-3.5 pl-2">
-                      <div className="font-bold text-slate-800">{item.userName}</div>
-                      <span className="text-[10px] text-slate-400">{item.userRole}</span>
+                  <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="py-4 pl-3">
+                      <div className="font-bold text-[#0f172a] text-sm">{item.userName}</div>
+                      <span className="text-xs text-[#94a3b8]">{item.userRole}</span>
                     </td>
-                    <td className="py-3.5 text-slate-600">{item.department}</td>
-                    <td className="py-3.5 font-bold text-slate-800">
+                    <td className="py-4 text-slate-600">{item.department}</td>
+                    <td className="py-4 font-bold text-slate-800">
                       PKR {item.baseSalary.toLocaleString()}
                     </td>
-                    <td className="py-3.5 text-emerald-600 font-semibold">
+                    <td className="py-4 text-emerald-600 font-semibold">
                       +PKR {item.bonus.toLocaleString()}
                     </td>
-                    <td className="py-3.5 font-bold text-slate-900">
+                    <td className="py-4 font-extrabold text-[#0f172a] text-sm">
                       PKR {item.netSalary.toLocaleString()}
                     </td>
-                    <td className="py-3.5">
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase ${
+                    <td className="py-4">
+                      <span className={`text-[11px] font-bold px-3 py-1 rounded-full uppercase inline-block ${
                         isPaid 
-                          ? 'bg-[#ecfdf5] text-[#047857]' 
-                          : 'bg-[#fff9e6] text-[#b45309]'
+                          ? 'bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]' 
+                          : 'bg-[#fff9ea] text-[#b45309] border border-[#fde68a]'
                       }`}>
                         {isPaid ? 'PAID ✓' : 'PENDING'}
                       </span>
                     </td>
-                    <td className="py-3.5 text-slate-500">
+                    <td className="py-4 text-slate-500">
                       {isPaid ? (
                         <div>
                           <span className="font-semibold text-slate-700">{item.paymentMethod}</span>
-                          <span className="text-[10px] text-slate-400 block">{item.paidDate}</span>
+                          <span className="text-[11px] text-slate-400 block font-mono">{item.paidDate}</span>
                         </div>
                       ) : (
-                        <span className="text-slate-400 italic">Pending</span>
+                        <span className="text-slate-400 italic">Processing</span>
                       )}
                     </td>
-                    <td className="py-3.5 pr-2 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="py-4 pr-3 text-right">
+                      <div className="flex items-center justify-end gap-2.5">
                         {isLeader && !isPaid && (
                           <button
                             onClick={() => setShowPayModal(item)}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-xs transition-all whitespace-nowrap"
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl shadow-xs transition-all whitespace-nowrap"
                           >
                             Mark as Paid
                           </button>
                         )}
                         <button
                           onClick={() => setViewReceipt(item)}
-                          className="text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition-all"
+                          className="text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 text-xs font-bold px-3 py-1.5 rounded-xl transition-all"
                         >
                           Slip
                         </button>
@@ -193,32 +201,32 @@ export default function PayrollView() {
       {/* Mark Salary Paid Modal */}
       {showPayModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-100">
-            <h3 className="text-sm font-bold text-slate-800 mb-1">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100">
+            <h3 className="text-base font-bold text-[#0f172a] mb-1">
               Mark Salary Paid: {showPayModal.userName}
             </h3>
-            <p className="text-xs text-slate-400 mb-4">
-              Disbursing PKR {showPayModal.netSalary.toLocaleString()}
+            <p className="text-xs text-slate-500 mb-5">
+              Confirming this records payment in the transparent office ledger.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-600 block mb-1">Payment Method</label>
+                <label className="text-xs font-bold text-slate-700 block mb-1">Payment Method</label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value as any)}
-                  className="w-full text-xs font-semibold border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
+                  className="w-full text-xs font-bold border border-slate-200 rounded-xl px-4 py-2.5 bg-slate-50"
                 >
-                  <option value="Bank Transfer">Bank Transfer (Meezan / HBL)</option>
-                  <option value="JazzCash">JazzCash</option>
-                  <option value="Easypaisa">Easypaisa</option>
+                  <option value="Bank Transfer">Bank Transfer (Meezan / HBL / Alfalah)</option>
+                  <option value="JazzCash">JazzCash Mobile Wallet</option>
+                  <option value="Easypaisa">Easypaisa Mobile Wallet</option>
                   <option value="Cash">Cash (Handed directly)</option>
-                  <option value="Wise">Wise</option>
+                  <option value="Wise">Wise / International Remittance</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-600 block mb-1">
+                <label className="text-xs font-bold text-slate-700 block mb-1">
                   Transaction Reference / Voucher Note
                 </label>
                 <input
@@ -226,20 +234,20 @@ export default function PayrollView() {
                   value={transRef}
                   onChange={(e) => setTransRef(e.target.value)}
                   placeholder="e.g. HBL-FT-9941829 or Cash Voucher #12"
-                  className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
+                  className="w-full text-xs border border-slate-200 rounded-xl px-4 py-2.5 bg-slate-50"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3">
+              <div className="flex justify-end gap-3 pt-3">
                 <button
                   onClick={() => setShowPayModal(null)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="px-5 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmPay}
-                  className="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+                  className="px-5 py-2.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
                 >
                   Confirm Disbursement
                 </button>
@@ -252,63 +260,63 @@ export default function PayrollView() {
       {/* Slip Modal */}
       {viewReceipt && (
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 sm:p-7 max-w-md w-full shadow-xl border border-slate-100">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#0f172a] text-white flex items-center justify-center font-bold text-sm">
                   H
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900">Hanzei Technologies</h4>
-                  <p className="text-[10px] text-slate-400">Official Salary Payslip</p>
+                  <h4 className="text-sm font-bold text-[#0f172a]">Hanzei Technologies</h4>
+                  <p className="text-xs text-slate-400">Official Monthly Salary Payslip</p>
                 </div>
               </div>
               <button onClick={() => setViewReceipt(null)} className="text-slate-400 hover:text-slate-600">
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="bg-[#f8fafc] p-3.5 rounded-xl border border-slate-100 flex justify-between">
+            <div className="space-y-4 text-xs">
+              <div className="bg-[#f8fafc] p-4 rounded-2xl border border-slate-100 flex justify-between">
                 <div>
                   <span className="text-[10px] font-bold text-slate-400 uppercase">Employee</span>
-                  <div className="font-bold text-slate-800">{viewReceipt.userName}</div>
-                  <div className="text-slate-500 text-[11px]">{viewReceipt.userRole}</div>
+                  <div className="font-bold text-slate-800 text-sm">{viewReceipt.userName}</div>
+                  <div className="text-slate-500 mt-0.5">{viewReceipt.userRole}</div>
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] font-bold text-slate-400 uppercase">Month</span>
-                  <div className="font-bold text-slate-800">{viewReceipt.month}</div>
-                  <div className="text-emerald-600 font-bold uppercase">{viewReceipt.status}</div>
+                  <div className="font-bold text-slate-800 text-sm">{viewReceipt.month}</div>
+                  <div className="text-emerald-600 font-bold uppercase mt-0.5">{viewReceipt.status}</div>
                 </div>
               </div>
 
-              <div className="space-y-1.5 border-b border-slate-100 pb-3">
+              <div className="space-y-2 border-b border-slate-100 pb-4">
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Basic Pay:</span>
+                  <span className="text-slate-500">Basic Monthly Pay:</span>
                   <span className="font-bold text-slate-800">PKR {viewReceipt.baseSalary.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Bonus:</span>
+                  <span className="text-slate-500">Performance Bonus:</span>
                   <span className="font-bold text-emerald-600">+PKR {viewReceipt.bonus.toLocaleString()}</span>
                 </div>
               </div>
 
-              <div className="flex justify-between text-sm font-bold text-slate-900 pt-1">
+              <div className="flex justify-between text-base font-bold text-slate-900 pt-1">
                 <span>Net Disbursed:</span>
                 <span className="text-emerald-600">PKR {viewReceipt.netSalary.toLocaleString()}</span>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 mt-4">
+            <div className="flex justify-end gap-3 pt-5 border-t border-slate-100 mt-5">
               <button
                 onClick={() => window.print()}
-                className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700"
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700"
               >
                 Print
               </button>
               <button
                 onClick={() => setViewReceipt(null)}
-                className="px-4 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white"
+                className="px-5 py-2 rounded-xl text-xs font-bold bg-[#0f172a] text-white"
               >
                 Close
               </button>

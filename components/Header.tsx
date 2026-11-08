@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useApp } from '@/lib/store';
-import { Search, Clock, Coffee, Play, Square } from 'lucide-react';
+import { Search, Clock, Coffee, Play, Square, Bell, Sparkles } from 'lucide-react';
 
 export default function Header() {
   const { 
@@ -19,40 +19,41 @@ export default function Header() {
   const isClient = currentUser.role === 'client';
 
   return (
-    <header className="px-8 pt-7 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      {/* Left Title & Greeting (Exact Image 1 style) */}
+    <header className="px-8 lg:px-10 pt-8 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5 border-b border-slate-100/80 mb-2">
+      {/* Left Title & Greeting */}
       <div>
-        <h1 className="text-xl font-bold text-[#1e293b] tracking-tight capitalize">
+        <h1 className="text-2xl font-extrabold text-[#0f172a] tracking-tight capitalize">
           {activeTab === 'dashboard' ? 'Dashboard' : activeTab.replace('_', ' ')}
         </h1>
-        <p className="text-xs text-[#94a3b8] mt-0.5 font-medium">
-          Welcome back, {currentUser.name}!
+        <p className="text-xs text-[#94a3b8] mt-1 font-medium">
+          Welcome back, {currentUser.name}! Here is your software house overview.
         </p>
       </div>
 
-      {/* Right Controls: Search & Avatar (Exact Image 1 style) */}
+      {/* Right Controls: Search, Actions & Profile */}
       <div className="flex items-center gap-4">
-        {/* Search Bar matching Image 1: pill-shaped rounded-full */}
-        <div className="relative w-64 sm:w-72">
-          <Search className="w-4 h-4 text-[#94a3b8] absolute left-4 top-1/2 -translate-y-1/2" />
+        {/* Spacious Pill Search Input */}
+        <div className="relative w-64 sm:w-80">
+          <Search className="w-4 h-4 text-[#94a3b8] absolute left-4.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search..."
-            className="w-full bg-[#f8fafc] text-xs text-[#1e293b] placeholder-[#94a3b8] pl-10 pr-4 py-2.5 rounded-full border border-[#e2e8f0] focus:bg-white focus:outline-none focus:border-[#3b82f6] transition-all"
+            placeholder="Search projects, tasks, staff..."
+            className="w-full bg-[#ffffff] text-xs text-[#0f172a] placeholder-[#94a3b8] pl-11 pr-4 py-3 rounded-full border border-slate-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.02)] focus:bg-white focus:outline-none focus:border-[#3b82f6] focus:ring-4 focus:ring-blue-500/10 transition-all font-medium"
           />
         </div>
 
         {/* Staff Quick Shift Buttons */}
         {!isClient && (
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2 bg-[#ffffff] border border-slate-200/80 p-1.5 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
             {currentUser.workStatus === 'offline' && (
               <button
                 onClick={clockIn}
-                className="bg-[#10b981] hover:bg-[#059669] text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-all shadow-xs"
+                className="bg-[#10b981] hover:bg-[#059669] text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-xs flex items-center gap-1.5"
               >
-                Clock In (Hazari)
+                <Clock className="w-3.5 h-3.5" />
+                <span>Clock In</span>
               </button>
             )}
 
@@ -60,13 +61,13 @@ export default function Header() {
               <>
                 <button
                   onClick={startBreak}
-                  className="bg-[#fffbeb] border border-[#fde68a] text-[#b45309] text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
+                  className="bg-[#fff9ea] hover:bg-[#faeed0] text-[#b45309] text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-[#fde68a]"
                 >
                   Break
                 </button>
                 <button
                   onClick={() => setIsEODModalOpen(true)}
-                  className="bg-[#fff1f2] border border-[#fecdd3] text-[#e11d48] text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
+                  className="bg-[#fff0f3] hover:bg-[#fcdce3] text-[#e11d48] text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-[#fecdd3]"
                 >
                   End Day
                 </button>
@@ -77,13 +78,13 @@ export default function Header() {
               <>
                 <button
                   onClick={resumeWork}
-                  className="bg-[#2563eb] text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-all shadow-xs"
+                  className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-xs"
                 >
                   Resume
                 </button>
                 <button
                   onClick={() => setIsEODModalOpen(true)}
-                  className="bg-[#fff1f2] border border-[#fecdd3] text-[#e11d48] text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
+                  className="bg-[#fff0f3] hover:bg-[#fcdce3] text-[#e11d48] text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-[#fecdd3]"
                 >
                   End Day
                 </button>
@@ -92,8 +93,14 @@ export default function Header() {
           </div>
         )}
 
-        {/* Round Avatar with border like Image 1 */}
-        <div className="w-10 h-10 rounded-full bg-[#3b82f6] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-white">
+        {/* Notification Bell */}
+        <div className="w-10 h-10 rounded-full bg-white border border-slate-200/80 flex items-center justify-center text-slate-500 hover:text-slate-800 shadow-xs cursor-pointer transition-colors relative">
+          <Bell className="w-4 h-4" />
+          <span className="w-2 h-2 rounded-full bg-rose-500 absolute top-2 right-2.5 ring-2 ring-white" />
+        </div>
+
+        {/* User Avatar */}
+        <div className="w-10 h-10 rounded-full bg-[#2563eb] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-blue-100">
           {currentUser.name.charAt(0)}
         </div>
       </div>
