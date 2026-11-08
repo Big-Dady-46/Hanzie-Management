@@ -30,7 +30,7 @@ export default function Header() {
         </p>
       </div>
 
-      {/* Right Controls: Search, Actions & Profile */}
+      {/* Right Controls: Search, 2D Tactile Action Buttons & Profile */}
       <div className="flex items-center gap-4">
         {/* Spacious Pill Search Input */}
         <div className="relative w-64 sm:w-80">
@@ -44,16 +44,16 @@ export default function Header() {
           />
         </div>
 
-        {/* Staff Quick Shift Buttons */}
+        {/* Staff Tactile 2D Shift Buttons (Text rests on top with tactile feel) */}
         {!isClient && (
-          <div className="flex items-center gap-2 bg-[#ffffff] border border-slate-200/80 p-1.5 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+          <div className="flex items-center gap-2">
             {currentUser.workStatus === 'offline' && (
               <button
                 onClick={clockIn}
-                className="bg-[#10b981] hover:bg-[#059669] text-white text-xs font-bold px-4 py-2 rounded-full transition-all shadow-xs flex items-center gap-1.5"
+                className="btn-2d-emerald px-4 py-2 text-xs flex items-center gap-1.5"
               >
-                <Clock className="w-3.5 h-3.5" />
-                <span>Clock In</span>
+                <Clock className="w-3.5 h-3.5 drop-shadow-xs" />
+                <span>Clock In (Hazari)</span>
               </button>
             )}
 
@@ -61,15 +61,17 @@ export default function Header() {
               <>
                 <button
                   onClick={startBreak}
-                  className="bg-[#fff9ea] hover:bg-[#faeed0] text-[#b45309] text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-[#fde68a]"
+                  className="btn-2d-amber px-3.5 py-1.5 text-xs flex items-center gap-1"
                 >
-                  Break
+                  <Coffee className="w-3.5 h-3.5 drop-shadow-xs" />
+                  <span>Break</span>
                 </button>
                 <button
                   onClick={() => setIsEODModalOpen(true)}
-                  className="bg-[#fff0f3] hover:bg-[#fcdce3] text-[#e11d48] text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-[#fecdd3]"
+                  className="btn-2d-rose px-3.5 py-1.5 text-xs flex items-center gap-1"
                 >
-                  End Day
+                  <Square className="w-3 h-3 fill-current drop-shadow-xs" />
+                  <span>End Day</span>
                 </button>
               </>
             )}
@@ -78,15 +80,17 @@ export default function Header() {
               <>
                 <button
                   onClick={resumeWork}
-                  className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-bold px-3.5 py-1.5 rounded-full transition-all shadow-xs"
+                  className="btn-2d-primary px-3.5 py-1.5 text-xs flex items-center gap-1"
                 >
-                  Resume
+                  <Play className="w-3.5 h-3.5 fill-current drop-shadow-xs" />
+                  <span>Resume</span>
                 </button>
                 <button
                   onClick={() => setIsEODModalOpen(true)}
-                  className="bg-[#fff0f3] hover:bg-[#fcdce3] text-[#e11d48] text-xs font-bold px-3.5 py-1.5 rounded-full transition-all border border-[#fecdd3]"
+                  className="btn-2d-rose px-3.5 py-1.5 text-xs flex items-center gap-1"
                 >
-                  End Day
+                  <Square className="w-3 h-3 fill-current drop-shadow-xs" />
+                  <span>End Day</span>
                 </button>
               </>
             )}
@@ -99,9 +103,9 @@ export default function Header() {
           <span className="w-2 h-2 rounded-full bg-rose-500 absolute top-2 right-2.5 ring-2 ring-white" />
         </div>
 
-        {/* User Avatar */}
-        <div className="w-10 h-10 rounded-full bg-[#2563eb] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-blue-100">
-          {currentUser.name.charAt(0)}
+        {/* User Avatar with Circular 2D Badge */}
+        <div className="icon-round-blue w-10 h-10 font-bold text-sm shadow-sm ring-2 ring-blue-100">
+          <span className="drop-shadow-xs">{currentUser.name.charAt(0)}</span>
         </div>
       </div>
     </header>

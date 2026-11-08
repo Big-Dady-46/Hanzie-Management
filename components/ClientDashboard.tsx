@@ -60,8 +60,8 @@ export default function ClientDashboard() {
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Engineering Partner</span>
             <div className="font-extrabold text-sm text-[#2563eb]">Hanzei Technologies</div>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-            <Briefcase className="w-6 h-6" />
+          <div className="icon-round-blue">
+            <Briefcase className="w-5 h-5 drop-shadow-sm" />
           </div>
         </div>
       </div>
@@ -240,9 +240,9 @@ export default function ClientDashboard() {
 
                   <button
                     type="submit"
-                    className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-bold py-3 rounded-2xl shadow-xs transition-all flex items-center justify-center gap-2"
+                    className="w-full btn-2d-primary py-3 text-xs flex items-center justify-center gap-2"
                   >
-                    <Send className="w-3.5 h-3.5" />
+                    <Send className="w-3.5 h-3.5 drop-shadow-xs" />
                     <span>Send Message</span>
                   </button>
                 </form>

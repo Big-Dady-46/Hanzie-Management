@@ -177,15 +177,15 @@ export default function EODReportModal() {
             <button
               type="button"
               onClick={() => setIsEODModalOpen(false)}
-              className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 transition-all"
+              className="btn-2d-light px-5 py-2.5 text-xs"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex items-center gap-2 px-6 py-2.5 rounded-2xl text-xs font-bold bg-[#e11d48] hover:bg-[#be123c] text-white shadow-md shadow-rose-200 transition-all"
+              className="btn-2d-rose px-6 py-2.5 text-xs flex items-center gap-2"
             >
-              <Send className="w-3.5 h-3.5" />
+              <Send className="w-3.5 h-3.5 drop-shadow-xs" />
               <span>Submit Report & Clock Out</span>
             </button>
           </div>

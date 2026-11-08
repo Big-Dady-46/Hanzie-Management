@@ -109,7 +109,7 @@ export default function DatabaseSettingsModal() {
           </span>
           <button
             onClick={() => setIsDbModalOpen(false)}
-            className="px-5 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs"
+            className="btn-2d-primary px-6 py-2 text-xs"
           >
             Got It
           </button>

@@ -33,12 +33,12 @@ export default function LeaderDashboard() {
 
   return (
     <div className="space-y-7">
-      {/* PENDING SIGNUPS ALERT (Only if users awaiting approval) */}
+      {/* PENDING SIGNUPS ALERT */}
       {pendingUsers.length > 0 && (
         <div className="bg-[#fff9ea] border border-[#faeed0] rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-[#f59e0b] text-white flex items-center justify-center font-bold text-sm shrink-0">
-              !
+            <div className="icon-round-amber">
+              <span className="font-black text-sm">!</span>
             </div>
             <div>
               <p className="text-sm font-bold text-[#92400e]">
@@ -51,19 +51,19 @@ export default function LeaderDashboard() {
           </div>
           <button
             onClick={() => approveUser(pendingUsers[0].id, pendingUsers[0].role, pendingUsers[0].department, 120000)}
-            className="bg-[#10b981] hover:bg-[#059669] text-white text-xs font-bold px-5 py-2.5 rounded-2xl transition-all shadow-xs"
+            className="btn-2d-emerald px-5 py-2.5 text-xs tracking-wide"
           >
             Confirm & Activate {pendingUsers[0].name}
           </button>
         </div>
       )}
 
-      {/* 1. TOP 4 PASTEL STAT CARDS (GENEROUS PADDING & ELEGANT TYPOGRAPHY) */}
+      {/* 1. TOP 4 PASTEL STAT CARDS WITH PROPER CIRCULAR 2D ICONS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Card 1: Active Projects - Soft Pastel Lilac */}
+        {/* Card 1: Active Projects */}
         <div className="bg-[#f3eefd] rounded-3xl p-7 border border-[#ede5fc] flex flex-col justify-between h-36 hover:shadow-md hover:scale-[1.01] transition-all duration-200">
-          <div className="w-10 h-10 rounded-2xl bg-[#7c4dff] text-white flex items-center justify-center shadow-xs">
-            <FolderKanban className="w-5 h-5" />
+          <div className="icon-round-purple">
+            <FolderKanban className="w-5 h-5 drop-shadow-sm" />
           </div>
           <div>
             <span className="text-xs font-semibold text-[#64748b] tracking-wide">Active Projects</span>
@@ -73,10 +73,10 @@ export default function LeaderDashboard() {
           </div>
         </div>
 
-        {/* Card 2: Completion Rate - Soft Pastel Warm Butter */}
+        {/* Card 2: Completion Rate */}
         <div className="bg-[#fff9ea] rounded-3xl p-7 border border-[#faeed0] flex flex-col justify-between h-36 hover:shadow-md hover:scale-[1.01] transition-all duration-200">
-          <div className="w-10 h-10 rounded-2xl bg-[#f59e0b] text-white flex items-center justify-center shadow-xs">
-            <Sparkles className="w-5 h-5" />
+          <div className="icon-round-amber">
+            <Sparkles className="w-5 h-5 drop-shadow-sm" />
           </div>
           <div>
             <span className="text-xs font-semibold text-[#64748b] tracking-wide">Completion Rate</span>
@@ -86,10 +86,10 @@ export default function LeaderDashboard() {
           </div>
         </div>
 
-        {/* Card 3: Tasks Due Today - Soft Pastel Rose */}
+        {/* Card 3: Tasks Due Today */}
         <div className="bg-[#fff0f3] rounded-3xl p-7 border border-[#fcdce3] flex flex-col justify-between h-36 hover:shadow-md hover:scale-[1.01] transition-all duration-200">
-          <div className="w-10 h-10 rounded-2xl bg-[#f43f5e] text-white flex items-center justify-center shadow-xs">
-            <Clock className="w-5 h-5" />
+          <div className="icon-round-rose">
+            <Clock className="w-5 h-5 drop-shadow-sm" />
           </div>
           <div>
             <span className="text-xs font-semibold text-[#64748b] tracking-wide">Tasks Due Today</span>
@@ -99,10 +99,10 @@ export default function LeaderDashboard() {
           </div>
         </div>
 
-        {/* Card 4: Team Members - Soft Pastel Mint */}
+        {/* Card 4: Team Members */}
         <div className="bg-[#eafaf2] rounded-3xl p-7 border border-[#d2f5e3] flex flex-col justify-between h-36 hover:shadow-md hover:scale-[1.01] transition-all duration-200">
-          <div className="w-10 h-10 rounded-2xl bg-[#10b981] text-white flex items-center justify-center shadow-xs">
-            <Users className="w-5 h-5" />
+          <div className="icon-round-green">
+            <Users className="w-5 h-5 drop-shadow-sm" />
           </div>
           <div>
             <span className="text-xs font-semibold text-[#64748b] tracking-wide">Team Members</span>
@@ -113,7 +113,7 @@ export default function LeaderDashboard() {
         </div>
       </div>
 
-      {/* 2. MIDDLE ROW: TEAM WORKLOAD & TASK STATUS (SPACIOUS PADDING) */}
+      {/* 2. MIDDLE ROW: TEAM WORKLOAD & TASK STATUS */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Team Workload (7 cols) */}
         <div className="lg:col-span-7 bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col justify-between">
@@ -124,13 +124,12 @@ export default function LeaderDashboard() {
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">Hours logged across active engineering projects</p>
             </div>
-            <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+            <span className="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
               Weekly
             </span>
           </div>
 
           <div className="flex items-end justify-between gap-4 h-52 px-2 relative">
-            {/* Left Y-axis scale */}
             <div className="absolute left-0 top-0 bottom-7 flex flex-col justify-between text-[11px] text-[#94a3b8] font-mono pointer-events-none select-none">
               <span>30</span>
               <span>20</span>
@@ -138,7 +137,6 @@ export default function LeaderDashboard() {
               <span>0</span>
             </div>
 
-            {/* Bars container */}
             <div className="flex items-end justify-between w-full pl-8 pr-2 h-full">
               {workloadMembers.map((m, idx) => (
                 <div key={idx} className="flex flex-col items-center h-full justify-end group cursor-pointer">
@@ -157,7 +155,7 @@ export default function LeaderDashboard() {
           </div>
         </div>
 
-        {/* Task Status (5 cols) */}
+        {/* Task Status (5 cols) with PROPER CIRCULAR ICONS */}
         <div className="lg:col-span-5 bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col justify-between">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-base font-bold text-[#0f172a]">
@@ -175,8 +173,8 @@ export default function LeaderDashboard() {
           <div className="grid grid-cols-2 gap-4">
             {/* To Do */}
             <div className="bg-[#f8fafc] border border-slate-100/80 rounded-2xl p-4 flex items-center gap-3.5 hover:bg-slate-100/70 transition-all cursor-pointer">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#6366f1] to-[#818cf8] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                <Layers className="w-5 h-5" />
+              <div className="icon-round-purple">
+                <Layers className="w-5 h-5 drop-shadow-sm" />
               </div>
               <div>
                 <p className="text-xs font-bold text-[#0f172a]">To Do</p>
@@ -186,8 +184,8 @@ export default function LeaderDashboard() {
 
             {/* In Progress */}
             <div className="bg-[#f8fafc] border border-slate-100/80 rounded-2xl p-4 flex items-center gap-3.5 hover:bg-slate-100/70 transition-all cursor-pointer">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#f59e0b] to-[#fbbf24] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                <RefreshCw className="w-5 h-5" />
+              <div className="icon-round-amber">
+                <RefreshCw className="w-5 h-5 drop-shadow-sm" />
               </div>
               <div>
                 <p className="text-xs font-bold text-[#0f172a]">In Progress</p>
@@ -197,8 +195,8 @@ export default function LeaderDashboard() {
 
             {/* Revisions */}
             <div className="bg-[#f8fafc] border border-slate-100/80 rounded-2xl p-4 flex items-center gap-3.5 hover:bg-slate-100/70 transition-all cursor-pointer">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#f43f5e] to-[#fb7185] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                <Clock className="w-5 h-5" />
+              <div className="icon-round-rose">
+                <Clock className="w-5 h-5 drop-shadow-sm" />
               </div>
               <div>
                 <p className="text-xs font-bold text-[#0f172a]">Revisions</p>
@@ -208,8 +206,8 @@ export default function LeaderDashboard() {
 
             {/* Completed */}
             <div className="bg-[#f8fafc] border border-slate-100/80 rounded-2xl p-4 flex items-center gap-3.5 hover:bg-slate-100/70 transition-all cursor-pointer">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#10b981] to-[#34d399] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                <CheckCircle2 className="w-5 h-5" />
+              <div className="icon-round-green">
+                <CheckCircle2 className="w-5 h-5 drop-shadow-sm" />
               </div>
               <div>
                 <p className="text-xs font-bold text-[#0f172a]">Completed</p>
@@ -225,7 +223,7 @@ export default function LeaderDashboard() {
         </div>
       </div>
 
-      {/* 3. BOTTOM ROW: TIMELINE / GANTT CHART (SPACIOUS TABLE WITH PADDING) */}
+      {/* 3. BOTTOM ROW: TIMELINE / GANTT CHART */}
       <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -302,7 +300,6 @@ export default function LeaderDashboard() {
                   <td className="py-5 text-[#64748b] font-mono text-xs">{row.start}</td>
                   <td className="py-5 text-[#64748b] font-mono text-xs">{row.end}</td>
                   <td className="py-5">
-                    {/* Contributor Avatar Stack like Image 3 */}
                     <div className="flex items-center -space-x-1.5">
                       {row.team.map((m, i) => (
                         <div 

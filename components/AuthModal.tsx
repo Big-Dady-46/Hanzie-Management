@@ -58,7 +58,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
       <div className="bg-white rounded-[32px] p-8 max-w-md w-full shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between pb-5 border-b border-slate-100 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#0f172a] text-white flex items-center justify-center font-black text-lg">
+            <div className="icon-round-dark w-10 h-10 font-black text-base shadow-sm">
               H
             </div>
             <div>
@@ -198,7 +198,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
             <button
               type="submit"
-              className="w-full bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-xs font-bold py-3 rounded-2xl shadow-xs transition-all"
+              className="w-full btn-2d-primary py-3 text-xs"
             >
               Submit Registration for Review
             </button>

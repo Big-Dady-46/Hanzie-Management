@@ -79,7 +79,7 @@ export default function TasksView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex bg-[#f1f4f9] p-1.5 rounded-2xl">
+          <div className="flex bg-[#f1f4f9] p-1.5 rounded-2xl border border-slate-200/50">
             <button
               onClick={() => setViewMode('kanban')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -100,7 +100,7 @@ export default function TasksView() {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 bg-[#0f172a] hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-2xl transition-all shadow-sm"
+            className="btn-2d-dark px-5 py-2.5 text-xs flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             <span>Create Task</span>
@@ -130,7 +130,7 @@ export default function TasksView() {
         </span>
       </div>
 
-      {/* KANBAN BOARD (SPACIOUS 4 COLUMNS) */}
+      {/* KANBAN BOARD */}
       {viewMode === 'kanban' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
           {columns.map((col) => {
@@ -203,7 +203,7 @@ export default function TasksView() {
         </div>
       )}
 
-      {/* LIST VIEW (SPACIOUS ROWS) */}
+      {/* LIST VIEW */}
       {viewMode === 'list' && (
         <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
           <table className="w-full text-left text-xs font-medium">
@@ -320,13 +320,13 @@ export default function TasksView() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-5 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="btn-2d-light px-5 py-2 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-xs"
+                  className="btn-2d-primary px-5 py-2 text-xs"
                 >
                   Create Task
                 </button>

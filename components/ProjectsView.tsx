@@ -82,7 +82,7 @@ export default function ProjectsView() {
         {isLeader && (
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 bg-[#0f172a] hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-2xl transition-all shadow-sm"
+            className="btn-2d-dark px-5 py-2.5 text-xs flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             <span>Create Project</span>
@@ -90,32 +90,47 @@ export default function ProjectsView() {
         )}
       </div>
 
-      {/* Top 3 Summary Cards with generous padding */}
+      {/* Top 3 Summary Cards with generous padding & proper round icon */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="bg-white rounded-3xl p-7 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Pipeline Value</span>
-          <div className="text-3xl font-black text-[#0f172a] mt-2">
-            PKR {totalBudget.toLocaleString()}
+        <div className="bg-white rounded-3xl p-7 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex items-start justify-between">
+          <div>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Pipeline Value</span>
+            <div className="text-3xl font-black text-[#0f172a] mt-2">
+              PKR {totalBudget.toLocaleString()}
+            </div>
+            <p className="text-xs text-slate-400 mt-1">{projects.length} Active commercial contracts</p>
           </div>
-          <p className="text-xs text-slate-400 mt-1">{projects.length} Active commercial contracts</p>
+          <div className="icon-round-blue">
+            <DollarSign className="w-5 h-5 drop-shadow-sm" />
+          </div>
         </div>
 
-        <div className="bg-[#eafaf2] rounded-3xl p-7 border border-[#d2f5e3]">
-          <span className="text-xs font-semibold text-[#065f46] uppercase tracking-wider block">Payments Cleared</span>
-          <div className="text-3xl font-black text-[#065f46] mt-2">
-            PKR {totalPaid.toLocaleString()}
+        <div className="bg-[#eafaf2] rounded-3xl p-7 border border-[#d2f5e3] flex items-start justify-between">
+          <div>
+            <span className="text-xs font-semibold text-[#065f46] uppercase tracking-wider block">Payments Cleared</span>
+            <div className="text-3xl font-black text-[#065f46] mt-2">
+              PKR {totalPaid.toLocaleString()}
+            </div>
+            <p className="text-xs text-emerald-700 mt-1">
+              {Math.round((totalPaid / (totalBudget || 1)) * 100)}% verified revenue collected
+            </p>
           </div>
-          <p className="text-xs text-emerald-700 mt-1">
-            {Math.round((totalPaid / (totalBudget || 1)) * 100)}% verified revenue collected
-          </p>
+          <div className="icon-round-green">
+            <CheckCircle2 className="w-5 h-5 drop-shadow-sm" />
+          </div>
         </div>
 
-        <div className="bg-[#fff0f3] rounded-3xl p-7 border border-[#fcdce3]">
-          <span className="text-xs font-semibold text-[#9f1239] uppercase tracking-wider block">Outstanding Receivables</span>
-          <div className="text-3xl font-black text-[#9f1239] mt-2">
-            PKR {totalBalance.toLocaleString()}
+        <div className="bg-[#fff0f3] rounded-3xl p-7 border border-[#fcdce3] flex items-start justify-between">
+          <div>
+            <span className="text-xs font-semibold text-[#9f1239] uppercase tracking-wider block">Outstanding Receivables</span>
+            <div className="text-3xl font-black text-[#9f1239] mt-2">
+              PKR {totalBalance.toLocaleString()}
+            </div>
+            <p className="text-xs text-rose-700 mt-1">Due across upcoming deliverables</p>
           </div>
-          <p className="text-xs text-rose-700 mt-1">Due across upcoming deliverables</p>
+          <div className="icon-round-rose">
+            <Clock className="w-5 h-5 drop-shadow-sm" />
+          </div>
         </div>
       </div>
 
@@ -173,7 +188,7 @@ export default function ProjectsView() {
                   {isLeader && !isFullyPaid && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-xs transition-all"
+                      className="btn-2d-emerald px-3.5 py-1.5 text-xs whitespace-nowrap"
                     >
                       + Pay
                     </button>
@@ -261,13 +276,13 @@ export default function ProjectsView() {
               <div className="flex items-center justify-end gap-3 pt-3">
                 <button
                   onClick={() => setShowPaymentModal(null)}
-                  className="px-5 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="btn-2d-light px-5 py-2 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleAddPayment(showPaymentModal)}
-                  className="px-5 py-2.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+                  className="btn-2d-emerald px-5 py-2 text-xs"
                 >
                   Confirm & Update Ledger
                 </button>
@@ -387,13 +402,13 @@ export default function ProjectsView() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-5 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="btn-2d-light px-5 py-2 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 text-xs font-bold bg-[#2563eb] hover:bg-[#1d4ed8] text-white rounded-xl shadow-xs"
+                  className="btn-2d-primary px-5 py-2 text-xs"
                 >
                   Create Project
                 </button>

@@ -305,13 +305,13 @@ export default function AttendanceView() {
                   <>
                     <button
                       onClick={() => reviewLeave(leave.id, 'approved')}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-xs"
+                      className="btn-2d-emerald px-4 py-1.5 text-xs"
                     >
                       Approve
                     </button>
                     <button
                       onClick={() => reviewLeave(leave.id, 'rejected')}
-                      className="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold px-3 py-1.5 rounded-xl"
+                      className="btn-2d-rose px-4 py-1.5 text-xs"
                     >
                       Reject
                     </button>

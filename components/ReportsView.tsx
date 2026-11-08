@@ -34,9 +34,9 @@ export default function ReportsView() {
 
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold bg-[#f1f4f9] hover:bg-slate-200 text-slate-700 transition-all"
+          className="btn-2d-light px-5 py-2.5 text-xs flex items-center gap-2"
         >
-          <Printer className="w-4 h-4" />
+          <Printer className="w-4 h-4 text-slate-500" />
           <span>Export / Print Reports</span>
         </button>
       </div>
@@ -90,7 +90,7 @@ export default function ReportsView() {
             {/* Report Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
               <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-sm shadow-2xs">
+                <div className="icon-round-blue w-11 h-11 text-sm font-bold">
                   {report.userName.charAt(0)}
                 </div>
                 <div>

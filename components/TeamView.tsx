@@ -90,7 +90,7 @@ export default function TeamView() {
         {isLeader && (
           <button
             onClick={() => setShowAddStaffModal(true)}
-            className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-xs"
+            className="btn-2d-dark px-4 py-2 text-xs flex items-center gap-1.5"
           >
             <Plus className="w-4 h-4" />
             <span>Add Member</span>
@@ -134,13 +134,14 @@ export default function TeamView() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleOpenApproval(u)}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-xs transition-all"
+                    className="btn-2d-emerald px-3.5 py-1.5 text-xs"
                   >
                     Confirm & Setup
                   </button>
                   <button
                     onClick={() => rejectUser(u.id)}
-                    className="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold px-2.5 py-1.5 rounded-xl transition-all"
+                    className="btn-2d-rose px-2.5 py-1.5 text-xs"
+                    title="Reject"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -247,16 +248,16 @@ export default function TeamView() {
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2">
+              <div className="flex justify-end gap-2.5 pt-3">
                 <button
                   onClick={() => setApprovingUser(null)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="btn-2d-light px-4 py-2 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmApproval}
-                  className="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+                  className="btn-2d-emerald px-4 py-2 text-xs"
                 >
                   Confirm & Activate
                 </button>
@@ -336,19 +337,19 @@ export default function TeamView() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2 pt-2">
+              <div className="flex justify-end gap-2.5 pt-3">
                 <button
                   type="button"
                   onClick={() => setShowAddStaffModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="btn-2d-light px-4 py-2 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-xs"
+                  className="btn-2d-primary px-5 py-2 text-xs"
                 >
-                  Onboard
+                  Onboard Member
                 </button>
               </div>
             </form>

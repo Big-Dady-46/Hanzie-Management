@@ -58,7 +58,7 @@ export default function PayrollView() {
         {isLeader && (
           <button
             onClick={() => generateMonthlyPayroll(selectedMonth)}
-            className="flex items-center gap-2 bg-[#0f172a] hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-2xl transition-all shadow-sm"
+            className="btn-2d-dark px-5 py-2.5 text-xs flex items-center gap-2"
           >
             <span>Run Payroll ({selectedMonth})</span>
           </button>
@@ -177,14 +177,14 @@ export default function PayrollView() {
                         {isLeader && !isPaid && (
                           <button
                             onClick={() => setShowPayModal(item)}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl shadow-xs transition-all whitespace-nowrap"
+                            className="btn-2d-emerald px-3.5 py-1.5 text-xs whitespace-nowrap"
                           >
                             Mark as Paid
                           </button>
                         )}
                         <button
                           onClick={() => setViewReceipt(item)}
-                          className="text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 text-xs font-bold px-3 py-1.5 rounded-xl transition-all"
+                          className="btn-2d-light px-3 py-1.5 text-xs"
                         >
                           Slip
                         </button>
@@ -241,13 +241,13 @@ export default function PayrollView() {
               <div className="flex justify-end gap-3 pt-3">
                 <button
                   onClick={() => setShowPayModal(null)}
-                  className="px-5 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl"
+                  className="btn-2d-light px-5 py-2.5 text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmPay}
-                  className="px-5 py-2.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+                  className="btn-2d-emerald px-5 py-2.5 text-xs"
                 >
                   Confirm Disbursement
                 </button>

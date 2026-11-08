@@ -39,14 +39,14 @@ export default function Sidebar() {
       <div>
         {/* Brand Logo (Exact match of Image 1 Project Pro style) */}
         <div className="flex items-center gap-3 px-1 mb-8">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#3b82f6] to-[#60a5fa] flex items-center justify-center text-white shadow-md shadow-blue-200">
+          <div className="icon-round-blue w-9 h-9 shadow-md shadow-blue-500/30">
             {/* Winged folded shape like Image 1 */}
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 fill-current drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
           <div>
-            <h1 className="text-base font-extrabold text-[#1e293b] tracking-tight">Hanzei</h1>
+            <h1 className="text-base font-extrabold text-[#0f172a] tracking-tight">Hanzei</h1>
           </div>
         </div>
 
@@ -111,9 +111,9 @@ export default function Sidebar() {
           </p>
           <button 
             onClick={() => setIsDbModalOpen(true)}
-            className="w-full bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold py-1.5 rounded-xl mt-3 transition-colors backdrop-blur-xs"
+            className="w-full btn-2d-light text-[11px] py-1.5 mt-3 shadow-sm"
           >
-            Cloud Sync
+            Cloud Sync Settings
           </button>
         </div>
 
