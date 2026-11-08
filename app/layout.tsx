@@ -1,14 +1,6 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { AppProvider } from '@/lib/store';
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-jakarta',
-  weight: ['400', '500', '600', '700', '800'],
-});
 
 export const metadata: Metadata = {
   title: 'Hanzei | Software House Management ERP',
@@ -21,8 +13,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={plusJakarta.variable}>
-      <body className={`min-h-screen bg-[#f4f6f9] text-[#0f172a] antialiased ${plusJakarta.className}`}>
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-screen bg-[#f4f6f9] text-[#0f172a] antialiased">
         <AppProvider>
           {children}
         </AppProvider>
