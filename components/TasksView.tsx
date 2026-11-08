@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
 import { 
   Plus, Calendar, Sparkles, Filter, Check, X,
-  Flame, Zap, Compass, Search
+  Flame, Zap, Compass, Search, ChevronDown
 } from 'lucide-react';
 import { TaskStatus, TaskPriority } from '@/lib/types';
 
@@ -194,19 +194,22 @@ export default function TasksView() {
                       </span>
                     </div>
 
-                    {/* Clean Status Pill Switcher */}
-                    <div className="pt-1 flex items-center justify-between text-xs">
-                      <span className="text-[10px] text-slate-400 font-medium">Status:</span>
-                      <select
-                        value={task.status}
-                        onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
-                        className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
-                      >
-                        <option value="todo">To Do</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="review">Revisions</option>
-                        <option value="completed">Completed ✓</option>
-                      </select>
+                    {/* Custom Styled Clean Status Switcher */}
+                    <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-100 mt-2">
+                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</span>
+                      <div className="relative">
+                        <select
+                          value={task.status}
+                          onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
+                          className="appearance-none text-[11px] font-bold bg-white border border-slate-200 hover:border-amber-300 rounded-lg pl-3 pr-7 py-1 text-slate-800 shadow-2xs focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer transition-colors"
+                        >
+                          <option value="todo">To Do</option>
+                          <option value="in_progress">In Progress</option>
+                          <option value="review">Revisions</option>
+                          <option value="completed">Completed ✓</option>
+                        </select>
+                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      </div>
                     </div>
                   </div>
                 ))}

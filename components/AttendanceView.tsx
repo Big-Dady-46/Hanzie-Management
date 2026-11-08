@@ -160,9 +160,9 @@ export default function AttendanceView() {
                 className="clean-card p-5 space-y-4 hover:border-amber-300 transition-colors"
               >
                 {/* Header */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="relative shrink-0">
                       <div className="w-10 h-10 rounded-full bg-slate-900 text-amber-300 font-bold flex items-center justify-center text-sm border border-amber-500/30">
                         {user.name.charAt(0)}
                       </div>
@@ -170,18 +170,18 @@ export default function AttendanceView() {
                         isWorking ? 'bg-amber-500 animate-pulse' : isOnBreak ? 'bg-amber-400' : 'bg-slate-300'
                       }`} />
                     </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900">{user.name}</h4>
-                      <p className="text-xs text-slate-400 capitalize">{user.role.replace('_', ' ')}</p>
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-bold text-slate-900 truncate">{user.name}</h4>
+                      <p className="text-xs text-slate-400 capitalize truncate">{user.role.replace('_', ' ')}</p>
                     </div>
                   </div>
 
-                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full capitalize ${
+                  <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full capitalize shrink-0 whitespace-nowrap text-center ${
                     isWorking 
                       ? 'bg-amber-50 text-amber-950 border border-amber-300' 
                       : isOnBreak 
-                      ? 'bg-amber-100/60 text-amber-900' 
-                      : 'bg-slate-100 text-slate-500'
+                      ? 'bg-amber-100/70 text-amber-900 border border-amber-200' 
+                      : 'bg-slate-100 text-slate-600'
                   }`}>
                     {user.workStatus.replace('_', ' ')}
                   </span>
@@ -202,18 +202,18 @@ export default function AttendanceView() {
                 </div>
 
                 {/* Details */}
-                <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5 border border-slate-200/60">
-                  <div className="flex justify-between text-slate-500">
+                <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-2 border border-slate-200/60">
+                  <div className="flex items-center justify-between text-slate-500">
                     <span>Clock In:</span>
                     <span className="font-mono font-bold text-slate-800">{userAttendance?.clockInTime || 'Not yet'}</span>
                   </div>
-                  <div className="flex justify-between text-slate-500">
+                  <div className="flex items-center justify-between text-slate-500">
                     <span>Break Taken:</span>
                     <span className="font-mono font-medium text-slate-700">{userAttendance?.totalBreakMinutes || 0} mins</span>
                   </div>
-                  <div className="flex justify-between text-slate-500">
-                    <span>Department:</span>
-                    <span className="font-semibold text-slate-700">{user.department}</span>
+                  <div className="flex items-center justify-between gap-2 text-slate-500">
+                    <span className="shrink-0">Department:</span>
+                    <span className="font-semibold text-slate-700 truncate text-right">{user.department}</span>
                   </div>
                 </div>
               </div>

@@ -68,7 +68,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const STORAGE_KEY_PREFIX = 'hanzei_saas_';
+const STORAGE_KEY_PREFIX = 'hanzei_v2_clean_';
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // Load state from localStorage or fallback to Mock data
