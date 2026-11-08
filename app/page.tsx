@@ -13,10 +13,11 @@ import TasksView from '@/components/TasksView';
 import PayrollView from '@/components/PayrollView';
 import TeamView from '@/components/TeamView';
 import ReportsView from '@/components/ReportsView';
+import AnalyticsView from '@/components/AnalyticsView';
 import EODReportModal from '@/components/EODReportModal';
 import DatabaseSettingsModal from '@/components/DatabaseSettingsModal';
 import AuthModal from '@/components/AuthModal';
-import { ShieldAlert, Clock, Sparkles, UserCheck } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 export default function Home() {
   const { currentUser, activeTab, switchUser } = useApp();
@@ -25,16 +26,16 @@ export default function Home() {
   // If the logged in user is pending approval
   if (currentUser.status === 'pending_approval') {
     return (
-      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-soft text-center border border-slate-200/90 space-y-5">
-          <div className="w-16 h-16 rounded-3xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto shadow-sm">
-            <Clock className="w-8 h-8" />
+      <div className="min-h-screen bg-[#edf1f7] flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-[0_4px_25px_rgba(0,0,0,0.04)] text-center border border-slate-100 space-y-5">
+          <div className="w-14 h-14 rounded-2xl bg-[#fffbf0] text-amber-600 flex items-center justify-center mx-auto border border-[#faeec7]">
+            <Clock className="w-7 h-7" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-md">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 bg-[#fffbf0] border border-[#faeec7] px-2.5 py-0.5 rounded-full">
               Awaiting Approval
             </span>
-            <h2 className="text-xl font-extrabold text-slate-900 mt-2">
+            <h2 className="text-xl font-bold text-slate-800 mt-2.5">
               Registration Under Review
             </h2>
             <p className="text-xs text-slate-500 mt-2 leading-relaxed">
@@ -42,10 +43,10 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="pt-2 flex flex-col gap-2">
+          <div className="pt-2 flex flex-col gap-2.5">
             <button
               onClick={() => switchUser('usr_leader')}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-3 rounded-xl shadow-md shadow-indigo-100 transition-all"
+              className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 rounded-xl shadow-xs transition-all"
             >
               👑 Switch to Leader (Approve This User)
             </button>
@@ -68,6 +69,8 @@ export default function Home() {
     switch (activeTab) {
       case 'dashboard':
         return currentUser.role === 'leader' ? <LeaderDashboard /> : <StaffDashboard />;
+      case 'analytics':
+        return <AnalyticsView />;
       case 'projects':
         return <ProjectsView />;
       case 'tasks':
@@ -88,17 +91,20 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f6f8fc]">
-      {/* Sidebar Navigation */}
-      <Sidebar />
+    <div className="min-h-screen bg-[#edf1f7] p-2 sm:p-4 md:p-6 flex justify-center">
+      {/* Outer Floating SaaS Frame (Exact match of modern dashboard mockups in pics) */}
+      <div className="w-full max-w-[1550px] bg-white rounded-3xl md:rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-slate-200/60 flex overflow-hidden min-h-[92vh]">
+        {/* Sidebar Navigation */}
+        <Sidebar />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
-        <Header />
-        
-        <main className="flex-1 p-6 sm:p-8 max-w-7xl w-full mx-auto">
-          {renderContent()}
-        </main>
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0 bg-[#f9fafc]">
+          <Header />
+          
+          <main className="flex-1 px-8 pb-8 overflow-y-auto">
+            {renderContent()}
+          </main>
+        </div>
       </div>
 
       {/* Modals & Dialogs */}
@@ -108,4 +114,3 @@ export default function Home() {
     </div>
   );
 }
-
