@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { useApp } from '@/lib/store';
-import { Search, Clock, Coffee, Play, Square, Bell, Sparkles } from 'lucide-react';
+import { Search, Clock, Coffee, Play, Square, Bell } from 'lucide-react';
 
 export default function Header() {
-  const { 
-    currentUser, 
-    clockIn, 
-    startBreak, 
-    resumeWork, 
+  const {
+    currentUser,
+    clockIn,
+    startBreak,
+    resumeWork,
     setIsEODModalOpen,
     searchQuery,
     setSearchQuery,
@@ -18,80 +18,74 @@ export default function Header() {
 
   const isClient = currentUser.role === 'client';
 
+  const tabNames: Record<string, string> = {
+    dashboard: 'Overview',
+    projects: 'Projects & Ledger',
+    tasks: 'Sprint Tasks',
+    attendance: 'Hazari & Attendance',
+    team: 'Staff Directory',
+    payroll: 'Payroll & Salaries',
+    reports: 'Daily Reports',
+    client_portal: 'Client Portal',
+  };
+
   return (
-    <header className="px-8 lg:px-10 pt-7 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 bg-white/70 backdrop-blur-md mb-6">
-      {/* Left Title & Subtitle */}
+    <header
+      className="px-8 py-4 flex items-center justify-between gap-4"
+      style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(13,15,20,0.8)', backdropFilter: 'blur(20px)' }}
+    >
+      {/* Left */}
       <div>
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight capitalize">
-            {activeTab === 'dashboard' ? 'Overview' : activeTab.replace('_', ' ')}
-          </h1>
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-        </div>
-        <p className="text-xs text-slate-500 mt-0.5 font-normal">
-          Hanzei Workspace &bull; {currentUser.name} ({currentUser.role.replace('_', ' ')})
+        <h1 className="text-[15px] font-bold text-slate-100 tracking-tight">
+          {tabNames[activeTab] || activeTab}
+        </h1>
+        <p className="text-[11px] text-slate-600 mt-0.5">
+          Hanzei Workspace · {currentUser.name}
         </p>
       </div>
 
-      {/* Right Controls: Search, Frosted 2D Glass Shift Actions & Profile */}
-      <div className="flex items-center gap-3">
-        {/* Search Input with Gold/Silver focus */}
-        <div className="relative w-56 sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+      {/* Right */}
+      <div className="flex items-center gap-2.5">
+        {/* Search */}
+        <div className="relative w-56">
+          <Search className="w-3.5 h-3.5 text-slate-600 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search projects, tasks, staff..."
-            className="w-full bg-slate-50 text-xs text-slate-900 placeholder-slate-400 pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 transition-all font-medium"
+            placeholder="Search..."
+            className="dark-input w-full pl-9 pr-3 py-2 text-xs"
           />
         </div>
 
-        {/* Staff Shift Actions (Frosted Glass 2D Buttons) */}
+        {/* Shift actions */}
         {!isClient && (
           <div className="flex items-center gap-2">
             {currentUser.workStatus === 'offline' && (
-              <button
-                onClick={clockIn}
-                className="btn-gold"
-              >
-                <Clock className="w-3.5 h-3.5 drop-shadow-xs" />
+              <button onClick={clockIn} className="btn-gold text-xs py-1.5 px-3.5 gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
                 <span>Clock In</span>
               </button>
             )}
-
             {currentUser.workStatus === 'working' && (
               <>
-                <button
-                  onClick={startBreak}
-                  className="btn-silver"
-                >
-                  <Coffee className="w-3.5 h-3.5 text-amber-700" />
+                <button onClick={startBreak} className="btn-silver text-xs py-1.5 px-3 gap-1.5">
+                  <Coffee className="w-3.5 h-3.5" />
                   <span>Break</span>
                 </button>
-                <button
-                  onClick={() => setIsEODModalOpen(true)}
-                  className="btn-dark"
-                >
+                <button onClick={() => setIsEODModalOpen(true)} className="btn-dark text-xs py-1.5 px-3.5 gap-1.5">
                   <Square className="w-3 h-3 fill-amber-400 text-amber-400" />
                   <span>End Day</span>
                 </button>
               </>
             )}
-
             {currentUser.workStatus === 'on_break' && (
               <>
-                <button
-                  onClick={resumeWork}
-                  className="btn-gold"
-                >
+                <button onClick={resumeWork} className="btn-gold text-xs py-1.5 px-3.5 gap-1.5">
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>Resume</span>
                 </button>
-                <button
-                  onClick={() => setIsEODModalOpen(true)}
-                  className="btn-dark"
-                >
+                <button onClick={() => setIsEODModalOpen(true)} className="btn-dark text-xs py-1.5 px-3.5 gap-1.5">
                   <Square className="w-3 h-3 fill-amber-400 text-amber-400" />
                   <span>End Day</span>
                 </button>
@@ -100,15 +94,16 @@ export default function Header() {
           </div>
         )}
 
-        {/* Notification Bell with Gold Dot */}
-        <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer transition-colors relative shrink-0">
-          <Bell className="w-4 h-4" />
-          <span className="w-2 h-2 rounded-full bg-amber-500 absolute top-2 right-2 ring-2 ring-white" />
+        {/* Bell */}
+        <div className="relative w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition-colors hover:bg-white/[0.06]"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <Bell className="w-4 h-4 text-slate-500" />
+          <span className="w-2 h-2 rounded-full bg-amber-400 absolute top-1.5 right-1.5 ring-2 ring-[#0d0f14] shadow-sm shadow-amber-400/50" />
         </div>
 
-        {/* User Avatar with Golden Border */}
-        <div className="w-9 h-9 rounded-xl bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 shadow-xs border border-amber-500/40">
-          <span>{currentUser.name.charAt(0)}</span>
+        {/* Avatar */}
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-700 text-black font-bold text-sm flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
+          {currentUser.name.charAt(0)}
         </div>
       </div>
     </header>

@@ -12,17 +12,13 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: 'Hanzei | Software House Management ERP',
-  description: 'Enterprise ERP for software houses: Attendance, Hazari, Projects, Financials, Tasks, Payroll & Client Portal.',
+  description: 'Enterprise ERP for software houses — Attendance, Projects, Financials, Tasks, Payroll & Client Portal.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={plusJakarta.variable}>
-      <body className={`min-h-screen bg-[#f4f6f9] text-[#0f172a] antialiased ${plusJakarta.className}`}>
+      <body className={`min-h-screen bg-[#0d0f14] text-slate-100 antialiased ${plusJakarta.className}`}>
         <AppProvider>
           {children}
         </AppProvider>
