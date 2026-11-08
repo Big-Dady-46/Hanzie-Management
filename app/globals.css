@@ -34,23 +34,25 @@ body {
   letter-spacing: -0.015em;
 }
 
-/* Custom silky scrollbar */
+/* Custom square sharp golden scrollbar for right side content only */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(241, 245, 249, 0.6);
+  border-radius: 0px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
+  background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+  border-radius: 0px !important; /* Square sharp - no round curves */
+  box-shadow: 0 1px 3px rgba(184, 134, 11, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: linear-gradient(180deg, #f5c842 0%, #d4af37 100%);
 }
 
 /* ========================================================================= */

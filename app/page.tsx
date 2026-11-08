@@ -103,17 +103,17 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#edf2f7] p-3 sm:p-5 lg:p-7 flex justify-center">
-      {/* Outer Floating SaaS Canvas (Generous luxury padding & soft depth) */}
-      <div className="w-full max-w-[1600px] bg-white rounded-[32px] md:rounded-[40px] shadow-[0_20px_70px_-10px_rgba(15,23,42,0.06)] border border-slate-200/70 flex overflow-hidden min-h-[94vh]">
-        {/* Sidebar Navigation */}
+    <div className="h-screen bg-[#edf2f7] p-2 sm:p-3 lg:p-4 flex justify-center overflow-hidden">
+      {/* Outer Floating SaaS Canvas - Fixed Viewport Height */}
+      <div className="w-full max-w-[1680px] bg-white rounded-2xl md:rounded-3xl shadow-[0_20px_70px_-10px_rgba(15,23,42,0.06)] border border-slate-200/70 flex overflow-hidden h-full max-h-[96vh]">
+        {/* Sidebar Navigation - Fixed, Never Scrolls with Page Content */}
         <Sidebar />
 
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 bg-[#f9fafc]">
+        {/* Main Content Area - Only Right Side Scrolls */}
+        <div className="flex-1 flex flex-col min-w-0 bg-[#f9fafc] h-full overflow-hidden">
           <Header />
           
-          <main className="flex-1 px-8 lg:px-10 pb-10 overflow-y-auto">
+          <main className="flex-1 px-6 lg:px-8 pb-10 overflow-y-auto">
             {renderContent()}
           </main>
         </div>
