@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '@/lib/store';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
@@ -22,6 +22,19 @@ import { Clock } from 'lucide-react';
 export default function Home() {
   const { currentUser, activeTab, switchUser } = useApp();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-[#f4f6f9] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-amber-600 border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
   // If the logged in user is pending approval
   if (currentUser.status === 'pending_approval') {
