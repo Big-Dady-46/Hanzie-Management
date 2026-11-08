@@ -58,7 +58,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
       <div className="bg-white rounded-[32px] p-8 max-w-md w-full shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between pb-5 border-b border-slate-100 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#cca43b] via-[#e5c07b] to-[#d4af37] text-slate-900 font-extrabold text-sm flex items-center justify-center border border-amber-200 shadow-xs">
               H
             </div>
             <div>
@@ -114,12 +114,12 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             </span>
 
             {[
-              { id: 'usr_leader', name: 'Abdul Hannan', role: 'Leader / CEO', bg: 'bg-[#f4f2ff] hover:bg-[#ede5fc] text-indigo-700' },
-              { id: 'usr_dev_1', name: 'Hamza Malik', role: 'Senior Developer', bg: 'bg-[#eff6ff] hover:bg-[#e0eefd] text-blue-700' },
-              { id: 'usr_des_1', name: 'Zainab Fatima', role: 'Lead UI/UX Designer', bg: 'bg-[#fdf4ff] hover:bg-[#fae8ff] text-purple-700' },
-              { id: 'usr_cleaner_1', name: 'Muhammad Rafiq', role: 'Office Caretaker / Cleaner', bg: 'bg-[#ecfdf5] hover:bg-[#d1fae5] text-emerald-700' },
-              { id: 'usr_client_1', name: 'Eleyas Hasan', role: 'Client (Apex Logistics)', bg: 'bg-[#fff9ea] hover:bg-[#faeed0] text-amber-700' },
-              { id: 'usr_pending_1', name: 'Farhan Siddiqui', role: 'Pending User (Approval Gate)', bg: 'bg-[#fff0f3] hover:bg-[#ffe4e6] text-rose-700' },
+              { id: 'usr_leader', name: 'Abdul Hannan', role: 'Leader / CEO', bg: 'bg-amber-50/90 hover:bg-amber-100/80 text-amber-950 border border-amber-200' },
+              { id: 'usr_dev_1', name: 'Hamza Malik', role: 'Senior Developer', bg: 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200' },
+              { id: 'usr_des_1', name: 'Zainab Fatima', role: 'Lead UI/UX Designer', bg: 'bg-amber-50/50 hover:bg-amber-100/60 text-amber-900 border border-amber-200/60' },
+              { id: 'usr_cleaner_1', name: 'Muhammad Rafiq', role: 'Office Caretaker / Cleaner', bg: 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200' },
+              { id: 'usr_client_1', name: 'Eleyas Hasan', role: 'Client (Apex Logistics)', bg: 'bg-amber-50/70 hover:bg-amber-100/70 text-amber-900 border border-amber-200/80' },
+              { id: 'usr_pending_1', name: 'Farhan Siddiqui', role: 'Pending User (Approval Gate)', bg: 'bg-rose-50 hover:bg-rose-100/80 text-rose-800 border border-rose-200' },
             ].map((persona) => (
               <button
                 key={persona.id}
@@ -198,7 +198,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
             <button
               type="submit"
-              className="w-full btn-primary py-2.5"
+              className="w-full btn-gold py-2.5"
             >
               Submit Registration for Review
             </button>

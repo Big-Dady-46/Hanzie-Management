@@ -58,23 +58,23 @@ export default function PayrollView() {
         {isLeader && (
           <button
             onClick={() => generateMonthlyPayroll(selectedMonth)}
-            className="btn-secondary"
+            className="btn-gold"
           >
             <span>Run Payroll ({selectedMonth})</span>
           </button>
         )}
       </div>
 
-      {/* 3 Metric Cards (Unified Clean 2-Color Design) */}
+      {/* 3 Metric Cards (Luxury Gold & Silver System) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="clean-card p-6 flex items-start justify-between">
+        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-colors">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Total Cycle Budget</span>
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-md px-2 py-0.5 text-blue-600 focus:outline-none"
+                className="text-xs font-semibold bg-amber-50/60 border border-amber-200 rounded-md px-2 py-0.5 text-amber-900 focus:outline-none"
               >
                 <option value="November 2026">Nov 2026</option>
                 <option value="October 2026">Oct 2026</option>
@@ -85,29 +85,29 @@ export default function PayrollView() {
             </div>
             <p className="text-xs text-slate-400 mt-1">{filteredPayroll.length} Active team members</p>
           </div>
-          <div className="icon-badge">
-            <DollarSign className="w-5 h-5" />
+          <div className="icon-badge-gold">
+            <DollarSign className="w-5 h-5 text-amber-700" />
           </div>
         </div>
 
-        <div className="clean-card p-6 flex items-start justify-between">
+        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-colors">
           <div>
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Disbursed & Cleared</span>
-            <div className="text-2xl font-bold text-slate-900 mt-2">
+            <div className="text-2xl font-bold text-amber-700 mt-2">
               PKR {totalPaidOutflow.toLocaleString()}
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              <span className="font-semibold text-blue-600">
+              <span className="font-semibold text-amber-700">
                 {filteredPayroll.filter(p => p.status === 'paid').length}
               </span> of {filteredPayroll.length} staff verified paid
             </p>
           </div>
-          <div className="icon-badge">
-            <CheckCircle2 className="w-5 h-5" />
+          <div className="icon-badge-gold">
+            <CheckCircle2 className="w-5 h-5 text-amber-700" />
           </div>
         </div>
 
-        <div className="clean-card p-6 flex items-start justify-between">
+        <div className="clean-card p-6 flex items-start justify-between hover:border-slate-300 transition-colors">
           <div>
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">Pending Release</span>
             <div className="text-2xl font-bold text-slate-900 mt-2">
@@ -117,7 +117,7 @@ export default function PayrollView() {
               {filteredPayroll.filter(p => p.status === 'pending').length} Awaiting leader release
             </p>
           </div>
-          <div className="icon-badge-slate">
+          <div className="icon-badge-silver">
             <Clock className="w-5 h-5" />
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function PayrollView() {
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">Verified company salary clearances</p>
           </div>
-          <span className="text-xs font-medium text-slate-500 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
+          <span className="text-xs font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-md">
             Transparent Records
           </span>
         </div>
@@ -173,10 +173,10 @@ export default function PayrollView() {
                     <td className="py-3.5">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md inline-flex items-center gap-1 ${
                         isPaid 
-                          ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+                          ? 'bg-amber-50 text-amber-800 border border-amber-200' 
                           : 'bg-slate-100 text-slate-600 border border-slate-200'
                       }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${isPaid ? 'bg-blue-600' : 'bg-slate-400'}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full ${isPaid ? 'bg-amber-600' : 'bg-slate-400'}`} />
                         {isPaid ? 'PAID' : 'PENDING'}
                       </span>
                     </td>
@@ -195,14 +195,14 @@ export default function PayrollView() {
                         {isLeader && !isPaid && (
                           <button
                             onClick={() => setShowPayModal(item)}
-                            className="btn-primary text-xs py-1 px-2.5"
+                            className="btn-gold text-xs py-1 px-3"
                           >
                             Mark as Paid
                           </button>
                         )}
                         <button
                           onClick={() => setViewReceipt(item)}
-                          className="btn-light text-xs py-1 px-2.5"
+                          className="btn-silver text-xs py-1 px-3"
                         >
                           Slip
                         </button>
@@ -259,13 +259,13 @@ export default function PayrollView() {
               <div className="flex justify-end gap-2.5 pt-2">
                 <button
                   onClick={() => setShowPayModal(null)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmPay}
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Confirm Disbursement
                 </button>
@@ -281,7 +281,7 @@ export default function PayrollView() {
           <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl border border-slate-200 printable-slip">
             <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 block">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">
                   Official Salary Certificate
                 </span>
                 <h3 className="text-lg font-bold text-slate-900">Hanzei Technologies (Pvt) Ltd</h3>
@@ -310,7 +310,7 @@ export default function PayrollView() {
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px]">Voucher Status</span>
-                  <span className="font-bold text-blue-600 uppercase">{viewReceipt.status}</span>
+                  <span className="font-bold text-amber-700 uppercase">{viewReceipt.status}</span>
                 </div>
               </div>
 
@@ -329,12 +329,12 @@ export default function PayrollView() {
                 </div>
                 <div className="flex justify-between py-2 text-sm font-bold border-t border-slate-200 pt-2">
                   <span className="text-slate-900">Total Net Disbursed</span>
-                  <span className="text-blue-700">PKR {viewReceipt.netSalary.toLocaleString()}</span>
+                  <span className="text-amber-700">PKR {viewReceipt.netSalary.toLocaleString()}</span>
                 </div>
               </div>
 
               {viewReceipt.paymentMethod && (
-                <div className="p-2.5 rounded-lg bg-blue-50/60 border border-blue-100 text-[11px] text-blue-900 font-mono">
+                <div className="p-2.5 rounded-lg bg-amber-50/60 border border-amber-200 text-[11px] text-amber-900 font-mono">
                   Disbursed via {viewReceipt.paymentMethod} &bull; Ref: {viewReceipt.transactionReference} &bull; {viewReceipt.paidDate}
                 </div>
               )}
@@ -346,14 +346,14 @@ export default function PayrollView() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => window.print()}
-                    className="btn-light text-xs"
+                    className="btn-silver text-xs"
                   >
                     <Printer className="w-3.5 h-3.5" />
                     <span>Print Slip</span>
                   </button>
                   <button
                     onClick={() => setViewReceipt(null)}
-                    className="btn-primary text-xs"
+                    className="btn-gold text-xs"
                   >
                     Close
                   </button>

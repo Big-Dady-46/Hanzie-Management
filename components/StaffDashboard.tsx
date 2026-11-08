@@ -72,11 +72,11 @@ export default function StaffDashboard() {
   return (
     <div className="space-y-6">
       {/* Shift Controller Card */}
-      <div className="clean-card p-6">
+      <div className="clean-card p-6 hover:border-amber-200 transition-colors">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-md">
+              <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
                 {currentUser.department}
               </span>
               <span className="text-xs text-slate-400 capitalize">
@@ -91,18 +91,18 @@ export default function StaffDashboard() {
             </p>
           </div>
 
-          {/* Shift Timer & Actions */}
-          <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-5">
+          {/* Shift Timer & Frosted 2D Actions */}
+          <div className="bg-slate-50/80 border border-slate-200 p-4 rounded-xl flex flex-col sm:flex-row items-center gap-5">
             <div className="text-center sm:text-left">
               <div className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                <Clock className="w-3.5 h-3.5 text-blue-600" />
+                <Clock className="w-3.5 h-3.5 text-amber-600" />
                 <span>Shift Duration</span>
               </div>
               <div className="text-xl font-bold font-mono text-slate-900 mt-0.5">
                 {currentUser.workStatus === 'working' ? (
                   formatStopwatch(secondsElapsed > 0 ? secondsElapsed : 245 * 60)
                 ) : currentUser.workStatus === 'on_break' ? (
-                  <span className="text-slate-600 font-semibold text-base">On Break</span>
+                  <span className="text-amber-800 font-semibold text-base">On Break</span>
                 ) : (
                   <span className="text-slate-400 font-semibold text-base">Offline</span>
                 )}
@@ -116,9 +116,9 @@ export default function StaffDashboard() {
               {currentUser.workStatus === 'offline' && (
                 <button
                   onClick={clockIn}
-                  className="btn-primary"
+                  className="btn-gold"
                 >
-                  <Clock className="w-3.5 h-3.5" />
+                  <Clock className="w-3.5 h-3.5 drop-shadow-xs" />
                   <span>Clock In</span>
                 </button>
               )}
@@ -127,16 +127,16 @@ export default function StaffDashboard() {
                 <>
                   <button
                     onClick={startBreak}
-                    className="btn-light"
+                    className="btn-silver"
                   >
-                    <Coffee className="w-3.5 h-3.5 text-slate-500" />
+                    <Coffee className="w-3.5 h-3.5 text-amber-700" />
                     <span>Break</span>
                   </button>
                   <button
                     onClick={() => setIsEODModalOpen(true)}
-                    className="btn-secondary"
+                    className="btn-dark"
                   >
-                    <Square className="w-3 h-3 fill-current" />
+                    <Square className="w-3 h-3 fill-amber-400 text-amber-400" />
                     <span>End Day</span>
                   </button>
                 </>
@@ -146,16 +146,16 @@ export default function StaffDashboard() {
                 <>
                   <button
                     onClick={resumeWork}
-                    className="btn-primary"
+                    className="btn-gold"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
                     <span>Resume</span>
                   </button>
                   <button
                     onClick={() => setIsEODModalOpen(true)}
-                    className="btn-secondary"
+                    className="btn-dark"
                   >
-                    <Square className="w-3 h-3 fill-current" />
+                    <Square className="w-3 h-3 fill-amber-400 text-amber-400" />
                     <span>End Day</span>
                   </button>
                 </>
@@ -175,14 +175,14 @@ export default function StaffDashboard() {
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">Update sprint progress directly</p>
             </div>
-            <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-md">
+            <span className="text-xs font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
               {myTasks.length} Assigned
             </span>
           </div>
 
           {myTasks.length === 0 ? (
             <div className="text-center py-10 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-              <CheckCircle2 className="w-6 h-6 text-blue-600 mx-auto mb-1.5" />
+              <CheckCircle2 className="w-6 h-6 text-amber-600 mx-auto mb-1.5" />
               <p className="text-xs font-semibold text-slate-700">All assigned tasks completed!</p>
               <p className="text-[11px] text-slate-400 mt-0.5">Check with team lead for next tickets.</p>
             </div>
@@ -191,12 +191,12 @@ export default function StaffDashboard() {
               {myTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="p-3.5 rounded-xl border border-slate-200/80 bg-white hover:border-slate-300 space-y-2.5"
+                  className="p-3.5 rounded-xl border border-slate-200/80 bg-white hover:border-amber-300 space-y-2.5 transition-colors"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
                           {task.projectName}
                         </span>
                         <span className="text-[10px] font-medium text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase">
@@ -210,7 +210,7 @@ export default function StaffDashboard() {
                       <select
                         value={task.status}
                         onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
-                        className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 focus:outline-none"
+                        className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 focus:outline-none focus:border-amber-500"
                       >
                         <option value="todo">To Do</option>
                         <option value="in_progress">In Progress</option>
@@ -229,9 +229,9 @@ export default function StaffDashboard() {
                       step="5"
                       value={task.progressPercent}
                       onChange={(e) => updateTaskProgress(task.id, Number(e.target.value))}
-                      className="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                      className="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
                     />
-                    <span className="text-xs font-mono font-bold text-blue-600 w-10 text-right">
+                    <span className="text-xs font-mono font-bold text-amber-700 w-10 text-right">
                       {task.progressPercent}%
                     </span>
                   </div>
@@ -248,19 +248,19 @@ export default function StaffDashboard() {
               <h3 className="text-sm font-bold text-slate-900">Salary & Payslip</h3>
               <button
                 onClick={() => setActiveTab('payroll')}
-                className="text-xs font-semibold text-blue-600 hover:underline"
+                className="text-xs font-semibold text-amber-700 hover:text-amber-800 hover:underline"
               >
                 Ledger
               </button>
             </div>
 
             {latestPayroll ? (
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="p-4 rounded-xl bg-amber-50/40 border border-amber-200/80 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-slate-700">{latestPayroll.month}</span>
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded uppercase ${
                     latestPayroll.status === 'paid'
-                      ? 'bg-blue-50 text-blue-700 border border-blue-100'
+                      ? 'bg-amber-100 text-amber-900 border border-amber-300'
                       : 'bg-slate-200 text-slate-700'
                   }`}>
                     {latestPayroll.status}
@@ -287,7 +287,7 @@ export default function StaffDashboard() {
             <p className="text-xs text-slate-400 mb-4">Urgent or planned absence request.</p>
             <button
               onClick={() => setShowLeaveModal(true)}
-              className="w-full btn-secondary"
+              className="w-full btn-gold"
             >
               Submit Leave Request
             </button>
@@ -344,7 +344,7 @@ export default function StaffDashboard() {
                   onChange={(e) => setLeaveReason(e.target.value)}
                   placeholder="Explain why you need leave..."
                   rows={2}
-                  className="w-full text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50"
+                  className="w-full text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:border-amber-500"
                   required
                 />
               </div>
@@ -353,13 +353,13 @@ export default function StaffDashboard() {
                 <button
                   type="button"
                   onClick={() => setShowLeaveModal(false)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Submit Request
                 </button>

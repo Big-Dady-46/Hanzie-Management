@@ -5,7 +5,7 @@ import { useApp } from '@/lib/store';
 import { 
   LayoutDashboard, FolderKanban, CheckSquare, Users, 
   Calendar, FileText, DollarSign, LogOut, Download, 
-  Database, Briefcase, ChevronDown, CheckCircle2
+  Database, Briefcase, ChevronDown, CheckCircle2, Sparkles
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -24,7 +24,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
-    { id: 'projects', label: 'Projects', icon: FolderKanban },
+    { id: 'projects', label: 'Projects & Ledger', icon: FolderKanban },
     { id: 'tasks', label: 'Sprint Tasks', icon: CheckSquare },
     { id: 'attendance', label: 'Hazari / Attendance', icon: Calendar },
     { id: 'team', label: 'Staff Directory', icon: Users, badge: isLeader && pendingCount > 0 ? pendingCount : null },
@@ -34,22 +34,25 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[230px] bg-white border-r border-slate-200/80 flex flex-col justify-between h-full select-none shrink-0 py-6 px-4">
+    <aside className="w-[235px] bg-white border-r border-slate-200/90 flex flex-col justify-between h-full select-none shrink-0 py-6 px-4">
       {/* Top Part: Logo & Navigation */}
       <div>
-        {/* Brand Logo */}
+        {/* Luxury Gold & Silver Brand Logo */}
         <div className="flex items-center gap-2.5 px-2 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#cca43b] via-[#e5c07b] to-[#d4af37] flex items-center justify-center text-slate-900 font-black text-sm shadow-md shadow-amber-500/20 border border-amber-200">
             H
           </div>
           <div>
-            <h1 className="text-base font-bold text-slate-900 tracking-tight leading-none">Hanzei</h1>
-            <span className="text-[10px] text-slate-400 font-medium">Software House</span>
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-base font-extrabold text-slate-900 tracking-tight leading-none">Hanzei</h1>
+              <Sparkles className="w-3 h-3 text-amber-500 fill-amber-400" />
+            </div>
+            <span className="text-[10px] text-amber-700/80 font-semibold tracking-wider uppercase">Software House</span>
           </div>
         </div>
 
         {/* Demo Role Switcher */}
-        <div className="mb-5 p-2 bg-slate-50 border border-slate-200 rounded-xl">
+        <div className="mb-5 p-2 bg-slate-50 border border-slate-200/90 rounded-xl">
           <label className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
             Demo Persona Switcher:
           </label>
@@ -78,16 +81,16 @@ export default function Sidebar() {
                 onClick={() => setActiveTab(item.id)}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all ${
                   isActive
-                    ? 'text-blue-700 bg-blue-50/80 font-bold border-l-2 border-blue-600 rounded-l-none'
+                    ? 'text-amber-950 bg-amber-50/90 font-bold border-l-2 border-amber-600 rounded-l-none shadow-xs'
                     : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-amber-600' : 'text-slate-400'}`} />
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
-                  <span className="text-[10px] bg-blue-600 text-white font-bold px-1.5 py-0.2 rounded-full">
+                  <span className="text-[10px] bg-amber-600 text-white font-bold px-1.5 py-0.2 rounded-full">
                     {item.badge}
                   </span>
                 )}
@@ -98,18 +101,18 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Part: Database Cloud Sync & User Profile */}
-      <div className="space-y-4 pt-4 border-t border-slate-100">
+      <div className="space-y-3.5 pt-4 border-t border-slate-100">
         <button 
           onClick={() => setIsDbModalOpen(true)}
-          className="w-full btn-light text-xs py-1.5"
+          className="w-full btn-silver text-xs py-1.5"
         >
           <Database className="w-3.5 h-3.5 text-slate-500" />
           <span>Cloud Sync & DB</span>
         </button>
 
-        {/* User Mini Profile */}
+        {/* User Mini Profile with Gold Border */}
         <div className="flex items-center gap-2.5 px-2">
-          <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+          <div className="w-8 h-8 rounded-full bg-slate-900 text-amber-300 border border-amber-500/40 flex items-center justify-center font-bold text-xs shadow-xs">
             {currentUser.name.charAt(0)}
           </div>
           <div className="flex-1 min-w-0">

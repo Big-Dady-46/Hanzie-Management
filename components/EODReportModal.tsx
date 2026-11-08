@@ -76,7 +76,7 @@ export default function EODReportModal() {
         </div>
 
         {/* Notice alert */}
-        <div className="mt-5 p-4 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900 leading-relaxed font-medium">
+        <div className="mt-5 p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-950 leading-relaxed font-medium">
           <strong>Mandatory Software House Policy:</strong> To ensure office transparency, day checkout is only registered once you submit what you accomplished today and what you plan to do tomorrow.
         </div>
 
@@ -97,7 +97,7 @@ export default function EODReportModal() {
               onChange={(e) => setTasksCompleted(e.target.value)}
               placeholder="e.g. Completed billing module API, fixed UI button responsiveness on mobile, tested checkout flow..."
               rows={3}
-              className="w-full text-xs border border-slate-200 rounded-2xl p-4 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium leading-relaxed"
+              className="w-full text-xs border border-slate-200 rounded-2xl p-4 bg-slate-50 focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-400/10 transition-all font-medium leading-relaxed"
               required
             />
           </div>
@@ -112,7 +112,7 @@ export default function EODReportModal() {
               value={blockers}
               onChange={(e) => setBlockers(e.target.value)}
               placeholder="e.g. Waiting on client API key, server restart needed, or None."
-              className="w-full text-xs border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 transition-all font-medium"
+              className="w-full text-xs border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:border-amber-500 transition-all font-medium"
             />
           </div>
 
@@ -126,7 +126,7 @@ export default function EODReportModal() {
               value={planForTomorrow}
               onChange={(e) => setPlanForTomorrow(e.target.value)}
               placeholder="e.g. Implement webhook receiver and start regression tests."
-              className="w-full text-xs border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 transition-all font-medium"
+              className="w-full text-xs border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:outline-none focus:border-amber-500 transition-all font-medium"
               required
             />
           </div>

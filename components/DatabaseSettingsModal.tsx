@@ -58,8 +58,8 @@ export default function DatabaseSettingsModal() {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Engine:</span>
             <span className={`text-[11px] font-black px-2.5 py-1 rounded-full uppercase ${
               dbStatus.isConfigured 
-                ? 'bg-emerald-100 text-emerald-800' 
-                : 'bg-indigo-100 text-indigo-800'
+                ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+                : 'bg-slate-100 text-slate-800 border border-slate-300'
             }`}>
               {dbStatus.provider}
             </span>
@@ -77,21 +77,21 @@ export default function DatabaseSettingsModal() {
 
           <div className="space-y-2.5">
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <span className="font-bold text-indigo-600 block mb-0.5">Step 1: Create Free Supabase Project</span>
+              <span className="font-bold text-amber-700 block mb-0.5">Step 1: Create Free Supabase Project</span>
               <p className="text-slate-600">
-                Visit <a href="https://supabase.com" target="_blank" rel="noreferrer" className="text-indigo-600 font-bold underline inline-flex items-center gap-1">supabase.com <ExternalLink className="w-3 h-3 inline" /></a> and create a free project in 30 seconds.
+                Visit <a href="https://supabase.com" target="_blank" rel="noreferrer" className="text-amber-700 font-bold underline inline-flex items-center gap-1">supabase.com <ExternalLink className="w-3 h-3 inline" /></a> and create a free project in 30 seconds.
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <span className="font-bold text-indigo-600 block mb-0.5">Step 2: Run the SQL Schema</span>
+              <span className="font-bold text-amber-700 block mb-0.5">Step 2: Run the SQL Schema</span>
               <p className="text-slate-600">
                 Open Supabase SQL Editor and execute the script inside <code>supabase_schema.sql</code> (provided in the repository). It sets up all tables with Realtime replication enabled.
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <span className="font-bold text-indigo-600 block mb-0.5">Step 3: Add to Vercel Environment Variables</span>
+              <span className="font-bold text-amber-700 block mb-0.5">Step 3: Add to Vercel Environment Variables</span>
               <p className="text-slate-600">
                 In your Vercel Project Settings &rarr; <strong>Environment Variables</strong>, add:
               </p>
@@ -109,7 +109,7 @@ export default function DatabaseSettingsModal() {
           </span>
           <button
             onClick={() => setIsDbModalOpen(false)}
-            className="btn-2d-primary px-6 py-2 text-xs"
+            className="btn-gold px-6 py-2 text-xs"
           >
             Got It
           </button>

@@ -32,26 +32,26 @@ export default function AnalyticsView() {
   ];
 
   const categories = [
-    { label: 'Development', count: 68, pct: 75, color: 'bg-indigo-600' },
-    { label: 'Design', count: 42, pct: 55, color: 'bg-blue-600' },
-    { label: 'Testing & QA', count: 28, pct: 35, color: 'bg-sky-500' },
-    { label: 'Documentation', count: 18, pct: 24, color: 'bg-teal-500' },
-    { label: 'Planning & Strategy', count: 14, pct: 18, color: 'bg-purple-500' },
-    { label: 'Other / Misc', count: 8, pct: 10, color: 'bg-slate-400' },
+    { label: 'Development', count: 68, pct: 75, color: 'bg-gradient-to-r from-amber-600 to-amber-500' },
+    { label: 'Design', count: 42, pct: 55, color: 'bg-amber-500' },
+    { label: 'Testing & QA', count: 28, pct: 35, color: 'bg-amber-400' },
+    { label: 'Documentation', count: 18, pct: 24, color: 'bg-slate-600' },
+    { label: 'Planning & Strategy', count: 14, pct: 18, color: 'bg-slate-400' },
+    { label: 'Other / Misc', count: 8, pct: 10, color: 'bg-slate-300' },
   ];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Top Header Card (Recreation of Reference Image 2: TaskFlow) */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-soft flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="clean-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md">
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
               Executive Performance Analytics
             </span>
             <span className="text-xs text-slate-400">Team Velocity & Sprint Success</span>
           </div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
             Analytics & Reports
           </h2>
           <p className="text-xs text-slate-500 mt-1">
@@ -63,7 +63,7 @@ export default function AnalyticsView() {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700"
+            className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500"
           >
             <option value="last_30_days">Last 30 Days</option>
             <option value="6_months">Last 6 Months</option>
@@ -75,56 +75,56 @@ export default function AnalyticsView() {
       {/* 4 Core Top Metrics (Exact layout of Image 2) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Task Completion Rate */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-soft hover:shadow-soft-lg transition-all">
+        <div className="clean-card p-5 hover:border-amber-300 transition-colors">
           <div className="text-3xl font-black text-slate-900 tracking-tight">
             94.2%
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
             Task Completion Rate
           </p>
-          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-emerald-600">
+          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-amber-700">
             <ArrowUpRight className="w-3.5 h-3.5" />
             <span>+4.2% vs last month</span>
           </div>
         </div>
 
         {/* Metric 2: Average Response Time */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-soft hover:shadow-soft-lg transition-all">
+        <div className="clean-card p-5 hover:border-slate-300 transition-colors">
           <div className="text-3xl font-black text-slate-900 tracking-tight">
             2.4h
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
             Average Response Time
           </p>
-          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-emerald-600">
+          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-slate-600">
             <ArrowDownRight className="w-3.5 h-3.5" />
             <span>-18% faster turnaround</span>
           </div>
         </div>
 
         {/* Metric 3: Team Velocity */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-soft hover:shadow-soft-lg transition-all">
+        <div className="clean-card p-5 hover:border-amber-300 transition-colors">
           <div className="text-3xl font-black text-slate-900 tracking-tight">
             18.5
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
             Team Velocity (Pts / Sprint)
           </p>
-          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-indigo-600">
+          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-amber-700">
             <TrendingUp className="w-3.5 h-3.5" />
             <span>Top quartile performance</span>
           </div>
         </div>
 
         {/* Metric 4: Sprint Success Rate */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-soft hover:shadow-soft-lg transition-all">
+        <div className="clean-card p-5 hover:border-slate-300 transition-colors">
           <div className="text-3xl font-black text-slate-900 tracking-tight">
             87%
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
             Sprint Success Rate
           </p>
-          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-emerald-600">
+          <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-slate-600">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>On track across 4 active projects</span>
           </div>
@@ -148,8 +148,8 @@ export default function AnalyticsView() {
             <svg className="w-full h-full overflow-visible" viewBox="0 0 500 180" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#4f46e5" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0.0" />
                 </linearGradient>
               </defs>
 
@@ -168,20 +168,20 @@ export default function AnalyticsView() {
               <path
                 d="M 10 140 Q 90 120, 100 100 T 200 60 T 300 80 T 400 45 T 490 20"
                 fill="none"
-                stroke="#4f46e5"
+                stroke="#b8860b"
                 strokeWidth="3"
                 strokeLinecap="round"
               />
 
               {/* Highlight Circle on March (x=200, y=60) */}
-              <circle cx="200" cy="60" r="5" fill="#4f46e5" stroke="#ffffff" strokeWidth="2.5" />
+              <circle cx="200" cy="60" r="5" fill="#d4af37" stroke="#ffffff" strokeWidth="2.5" />
             </svg>
 
             {/* Hover Tooltip Box on March (Image 2 reproduction) */}
             <div className="absolute left-[36%] top-[10%] bg-white/95 backdrop-blur-sm border border-slate-200/90 rounded-2xl p-3 shadow-soft-lg text-xs pointer-events-none">
               <span className="font-extrabold text-slate-800 block text-[11px] mb-1">March</span>
-              <div className="flex items-center gap-1.5 text-indigo-600 font-bold">
-                <span className="w-2 h-2 rounded-full bg-indigo-600" />
+              <div className="flex items-center gap-1.5 text-amber-700 font-bold">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
                 <span>Completed: 70</span>
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 font-medium">
@@ -200,7 +200,7 @@ export default function AnalyticsView() {
         </div>
 
         {/* Team Efficiency Trend (Bar Chart matching Image 2) */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-soft">
+        <div className="clean-card p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-sm font-extrabold text-slate-900">Team Efficiency Trend</h3>
@@ -217,8 +217,8 @@ export default function AnalyticsView() {
                   {bar.highlight && (
                     <div className="absolute -top-12 bg-white border border-slate-200 rounded-xl p-2 shadow-soft text-center whitespace-nowrap z-10">
                       <span className="text-[10px] font-bold text-slate-700 block">April</span>
-                      <span className="text-[11px] font-black text-indigo-600 flex items-center gap-1 justify-center">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />
+                      <span className="text-[11px] font-black text-amber-700 flex items-center gap-1 justify-center">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                         Efficiency: {bar.val}
                       </span>
                     </div>
@@ -228,7 +228,7 @@ export default function AnalyticsView() {
                     <div
                       className={`w-full rounded-xl transition-all duration-500 ${
                         bar.highlight 
-                          ? 'bg-indigo-600 shadow-md shadow-indigo-200' 
+                          ? 'bg-gradient-to-t from-[#b8860b] to-[#e5c07b] shadow-md shadow-amber-500/20' 
                           : 'bg-slate-200 hover:bg-slate-300'
                       }`}
                       style={{ height: `${heightPct}%` }}
@@ -317,7 +317,7 @@ export default function AnalyticsView() {
         </div>
 
         {/* Card 3: Productivity Trends (Donut Chart matching Image 2) */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-soft flex flex-col justify-between">
+        <div className="clean-card p-6 flex flex-col justify-between">
           <div>
             <h3 className="text-sm font-extrabold text-slate-900">Productivity Trends</h3>
             <p className="text-xs text-slate-500">Daily productivity ratio distribution</p>
@@ -332,9 +332,9 @@ export default function AnalyticsView() {
                   fill="none"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
-                {/* Segment 1: Blue */}
+                {/* Segment 1: Gold */}
                 <path
-                  className="text-indigo-600"
+                  className="text-amber-500"
                   strokeDasharray="40, 100"
                   strokeDashoffset="0"
                   strokeWidth="5"
@@ -342,9 +342,9 @@ export default function AnalyticsView() {
                   fill="none"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
-                {/* Segment 2: Light Blue */}
+                {/* Segment 2: Light Gold */}
                 <path
-                  className="text-sky-400"
+                  className="text-amber-300"
                   strokeDasharray="30, 100"
                   strokeDashoffset="-40"
                   strokeWidth="5"
@@ -352,9 +352,9 @@ export default function AnalyticsView() {
                   fill="none"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
-                {/* Segment 3: Deep Blue */}
+                {/* Segment 3: Deep Slate Silver */}
                 <path
-                  className="text-slate-800"
+                  className="text-slate-700"
                   strokeDasharray="20, 100"
                   strokeDashoffset="-70"
                   strokeWidth="5"
@@ -373,9 +373,9 @@ export default function AnalyticsView() {
 
           {/* Daily metrics legend matching Image 2 */}
           <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-600 pt-2 border-t border-slate-100">
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-600" /> Mon: 92%</span>
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-800" /> Tue: 92%</span>
-            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-sky-400" /> Wed: 95%</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-600" /> Mon: 92%</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500" /> Tue: 92%</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-400" /> Wed: 95%</span>
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-slate-400" /> Thu: 83%</span>
           </div>
         </div>

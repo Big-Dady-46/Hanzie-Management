@@ -49,8 +49,8 @@ export default function AttendanceView() {
 
         {/* Live Status Indicators */}
         <div className="flex items-center gap-1.5 bg-white border border-slate-200 p-1 rounded-xl">
-          <div className="px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50">
-            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+          <div className="px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-semibold text-amber-900 bg-amber-50/80 border border-amber-200/60">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             <span>{workingCount} Working</span>
           </div>
           <div className="px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-semibold text-slate-600">
@@ -69,12 +69,12 @@ export default function AttendanceView() {
 
       {/* Navigation Sub-Tabs */}
       <div className="clean-card p-1.5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => setActiveSubTab('live_board')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeSubTab === 'live_board' 
-                ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+                ? 'bg-amber-50 text-amber-950 font-bold border border-amber-300 shadow-xs' 
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -84,7 +84,7 @@ export default function AttendanceView() {
             onClick={() => setActiveSubTab('cleaners')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeSubTab === 'cleaners' 
-                ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+                ? 'bg-amber-50 text-amber-950 font-bold border border-amber-300 shadow-xs' 
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -94,7 +94,7 @@ export default function AttendanceView() {
             onClick={() => setActiveSubTab('history')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeSubTab === 'history' 
-                ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+                ? 'bg-amber-50 text-amber-950 font-bold border border-amber-300 shadow-xs' 
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -104,13 +104,13 @@ export default function AttendanceView() {
             onClick={() => setActiveSubTab('leaves')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeSubTab === 'leaves' 
-                ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+                ? 'bg-amber-50 text-amber-950 font-bold border border-amber-300 shadow-xs' 
                 : 'text-slate-500 hover:text-slate-800'
             }`}
           >
             <span>Leaves (Choti)</span>
             {leaves.filter(l => l.status === 'pending').length > 0 && (
-              <span className="bg-blue-600 text-white text-[9px] px-1.5 py-0.2 rounded-full font-bold">
+              <span className="bg-amber-600 text-white text-[9px] px-1.5 py-0.2 rounded-full font-bold">
                 {leaves.filter(l => l.status === 'pending').length}
               </span>
             )}
@@ -123,7 +123,7 @@ export default function AttendanceView() {
             <select
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-medium focus:outline-none"
+              className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-medium focus:outline-none focus:border-amber-500"
             >
               <option value="ALL">All Departments</option>
               <option value="Development">Development</option>
@@ -159,10 +159,10 @@ export default function AttendanceView() {
 
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded capitalize flex items-center gap-1 ${
                     isWorking 
-                      ? 'bg-blue-50 text-blue-700 border border-blue-100' 
+                      ? 'bg-amber-50 text-amber-900 border border-amber-200' 
                       : 'bg-slate-100 text-slate-500'
                   }`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${isWorking ? 'bg-blue-600 animate-pulse' : 'bg-slate-400'}`} />
+                    <span className={`w-1.5 h-1.5 rounded-full ${isWorking ? 'bg-amber-500 animate-pulse' : 'bg-slate-400'}`} />
                     {user.workStatus.replace('_', ' ')}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ export default function AttendanceView() {
                         {item.task}
                       </span>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
-                        item.done ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-slate-200 text-slate-600'
+                        item.done ? 'bg-amber-50 text-amber-900 border border-amber-200' : 'bg-slate-200 text-slate-600'
                       }`}>
                         {item.done ? 'Done ✓' : 'Pending'}
                       </span>
@@ -263,7 +263,7 @@ export default function AttendanceView() {
                   <td className="py-3 text-slate-700 font-mono text-[11px]">{record.clockOutTime || 'Active'}</td>
                   <td className="py-3 font-medium text-slate-800">{record.totalWorkMinutes ? `${Math.round((record.totalWorkMinutes / 60) * 10) / 10} hrs` : 'In Progress'}</td>
                   <td className="py-3 pr-2 text-right">
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100 capitalize">
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200 capitalize">
                       {record.status}
                     </span>
                   </td>
@@ -282,7 +282,7 @@ export default function AttendanceView() {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xs font-bold text-slate-900">{leave.userName}</span>
-                  <span className="text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-100 px-2 py-0.5 rounded capitalize">
+                  <span className="text-[10px] font-semibold bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded capitalize">
                     {leave.leaveType} Leave
                   </span>
                 </div>
@@ -297,13 +297,13 @@ export default function AttendanceView() {
                   <>
                     <button
                       onClick={() => reviewLeave(leave.id, 'approved')}
-                      className="btn-primary text-xs py-1.5 px-3"
+                      className="btn-gold text-xs py-1.5 px-3"
                     >
                       Approve
                     </button>
                     <button
                       onClick={() => reviewLeave(leave.id, 'rejected')}
-                      className="btn-light text-xs py-1.5 px-3"
+                      className="btn-silver text-xs py-1.5 px-3"
                     >
                       Reject
                     </button>

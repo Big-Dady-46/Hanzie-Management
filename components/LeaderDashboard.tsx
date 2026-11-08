@@ -33,38 +33,38 @@ export default function LeaderDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* PENDING SIGNUPS ALERT */}
+      {/* PENDING SIGNUPS ALERT (Frosted Gold Banner) */}
       {pendingUsers.length > 0 && (
-        <div className="clean-card p-5 bg-blue-50/50 border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="clean-card p-5 bg-amber-50/60 border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="icon-badge">
+            <div className="icon-badge-gold">
               <span className="font-bold text-sm">!</span>
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-900">
+              <p className="text-xs font-bold text-amber-950">
                 {pendingUsers.length} User Signup Awaiting Confirmation
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Staff member {pendingUsers[0].name} ({pendingUsers[0].email}) requires approval.
+              <p className="text-xs text-amber-800/80 mt-0.5">
+                Staff member {pendingUsers[0].name} ({pendingUsers[0].email}) requires leader authorization.
               </p>
             </div>
           </div>
           <button
             onClick={() => approveUser(pendingUsers[0].id, pendingUsers[0].role, pendingUsers[0].department, 120000)}
-            className="btn-primary"
+            className="btn-gold"
           >
             Confirm & Activate
           </button>
         </div>
       )}
 
-      {/* 1. TOP 4 STAT CARDS (Unified Clean White 2-Color System) */}
+      {/* 1. TOP 4 STAT CARDS (Luxury Gold & Silver System) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Card 1: Active Projects */}
-        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
+        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-amber-300 transition-colors">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Active Projects</span>
-            <div className="icon-badge">
+            <div className="icon-badge-gold">
               <FolderKanban className="w-4 h-4" />
             </div>
           </div>
@@ -75,16 +75,16 @@ export default function LeaderDashboard() {
         </div>
 
         {/* Card 2: Completion Rate */}
-        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
+        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-amber-300 transition-colors">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Completion Rate</span>
-            <div className="icon-badge">
-              <Sparkles className="w-4 h-4" />
+            <div className="icon-badge-gold">
+              <Sparkles className="w-4 h-4 text-amber-600" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-slate-900 tracking-tight">85%</div>
-            <p className="text-[11px] text-blue-600 font-medium mt-0.5">+4% from last sprint</p>
+            <div className="text-2xl font-bold text-amber-700 tracking-tight">85%</div>
+            <p className="text-[11px] text-amber-700 font-semibold mt-0.5">+4% from last sprint</p>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ export default function LeaderDashboard() {
         <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Tasks Due Today</span>
-            <div className="icon-badge-slate">
+            <div className="icon-badge-silver">
               <Clock className="w-4 h-4" />
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function LeaderDashboard() {
         <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Team Members</span>
-            <div className="icon-badge">
+            <div className="icon-badge-silver">
               <Users className="w-4 h-4" />
             </div>
           </div>
@@ -128,8 +128,8 @@ export default function LeaderDashboard() {
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">Weekly hours logged across engineering</p>
             </div>
-            <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-md">
-              Weekly
+            <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
+              Weekly Report
             </span>
           </div>
 
@@ -146,7 +146,7 @@ export default function LeaderDashboard() {
                 <div key={idx} className="flex flex-col items-center h-full justify-end group cursor-pointer">
                   <div className="w-7 bg-slate-100 rounded-t-md h-36 flex items-end justify-center p-0.5">
                     <div
-                      className="w-full bg-blue-600 rounded-t-sm transition-all duration-300 group-hover:bg-blue-700"
+                      className="w-full bg-gradient-to-t from-[#b8860b] to-[#e5c07b] rounded-t-sm transition-all duration-300 group-hover:from-amber-700 group-hover:to-amber-400 shadow-xs"
                       style={{ height: m.height }}
                     />
                   </div>
@@ -167,7 +167,7 @@ export default function LeaderDashboard() {
             </h3>
             <button
               onClick={() => setActiveTab('tasks')}
-              className="text-xs font-semibold text-blue-600 hover:underline flex items-center gap-1"
+              className="text-xs font-semibold text-amber-700 hover:text-amber-800 hover:underline flex items-center gap-1"
             >
               <span>View All</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -177,7 +177,7 @@ export default function LeaderDashboard() {
           <div className="grid grid-cols-2 gap-3">
             {/* To Do */}
             <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-center gap-3">
-              <div className="icon-badge-slate w-8 h-8 min-w-8 min-h-8">
+              <div className="icon-badge-silver w-8 h-8 min-w-8 min-h-8">
                 <Layers className="w-4 h-4" />
               </div>
               <div>
@@ -188,7 +188,7 @@ export default function LeaderDashboard() {
 
             {/* In Progress */}
             <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-center gap-3">
-              <div className="icon-badge w-8 h-8 min-w-8 min-h-8">
+              <div className="icon-badge-gold w-8 h-8 min-w-8 min-h-8">
                 <RefreshCw className="w-4 h-4" />
               </div>
               <div>
@@ -199,7 +199,7 @@ export default function LeaderDashboard() {
 
             {/* Revisions */}
             <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-center gap-3">
-              <div className="icon-badge-slate w-8 h-8 min-w-8 min-h-8">
+              <div className="icon-badge-silver w-8 h-8 min-w-8 min-h-8">
                 <Clock className="w-4 h-4" />
               </div>
               <div>
@@ -210,7 +210,7 @@ export default function LeaderDashboard() {
 
             {/* Completed */}
             <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3 flex items-center gap-3">
-              <div className="icon-badge w-8 h-8 min-w-8 min-h-8">
+              <div className="icon-badge-gold w-8 h-8 min-w-8 min-h-8">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
               <div>
@@ -222,7 +222,7 @@ export default function LeaderDashboard() {
 
           <div className="pt-4 border-t border-slate-100 mt-4 flex justify-between text-xs text-slate-400">
             <span>Sprint Storypoints: 128 pts</span>
-            <span className="font-semibold text-blue-600">92% On-Time Delivery</span>
+            <span className="font-semibold text-amber-700">92% On-Time Delivery</span>
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@ export default function LeaderDashboard() {
             <h3 className="text-sm font-bold text-slate-900">
               Timeline / Gantt Chart
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">Project development schedule and delivery dates</p>
+            <p className="text-xs text-slate-400 mt-0.5">Project development schedule and delivery milestones</p>
           </div>
           <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1 rounded-lg text-xs text-slate-600 font-medium">
             <span>Filter</span>
@@ -301,7 +301,7 @@ export default function LeaderDashboard() {
                         <div 
                           key={i} 
                           title={m}
-                          className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 text-[9px] font-bold flex items-center justify-center ring-2 ring-white"
+                          className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-[9px] font-bold flex items-center justify-center ring-2 ring-white"
                         >
                           {m.charAt(0)}
                         </div>
@@ -313,7 +313,9 @@ export default function LeaderDashboard() {
                   </td>
                   <td className="py-3.5 pr-2 text-right">
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md inline-block ${
-                      row.status === 'Completed' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-slate-100 text-slate-600'
+                      row.status === 'Completed' 
+                        ? 'bg-amber-50 text-amber-800 border border-amber-200' 
+                        : 'bg-slate-100 text-slate-600'
                     }`}>
                       {row.status}
                     </span>

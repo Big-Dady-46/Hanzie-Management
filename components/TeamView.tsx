@@ -89,7 +89,7 @@ export default function TeamView() {
         {isLeader && (
           <button
             onClick={() => setShowAddStaffModal(true)}
-            className="btn-primary"
+            className="btn-gold"
           >
             <Plus className="w-4 h-4" />
             <span>Add Member</span>
@@ -97,17 +97,17 @@ export default function TeamView() {
         )}
       </div>
 
-      {/* PENDING SIGNUPS APPROVALS */}
+      {/* PENDING SIGNUPS APPROVALS (Frosted Gold Alert) */}
       {pendingUsers.length > 0 && (
-        <div className="clean-card p-5 bg-blue-50/50 border-blue-200">
-          <div className="flex items-center justify-between mb-3 pb-2 border-b border-blue-100">
+        <div className="clean-card p-5 bg-amber-50/60 border-amber-200">
+          <div className="flex items-center justify-between mb-3 pb-2 border-b border-amber-200/60">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-              <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+              <h3 className="text-xs font-bold text-amber-950 uppercase tracking-wider">
                 Pending Leader Approvals ({pendingUsers.length})
               </h3>
             </div>
-            <span className="text-[11px] text-slate-500">Access Gate</span>
+            <span className="text-[11px] text-amber-800">Access Gate</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -119,7 +119,7 @@ export default function TeamView() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="text-xs font-bold text-slate-900">{u.name}</h4>
-                    <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded capitalize">
+                    <span className="text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded capitalize">
                       {u.role.replace('_', ' ')}
                     </span>
                   </div>
@@ -129,13 +129,13 @@ export default function TeamView() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleOpenApproval(u)}
-                    className="btn-primary text-xs py-1 px-3"
+                    className="btn-gold text-xs py-1 px-3"
                   >
                     Confirm & Setup
                   </button>
                   <button
                     onClick={() => rejectUser(u.id)}
-                    className="btn-light text-xs py-1 px-2.5 text-slate-400 hover:text-slate-700"
+                    className="btn-silver text-xs py-1 px-2.5 text-slate-400 hover:text-slate-700"
                     title="Reject"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -241,13 +241,13 @@ export default function TeamView() {
               <div className="flex justify-end gap-2.5 pt-2">
                 <button
                   onClick={() => setApprovingUser(null)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmApproval}
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Confirm & Activate
                 </button>
@@ -330,13 +330,13 @@ export default function TeamView() {
                 <button
                   type="button"
                   onClick={() => setShowAddStaffModal(false)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Onboard Member
                 </button>

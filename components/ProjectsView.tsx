@@ -81,7 +81,7 @@ export default function ProjectsView() {
         {isLeader && (
           <button
             onClick={() => setShowAddModal(true)}
-            className="btn-primary"
+            className="btn-gold"
           >
             <Plus className="w-4 h-4" />
             <span>Create Project</span>
@@ -89,9 +89,9 @@ export default function ProjectsView() {
         )}
       </div>
 
-      {/* Top 3 Summary Cards (Unified Clean White 2-Color Design) */}
+      {/* Top 3 Summary Cards (Luxury Gold & Silver System) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="clean-card p-6 flex items-start justify-between">
+        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-colors">
           <div>
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
               Total Pipeline Value
@@ -101,31 +101,31 @@ export default function ProjectsView() {
             </div>
             <p className="text-xs text-slate-400 mt-1">{projects.length} Active commercial contracts</p>
           </div>
-          <div className="icon-badge">
-            <DollarSign className="w-5 h-5" />
+          <div className="icon-badge-gold">
+            <DollarSign className="w-5 h-5 text-amber-700" />
           </div>
         </div>
 
-        <div className="clean-card p-6 flex items-start justify-between">
+        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-colors">
           <div>
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
               Payments Cleared
             </span>
-            <div className="text-2xl font-bold text-slate-900 mt-2">
+            <div className="text-2xl font-bold text-amber-700 mt-2">
               PKR {totalPaid.toLocaleString()}
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              <span className="font-semibold text-blue-600">
+              <span className="font-semibold text-amber-700">
                 {Math.round((totalPaid / (totalBudget || 1)) * 100)}%
-              </span> verified revenue collected
+              </span> revenue collected
             </p>
           </div>
-          <div className="icon-badge">
-            <CheckCircle2 className="w-5 h-5" />
+          <div className="icon-badge-gold">
+            <CheckCircle2 className="w-5 h-5 text-amber-700" />
           </div>
         </div>
 
-        <div className="clean-card p-6 flex items-start justify-between">
+        <div className="clean-card p-6 flex items-start justify-between hover:border-slate-300 transition-colors">
           <div>
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
               Outstanding Balance
@@ -135,7 +135,7 @@ export default function ProjectsView() {
             </div>
             <p className="text-xs text-slate-400 mt-1">Due across active deliverables</p>
           </div>
-          <div className="icon-badge-slate">
+          <div className="icon-badge-silver">
             <Clock className="w-5 h-5" />
           </div>
         </div>
@@ -150,13 +150,13 @@ export default function ProjectsView() {
           return (
             <div 
               key={project.id}
-              className="clean-card p-6 hover:border-slate-300 transition-colors"
+              className="clean-card p-6 hover:border-amber-200 transition-colors"
             >
               {/* Project Head & Ledger */}
               <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-5 border-b border-slate-100">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-md">
+                    <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
                       {project.category}
                     </span>
                     <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md capitalize">
@@ -170,7 +170,7 @@ export default function ProjectsView() {
                   </p>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200/80 p-4 rounded-xl flex items-center gap-6 justify-between min-w-[320px]">
+                <div className="bg-slate-50/80 border border-slate-200 p-4 rounded-xl flex items-center gap-6 justify-between min-w-[320px]">
                   <div>
                     <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Budget</span>
                     <div className="text-sm font-bold text-slate-900 mt-0.5">
@@ -179,13 +179,13 @@ export default function ProjectsView() {
                   </div>
                   <div>
                     <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Received</span>
-                    <div className="text-sm font-bold text-slate-900 mt-0.5">
+                    <div className="text-sm font-bold text-amber-700 mt-0.5">
                       PKR {project.paidAmount.toLocaleString()}
                     </div>
                   </div>
                   <div>
                     <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Balance</span>
-                    <div className={`text-sm font-bold mt-0.5 ${isFullyPaid ? 'text-slate-500' : 'text-blue-700'}`}>
+                    <div className={`text-sm font-bold mt-0.5 ${isFullyPaid ? 'text-slate-500' : 'text-slate-900'}`}>
                       {isFullyPaid ? 'Settled ✓' : `PKR ${balance.toLocaleString()}`}
                     </div>
                   </div>
@@ -193,7 +193,7 @@ export default function ProjectsView() {
                   {isLeader && !isFullyPaid && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="btn-primary text-xs py-1.5 px-3"
+                      className="btn-gold text-xs py-1.5 px-3"
                     >
                       + Pay
                     </button>
@@ -213,9 +213,9 @@ export default function ProjectsView() {
                       step="5"
                       value={project.progressPercentage}
                       onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                      className="flex-1 max-w-sm h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                      className="flex-1 max-w-sm h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
                     />
-                    <span className="text-xs font-mono font-bold text-blue-600">
+                    <span className="text-xs font-mono font-bold text-amber-700">
                       {project.progressPercentage}%
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export default function ProjectsView() {
                   </div>
                 </div>
 
-                {/* Clean Milestone Checklist (No ugly line-through, refined 2-color styling) */}
+                {/* Milestone Checklist (Gold & Silver Accents) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                   {project.milestones.map((m) => (
                     <div
@@ -233,13 +233,15 @@ export default function ProjectsView() {
                       onClick={() => toggleMilestone(project.id, m.id)}
                       className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-colors ${
                         m.completed 
-                          ? 'bg-slate-50/80 border-slate-200 text-slate-800' 
+                          ? 'bg-amber-50/40 border-amber-200/80 text-slate-800' 
                           : 'bg-white border-slate-200/80 text-slate-700 hover:bg-slate-50'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <span className={`w-4 h-4 rounded-md flex items-center justify-center text-[10px] font-bold shrink-0 transition-colors ${
-                          m.completed ? 'bg-blue-600 text-white' : 'border border-slate-300'
+                          m.completed 
+                            ? 'bg-gradient-to-tr from-[#cca43b] to-[#d4af37] text-white shadow-xs' 
+                            : 'border border-slate-300'
                         }`}>
                           {m.completed && '✓'}
                         </span>
@@ -274,20 +276,20 @@ export default function ProjectsView() {
                   step="5000"
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(Number(e.target.value))}
-                  className="w-full text-sm font-bold border border-slate-200 rounded-xl px-3.5 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-600"
+                  className="w-full text-sm font-bold border border-slate-200 rounded-xl px-3.5 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:border-amber-500"
                 />
               </div>
 
               <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
                   onClick={() => setShowPaymentModal(null)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleAddPayment(showPaymentModal)}
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Confirm Payment
                 </button>
@@ -314,7 +316,7 @@ export default function ProjectsView() {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="e.g. Apex Freight ERP Portal"
-                  className="w-full text-xs border border-slate-200 rounded-xl px-3.5 py-2 bg-slate-50 focus:bg-white"
+                  className="w-full text-xs border border-slate-200 rounded-xl px-3.5 py-2 bg-slate-50 focus:bg-white focus:border-amber-500"
                   required
                 />
               </div>
@@ -407,13 +409,13 @@ export default function ProjectsView() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Create Project
                 </button>

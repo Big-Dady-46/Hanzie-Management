@@ -100,7 +100,7 @@ export default function TasksView() {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="btn-primary"
+            className="btn-gold"
           >
             <Plus className="w-4 h-4" />
             <span>Create Task</span>
@@ -116,7 +116,7 @@ export default function TasksView() {
           <select
             value={projectFilter}
             onChange={(e) => setProjectFilter(e.target.value)}
-            className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-medium focus:outline-none focus:border-blue-600"
+            className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-medium focus:outline-none focus:border-amber-500"
           >
             <option value="ALL">All Projects ({tasks.length})</option>
             {projects.map(p => (
@@ -139,7 +139,7 @@ export default function TasksView() {
               <div key={col.id} className="clean-card p-4 space-y-3 bg-slate-50/50">
                 <div className="flex items-center justify-between pb-2.5 border-b border-slate-200">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-600" />
+                    <span className="w-2 h-2 rounded-full bg-amber-500" />
                     <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">{col.label}</span>
                   </div>
                   <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-700">
@@ -151,11 +151,11 @@ export default function TasksView() {
                   {colTasks.map((task) => (
                     <div
                       key={task.id}
-                      className="bg-white rounded-xl p-3.5 border border-slate-200/90 hover:border-slate-300 shadow-xs transition-all space-y-2.5"
+                      className="bg-white rounded-xl p-3.5 border border-slate-200/90 hover:border-amber-300 shadow-xs transition-all space-y-2.5"
                     >
                       <div>
                         <div className="flex items-center justify-between gap-1 mb-1.5">
-                          <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded truncate max-w-[140px]">
+                          <span className="text-[10px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded truncate max-w-[140px]">
                             {task.projectName}
                           </span>
                           <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded uppercase bg-slate-100 text-slate-600">
@@ -175,13 +175,13 @@ export default function TasksView() {
                         <span className="font-mono text-slate-400 text-[10px]">{task.dueDate}</span>
                       </div>
 
-                      {/* Clean Status Selector (No cut off text) */}
+                      {/* Clean Status Selector */}
                       <div className="pt-1 flex items-center justify-between gap-2">
                         <span className="text-[10px] font-medium text-slate-400">Status:</span>
                         <select
                           value={task.status}
                           onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
-                          className="text-[11px] font-semibold bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-700 focus:outline-none focus:border-blue-600 cursor-pointer"
+                          className="text-[11px] font-semibold bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
                         >
                           <option value="todo">To Do</option>
                           <option value="in_progress">In Progress</option>
@@ -222,7 +222,7 @@ export default function TasksView() {
               {filteredTasks.map((t) => (
                 <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                   <td className="py-3 pl-2 font-medium text-slate-900 text-xs">{t.title}</td>
-                  <td className="py-3 text-blue-600 font-medium">{t.projectName}</td>
+                  <td className="py-3 text-amber-700 font-medium">{t.projectName}</td>
                   <td className="py-3 text-slate-700">{t.assignedToName}</td>
                   <td className="py-3 capitalize text-slate-600">{t.priority}</td>
                   <td className="py-3 text-slate-400 font-mono text-[11px]">{t.dueDate}</td>
@@ -260,7 +260,7 @@ export default function TasksView() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Integrate Stripe Payment Webhooks"
-                  className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white"
+                  className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white focus:border-amber-500"
                   required
                 />
               </div>
@@ -272,7 +272,7 @@ export default function TasksView() {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Technical details, acceptance criteria..."
                   rows={2}
-                  className="w-full text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:bg-white"
+                  className="w-full text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:bg-white focus:border-amber-500"
                 />
               </div>
 
@@ -334,13 +334,13 @@ export default function TasksView() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="btn-light"
+                  className="btn-silver"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-gold"
                 >
                   Create Task
                 </button>

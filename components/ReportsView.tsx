@@ -51,7 +51,7 @@ export default function ReportsView() {
               value={searchUser}
               onChange={(e) => setSearchUser(e.target.value)}
               placeholder="Search staff..."
-              className="text-xs pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:border-blue-600 font-medium"
+              className="text-xs pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:border-amber-500 font-medium"
             />
           </div>
 
@@ -68,7 +68,7 @@ export default function ReportsView() {
           {dateFilter && (
             <button
               onClick={() => setDateFilter('')}
-              className="text-xs font-semibold text-blue-600 hover:underline"
+              className="text-xs font-semibold text-amber-700 hover:text-amber-800 hover:underline"
             >
               Clear
             </button>
@@ -101,7 +101,7 @@ export default function ReportsView() {
 
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-md text-xs">
-                  <Star className="w-3.5 h-3.5 fill-blue-600 text-blue-600" />
+                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
                   <span className="font-bold text-slate-800">{report.rating || 5}.0</span>
                 </div>
 
@@ -136,7 +136,7 @@ export default function ReportsView() {
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 block">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 block">
                   Tomorrow's Plan
                 </span>
                 <p className="text-slate-800 leading-relaxed font-normal">
