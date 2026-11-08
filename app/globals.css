@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Syne:wght@600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Syne:wght@600;700;800;900&family=Cinzel:wght@700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -24,6 +24,16 @@ body, button, input, select, textarea {
 .font-syne {
   font-family: 'Syne', system-ui, sans-serif !important;
   letter-spacing: -0.02em;
+}
+
+/* Luxury Brand Logo Typography */
+.brand-logo-text {
+  font-family: 'Cinzel', serif !important;
+  letter-spacing: 0.08em;
+  font-weight: 900;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 45%, #b45309 85%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 body {
