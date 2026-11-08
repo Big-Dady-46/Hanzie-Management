@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
 import { 
   FolderKanban, Plus, DollarSign, Calendar, CheckCircle2, 
-  Clock, TrendingUp, Users, ChevronRight, X, Sparkles, Check
+  Clock, TrendingUp, Users, ChevronRight, X, Sparkles, Check,
+  Search, Filter, Layers, ArrowUpRight, ShieldCheck, Code2, Smartphone, Cpu, Laptop
 } from 'lucide-react';
 
 export default function ProjectsView() {
@@ -14,13 +15,16 @@ export default function ProjectsView() {
     updateProjectProgress, 
     recordProjectPayment, 
     toggleMilestone,
-    currentUser 
+    currentUser,
+    users
   } = useApp();
 
   const isLeader = currentUser.role === 'leader';
   const [showAddModal, setShowAddModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<number>(50000);
+  const [activeCategory, setActiveCategory] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [newName, setNewName] = useState('');
   const [newClientName, setNewClientName] = useState('');
@@ -34,6 +38,18 @@ export default function ProjectsView() {
   const totalBudget = projects.reduce((acc, p) => acc + p.totalBudget, 0);
   const totalPaid = projects.reduce((acc, p) => acc + p.paidAmount, 0);
   const totalBalance = totalBudget - totalPaid;
+  const overallCompletionRate = Math.round(
+    projects.reduce((acc, p) => acc + p.progressPercentage, 0) / (projects.length || 1)
+  );
+
+  const filteredProjects = projects.filter((p) => {
+    const matchesCategory = activeCategory === 'ALL' || p.category === activeCategory;
+    const matchesSearch = 
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,16 +81,30 @@ export default function ProjectsView() {
     setShowPaymentModal(null);
   };
 
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'Mobile App': return Smartphone;
+      case 'AI Integration': return Cpu;
+      case 'Web App': return Laptop;
+      default: return Code2;
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in duration-300">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-            Projects & Financial Ledger
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+              Projects & Commercial Portfolio
+            </h2>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full">
+              {projects.length} Contracts
+            </span>
+          </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            Software house contracts, milestones, and commercial payment accounts
+            Real-time delivery milestones, commercial payments, and client contract velocity
           </p>
         </div>
 
@@ -84,128 +114,223 @@ export default function ProjectsView() {
             className="btn-gold"
           >
             <Plus className="w-4 h-4" />
-            <span>Create Project</span>
+            <span>Create New Project</span>
           </button>
         )}
       </div>
 
-      {/* Top 3 Summary Cards (Luxury Gold & Silver System) */}
+      {/* Top 3 Luxury Metric Cards with Visual Progress Gauge */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-colors">
+        {/* Card 1: Total Pipeline Value */}
+        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-all">
           <div>
-            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
-              Total Pipeline Value
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+              Contract Pipeline
             </span>
             <div className="text-2xl font-bold text-slate-900 mt-2">
               PKR {totalBudget.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-400 mt-1">{projects.length} Active commercial contracts</p>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                Avg Velocity: {overallCompletionRate}%
+              </span>
+              <span className="text-xs text-slate-400">{projects.length} contracts</span>
+            </div>
           </div>
           <div className="icon-badge-gold">
             <DollarSign className="w-5 h-5 text-amber-700" />
           </div>
         </div>
 
-        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-colors">
+        {/* Card 2: Payments Cleared */}
+        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-all">
           <div>
-            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
-              Payments Cleared
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+              Cleared Revenue
             </span>
             <div className="text-2xl font-bold text-amber-700 mt-2">
               PKR {totalPaid.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              <span className="font-semibold text-amber-700">
+            <div className="mt-2 flex items-center gap-2">
+              <div className="w-24 bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div 
+                  className="bg-gradient-to-r from-amber-600 to-amber-400 h-2 rounded-full"
+                  style={{ width: `${Math.round((totalPaid / (totalBudget || 1)) * 100)}%` }}
+                />
+              </div>
+              <span className="text-xs font-bold text-amber-800">
                 {Math.round((totalPaid / (totalBudget || 1)) * 100)}%
-              </span> revenue collected
-            </p>
+              </span>
+            </div>
           </div>
           <div className="icon-badge-gold">
             <CheckCircle2 className="w-5 h-5 text-amber-700" />
           </div>
         </div>
 
-        <div className="clean-card p-6 flex items-start justify-between hover:border-slate-300 transition-colors">
+        {/* Card 3: Outstanding Receivables */}
+        <div className="clean-card p-6 flex items-start justify-between hover:border-slate-300 transition-all">
           <div>
-            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
-              Outstanding Balance
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+              Receivables Balance
             </span>
             <div className="text-2xl font-bold text-slate-900 mt-2">
               PKR {totalBalance.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-400 mt-1">Due across active deliverables</p>
+            <p className="text-xs text-slate-400 mt-2 flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-slate-400" />
+              <span>Pending release on milestone signoff</span>
+            </p>
           </div>
           <div className="icon-badge-silver">
-            <Clock className="w-5 h-5" />
+            <ShieldCheck className="w-5 h-5 text-slate-600" />
           </div>
         </div>
       </div>
 
-      {/* Project Cards */}
-      <div className="space-y-5">
-        {projects.map((project) => {
+      {/* Filter and Search Bar */}
+      <div className="clean-card p-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        {/* Category Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+          {[
+            { id: 'ALL', label: 'All Projects' },
+            { id: 'Custom Software', label: 'Custom Software' },
+            { id: 'Web App', label: 'Web Apps' },
+            { id: 'Mobile App', label: 'Mobile' },
+            { id: 'AI Integration', label: 'AI Integration' },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                activeCategory === cat.id
+                  ? 'bg-amber-50 text-amber-950 font-bold border border-amber-300 shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Search Input */}
+        <div className="relative w-full md:w-64">
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by name, client..."
+            className="w-full text-xs pl-8 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-amber-500 font-medium"
+          />
+        </div>
+      </div>
+
+      {/* Projects Creative Cards List */}
+      <div className="space-y-6">
+        {filteredProjects.map((project) => {
           const balance = project.totalBudget - project.paidAmount;
           const isFullyPaid = balance <= 0;
+          const paidPercentage = Math.round((project.paidAmount / project.totalBudget) * 100);
+          const CatIcon = getCategoryIcon(project.category);
+          const completedMilestones = project.milestones.filter(m => m.completed).length;
 
           return (
             <div 
               key={project.id}
-              className="clean-card p-6 hover:border-amber-200 transition-colors"
+              className="clean-card p-6 hover:border-amber-300 transition-all space-y-5 relative overflow-hidden"
             >
-              {/* Project Head & Ledger */}
-              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-5 border-b border-slate-100">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
-                      {project.category}
-                    </span>
-                    <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md capitalize">
-                      {project.status.replace('_', ' ')}
-                    </span>
+              {/* Top Accent Ribbon */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-300 to-slate-200" />
+
+              {/* Head Section: Title, Category Icon, Client, Financial Widget */}
+              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-4 border-b border-slate-100">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-50 to-amber-100/60 border border-amber-200/80 flex items-center justify-center shrink-0 shadow-xs">
+                    <CatIcon className="w-6 h-6 text-amber-700" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">{project.name}</h3>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed max-w-2xl">{project.description}</p>
-                  <p className="text-xs text-slate-500 mt-2">
-                    Client: <strong className="text-slate-800">{project.clientName}</strong> &bull; {project.clientEmail}
-                  </p>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
+                        {project.category}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md capitalize flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                        {project.status.replace('_', ' ')}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 tracking-tight">{project.name}</h3>
+                    <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">{project.description}</p>
+                    
+                    <div className="flex flex-wrap items-center gap-4 mt-3 text-xs text-slate-500">
+                      <span>Client: <strong className="text-slate-800">{project.clientName}</strong> ({project.clientEmail})</span>
+                      <span>&bull;</span>
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                        Target: <strong className="text-slate-800 font-mono">{project.deadline}</strong>
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-slate-50/80 border border-slate-200 p-4 rounded-xl flex items-center gap-6 justify-between min-w-[320px]">
-                  <div>
-                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Budget</span>
-                    <div className="text-sm font-bold text-slate-900 mt-0.5">
-                      PKR {project.totalBudget.toLocaleString()}
+                {/* Creative Financial & Payment Ledger Pill */}
+                <div className="bg-slate-50/90 border border-slate-200/80 p-4 rounded-2xl flex flex-col gap-3 min-w-[320px]">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Contract</span>
+                      <div className="text-base font-extrabold text-slate-900">
+                        PKR {project.totalBudget.toLocaleString()}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700">Received</span>
+                      <div className="text-base font-extrabold text-amber-700">
+                        PKR {project.paidAmount.toLocaleString()}
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Received</span>
-                    <div className="text-sm font-bold text-amber-700 mt-0.5">
-                      PKR {project.paidAmount.toLocaleString()}
+
+                  {/* Financial Bar */}
+                  <div className="space-y-1">
+                    <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                      <div 
+                        className="bg-gradient-to-r from-amber-600 to-amber-400 h-2 rounded-full transition-all duration-500"
+                        style={{ width: `${paidPercentage}%` }}
+                      />
                     </div>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Balance</span>
-                    <div className={`text-sm font-bold mt-0.5 ${isFullyPaid ? 'text-slate-500' : 'text-slate-900'}`}>
-                      {isFullyPaid ? 'Settled ✓' : `PKR ${balance.toLocaleString()}`}
+                    <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                      <span>{paidPercentage}% Paid</span>
+                      <span>
+                        {isFullyPaid ? (
+                          <strong className="text-emerald-700 font-bold">Paid in Full ✓</strong>
+                        ) : (
+                          <span>Balance: <strong className="text-slate-700">PKR {balance.toLocaleString()}</strong></span>
+                        )}
+                      </span>
                     </div>
                   </div>
 
                   {isLeader && !isFullyPaid && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="btn-gold text-xs py-1.5 px-3"
+                      className="w-full btn-gold text-xs py-1.5"
                     >
-                      + Pay
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Record Payment</span>
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Progress Slider & Milestones */}
-              <div className="pt-5 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* Interactive Velocity & Step Milestones Roadmap */}
+              <div className="pt-2 space-y-4">
+                {/* Velocity Bar with Quick Adjust Buttons */}
+                <div className="bg-slate-50/60 border border-slate-200/60 p-3.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3 flex-1">
-                    <span className="text-xs font-semibold text-slate-700">Velocity:</span>
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                      <TrendingUp className="w-4 h-4 text-amber-600" />
+                      <span>Sprint Velocity:</span>
+                    </div>
                     <input
                       type="range"
                       min="0"
@@ -213,43 +338,79 @@ export default function ProjectsView() {
                       step="5"
                       value={project.progressPercentage}
                       onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                      className="flex-1 max-w-sm h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
+                      className="flex-1 max-w-sm h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
                     />
-                    <span className="text-xs font-mono font-bold text-amber-700">
+                    <span className="text-sm font-mono font-black text-amber-800 px-2 py-0.5 rounded bg-amber-50 border border-amber-200">
                       {project.progressPercentage}%
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-500">
-                    Handover Deadline: <strong className="text-slate-800">{project.deadline}</strong>
+                  {/* Quick percentage adjustment pills */}
+                  <div className="flex items-center gap-1.5">
+                    {[25, 50, 75, 100].map((val) => (
+                      <button
+                        key={val}
+                        onClick={() => updateProjectProgress(project.id, val)}
+                        className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all ${
+                          project.progressPercentage === val
+                            ? 'bg-amber-600 text-white border-amber-600'
+                            : 'bg-white border-slate-200 text-slate-600 hover:border-amber-400'
+                        }`}
+                      >
+                        {val}%
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                {/* Milestone Checklist (Gold & Silver Accents) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                  {project.milestones.map((m) => (
+                {/* Milestone Roadmap Title */}
+                <div className="flex items-center justify-between pt-1">
+                  <div className="flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-amber-600" />
+                    <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                      Milestone Roadmap Checklist
+                    </h4>
+                  </div>
+                  <span className="text-xs font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
+                    {completedMilestones} of {project.milestones.length} Completed
+                  </span>
+                </div>
+
+                {/* Milestone Step Nodes Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {project.milestones.map((milestone, idx) => (
                     <div
-                      key={m.id}
-                      onClick={() => toggleMilestone(project.id, m.id)}
-                      className={`cursor-pointer p-3 rounded-xl border flex items-center justify-between transition-colors ${
-                        m.completed 
-                          ? 'bg-amber-50/40 border-amber-200/80 text-slate-800' 
-                          : 'bg-white border-slate-200/80 text-slate-700 hover:bg-slate-50'
+                      key={milestone.id}
+                      onClick={() => toggleMilestone(project.id, milestone.id)}
+                      className={`cursor-pointer p-3.5 rounded-xl border flex items-center justify-between transition-all select-none ${
+                        milestone.completed 
+                          ? 'bg-amber-50/40 border-amber-300 text-slate-900 shadow-xs' 
+                          : 'bg-white border-slate-200/90 text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <span className={`w-4 h-4 rounded-md flex items-center justify-center text-[10px] font-bold shrink-0 transition-colors ${
-                          m.completed 
-                            ? 'bg-gradient-to-tr from-[#cca43b] to-[#d4af37] text-white shadow-xs' 
-                            : 'border border-slate-300'
+                        <div className={`w-5 h-5 rounded-lg flex items-center justify-center text-[10px] font-black shrink-0 transition-colors ${
+                          milestone.completed 
+                            ? 'bg-gradient-to-tr from-amber-600 to-amber-400 text-white shadow-xs' 
+                            : 'border border-slate-300 text-slate-400 bg-slate-50'
                         }`}>
-                          {m.completed && '✓'}
-                        </span>
-                        <span className="text-xs font-medium truncate">
-                          {m.title}
-                        </span>
+                          {milestone.completed ? '✓' : idx + 1}
+                        </div>
+                        <div className="min-w-0">
+                          <p className={`text-xs font-semibold truncate ${milestone.completed ? 'text-slate-900' : 'text-slate-700'}`}>
+                            {milestone.title}
+                          </p>
+                          <span className="text-[10px] font-mono text-slate-400">Due: {milestone.dueDate}</span>
+                        </div>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400 shrink-0 ml-3">{m.dueDate}</span>
+
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0 ml-2 ${
+                        milestone.completed 
+                          ? 'bg-amber-100/80 text-amber-900 border border-amber-200' 
+                          : 'bg-slate-100 text-slate-500'
+                      }`}>
+                        {milestone.completed ? 'Delivered ✓' : 'In Progress'}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -257,6 +418,14 @@ export default function ProjectsView() {
             </div>
           );
         })}
+
+        {filteredProjects.length === 0 && (
+          <div className="clean-card p-12 text-center">
+            <FolderKanban className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-slate-700">No projects match your filter.</p>
+            <p className="text-xs text-slate-400 mt-1">Try changing the category or search keyword.</p>
+          </div>
+        )}
       </div>
 
       {/* Record Payment Modal */}
