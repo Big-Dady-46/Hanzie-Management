@@ -3,19 +3,16 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
 import { 
-  CheckSquare, Plus, Clock, User, AlertCircle, 
-  ChevronRight, Sparkles, Filter, Check, X, Layers,
-  Flame, Zap, Compass, CheckCircle2, Search, ArrowRight,
-  Kanban as KanbanIcon, ListFilter, Calendar
+  Plus, Calendar, Sparkles, Filter, Check, X,
+  Flame, Zap, Compass, Search
 } from 'lucide-react';
-import { TaskStatus, TaskPriority, Task } from '@/lib/types';
+import { TaskStatus, TaskPriority } from '@/lib/types';
 
 export default function TasksView() {
   const { 
     tasks, 
     addTask, 
     updateTaskStatus, 
-    updateTaskProgress, 
     projects, 
     users, 
     currentUser 
@@ -24,8 +21,6 @@ export default function TasksView() {
   const [viewMode, setViewMode] = useState<'kanban' | 'list'>('kanban');
   const [showAddModal, setShowAddModal] = useState(false);
   const [projectFilter, setProjectFilter] = useState('ALL');
-  const [priorityFilter, setPriorityFilter] = useState('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -34,20 +29,16 @@ export default function TasksView() {
   const [priority, setPriority] = useState<TaskPriority>('medium');
   const [dueDate, setDueDate] = useState('2026-11-20');
 
-  const filteredTasks = tasks.filter((t) => {
-    const matchesProj = projectFilter === 'ALL' || t.projectId === projectFilter;
-    const matchesPriority = priorityFilter === 'ALL' || t.priority === priorityFilter;
-    const matchesSearch = 
-      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.projectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.assignedToName.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesProj && matchesPriority && matchesSearch;
-  });
+  const filteredTasks = projectFilter === 'ALL'
+    ? tasks
+    : tasks.filter(t => t.projectId === projectFilter);
 
-  const completedCount = tasks.filter(t => t.status === 'completed').length;
-  const inProgressCount = tasks.filter(t => t.status === 'in_progress').length;
-  const reviewCount = tasks.filter(t => t.status === 'review').length;
-  const todoCount = tasks.filter(t => t.status === 'todo').length;
+  const columns: { id: TaskStatus; label: string }[] = [
+    { id: 'todo', label: 'To Do' },
+    { id: 'in_progress', label: 'In Progress' },
+    { id: 'review', label: 'Revisions' },
+    { id: 'completed', label: 'Completed' },
+  ];
 
   const handleCreateTask = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,80 +64,55 @@ export default function TasksView() {
     setShowAddModal(false);
   };
 
-  const columns: { id: TaskStatus; label: string; count: number; accent: string }[] = [
-    { id: 'todo', label: 'To Do', count: todoCount, accent: 'border-slate-300' },
-    { id: 'in_progress', label: 'In Progress', count: inProgressCount, accent: 'border-amber-400' },
-    { id: 'review', label: 'Revisions & QA', count: reviewCount, accent: 'border-slate-400' },
-    { id: 'completed', label: 'Delivered', count: completedCount, accent: 'border-amber-500' },
-  ];
+  const formatDueDate = (dateStr: string) => {
+    if (!dateStr) return '';
+    try {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const m = parseInt(parts[1], 10) - 1;
+        return `${months[m]} ${parseInt(parts[2], 10)}`;
+      }
+    } catch {}
+    return dateStr;
+  };
 
-  const getPriorityBadge = (p: TaskPriority) => {
+  const getPriorityStyle = (p: TaskPriority) => {
     switch (p) {
       case 'urgent':
-        return (
-          <span className="text-[10px] font-bold text-rose-800 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-md flex items-center gap-1">
-            <Flame className="w-3 h-3 text-rose-600" /> Urgent
-          </span>
-        );
+        return 'text-rose-700 bg-rose-50 border-rose-200';
       case 'high':
-        return (
-          <span className="text-[10px] font-bold text-amber-900 bg-amber-50 border border-amber-300 px-2 py-0.5 rounded-md flex items-center gap-1">
-            <Zap className="w-3 h-3 text-amber-600" /> High
-          </span>
-        );
-      case 'medium':
-        return (
-          <span className="text-[10px] font-semibold text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md flex items-center gap-1">
-            <Compass className="w-3 h-3 text-slate-500" /> Medium
-          </span>
-        );
+        return 'text-amber-800 bg-amber-50 border-amber-200';
       default:
-        return (
-          <span className="text-[10px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md">
-            Low
-          </span>
-        );
+        return 'text-slate-600 bg-slate-50 border-slate-200';
     }
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
-      {/* Header & Sprint Banner */}
+    <div className="space-y-6">
+      {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-              Sprint Tasks & Engineering Board
-            </h2>
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full">
-              Sprint 24 Active
-            </span>
-          </div>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+            Sprint Tasks
+          </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Agile Kanban board, tickets management, code reviews, and developer handoffs
+            Manage agile tickets, development velocity, and task completion
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
-          {/* View Toggle */}
-          <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
-            <button
-              onClick={() => setViewMode('kanban')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
-                viewMode === 'kanban' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              Kanban
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
-                viewMode === 'list' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              List
-            </button>
-          </div>
+        <div className="flex items-center gap-3">
+          {/* Project Filter */}
+          <select
+            value={projectFilter}
+            onChange={(e) => setProjectFilter(e.target.value)}
+            className="text-xs font-semibold bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer shadow-2xs"
+          >
+            <option value="ALL">All Projects ({tasks.length})</option>
+            {projects.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
 
           <button
             onClick={() => setShowAddModal(true)}
@@ -158,266 +124,109 @@ export default function TasksView() {
         </div>
       </div>
 
-      {/* Sprint Health & Velocity Summary */}
-      <div className="clean-card p-4 bg-gradient-to-r from-amber-50/50 via-white to-slate-50 border-amber-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-300 flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5 text-amber-700" />
-          </div>
-          <div>
-            <h4 className="text-xs font-bold text-slate-900">Sprint 24 Completion Gauge</h4>
-            <p className="text-[11px] text-slate-500">
-              {completedCount} of {tasks.length} total tasks delivered across current milestones
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-36 bg-slate-200 rounded-full h-2.5 overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-amber-600 to-amber-400 h-2.5 rounded-full transition-all duration-500"
-                style={{ width: `${Math.round((completedCount / (tasks.length || 1)) * 100)}%` }}
-              />
-            </div>
-            <span className="text-xs font-mono font-bold text-amber-800">
-              {Math.round((completedCount / (tasks.length || 1)) * 100)}%
-            </span>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-3 text-xs text-slate-500 border-l border-slate-200 pl-4">
-            <span>In Progress: <strong className="text-slate-800">{inProgressCount}</strong></span>
-            <span>&bull;</span>
-            <span>QA Review: <strong className="text-slate-800">{reviewCount}</strong></span>
-          </div>
-        </div>
-      </div>
-
-      {/* Creative Filter Bar */}
-      <div className="clean-card p-3.5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Project Filter */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">Project:</span>
-            <select
-              value={projectFilter}
-              onChange={(e) => setProjectFilter(e.target.value)}
-              className="text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-slate-700 font-medium focus:outline-none focus:border-amber-500 cursor-pointer"
-            >
-              <option value="ALL">All Projects ({tasks.length})</option>
-              {projects.map(p => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Priority Filter */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">Priority:</span>
-            <select
-              value={priorityFilter}
-              onChange={(e) => setPriorityFilter(e.target.value)}
-              className="text-xs bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-slate-700 font-medium focus:outline-none focus:border-amber-500 cursor-pointer"
-            >
-              <option value="ALL">All Priorities</option>
-              <option value="urgent">🔥 Urgent Only</option>
-              <option value="high">⚡ High</option>
-              <option value="medium">✦ Medium</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Search */}
-        <div className="relative w-full sm:w-60">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tasks or dev..."
-            className="w-full text-xs pl-8 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:border-amber-500 font-medium"
-          />
-        </div>
-      </div>
-
       {/* KANBAN BOARD */}
-      {viewMode === 'kanban' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
-          {columns.map((col) => {
-            const colTasks = filteredTasks.filter(t => t.status === col.id);
-            return (
-              <div 
-                key={col.id} 
-                className="clean-card p-4 space-y-3.5 bg-slate-50/60 border-t-2"
-                style={{ borderTopColor: col.id === 'in_progress' ? '#d4af37' : col.id === 'completed' ? '#b45309' : '#cbd5e1' }}
-              >
-                {/* Column Header */}
-                <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
-                  <div className="flex items-center gap-2">
-                    <span className={`w-2 h-2 rounded-full ${col.id === 'in_progress' ? 'bg-amber-500 animate-pulse' : col.id === 'completed' ? 'bg-amber-700' : 'bg-slate-400'}`} />
-                    <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                      {col.label}
-                    </span>
-                  </div>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-700 shadow-2xs">
-                    {colTasks.length}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-start">
+        {columns.map((col) => {
+          const colTasks = filteredTasks.filter(t => t.status === col.id);
+          const isProgress = col.id === 'in_progress';
+          const isDone = col.id === 'completed';
+
+          return (
+            <div 
+              key={col.id} 
+              className="clean-card p-4 space-y-4 bg-slate-50/70 border border-slate-200/90"
+            >
+              {/* Column Title & Count */}
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2">
+                  <span className={`w-2.5 h-2.5 rounded-full ${
+                    isProgress ? 'bg-amber-500 animate-pulse' : isDone ? 'bg-amber-600' : 'bg-slate-400'
+                  }`} />
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                    {col.label}
                   </span>
                 </div>
-
-                {/* Tasks Column List */}
-                <div className="space-y-3 min-h-[400px]">
-                  {colTasks.map((task) => (
-                    <div
-                      key={task.id}
-                      className="bg-white rounded-2xl p-4 border border-slate-200/90 hover:border-amber-300 hover:shadow-soft transition-all space-y-3 group"
-                    >
-                      {/* Project Tag & Priority */}
-                      <div className="flex items-center justify-between gap-1">
-                        <span className="text-[10px] font-bold text-amber-900 bg-amber-50/90 border border-amber-200 px-2 py-0.5 rounded-md truncate max-w-[130px]">
-                          {task.projectName}
-                        </span>
-                        {getPriorityBadge(task.priority)}
-                      </div>
-
-                      {/* Title & Description */}
-                      <div>
-                        <h4 className="text-xs font-bold text-slate-900 leading-snug group-hover:text-amber-900 transition-colors">
-                          {task.title}
-                        </h4>
-                        {task.description && (
-                          <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed font-normal">
-                            {task.description}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Assignee & Due Date Pill */}
-                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                        <div className="flex items-center gap-2">
-                          <div className="w-5 h-5 rounded-full bg-slate-900 text-amber-300 font-bold text-[9px] flex items-center justify-center">
-                            {task.assignedToName.charAt(0)}
-                          </div>
-                          <span className="font-semibold text-slate-700">{task.assignedToName}</span>
-                        </div>
-                        <span className="font-mono text-slate-400 text-[10px] flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {task.dueDate}
-                        </span>
-                      </div>
-
-                      {/* Interactive 2D Tactile Status Move Pills */}
-                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-1.5">
-                        <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
-                          Move:
-                        </span>
-                        <div className="flex items-center gap-1">
-                          {task.status !== 'todo' && (
-                            <button
-                              onClick={() => updateTaskStatus(task.id, 'todo')}
-                              className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200"
-                              title="Move to To Do"
-                            >
-                              Todo
-                            </button>
-                          )}
-                          {task.status !== 'in_progress' && (
-                            <button
-                              onClick={() => updateTaskStatus(task.id, 'in_progress')}
-                              className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100"
-                              title="Move to In Progress"
-                            >
-                              In Prog
-                            </button>
-                          )}
-                          {task.status !== 'review' && (
-                            <button
-                              onClick={() => updateTaskStatus(task.id, 'review')}
-                              className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 hover:bg-slate-200"
-                              title="Move to Revisions"
-                            >
-                              Review
-                            </button>
-                          )}
-                          {task.status !== 'completed' && (
-                            <button
-                              onClick={() => updateTaskStatus(task.id, 'completed')}
-                              className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-600 text-white hover:bg-amber-700"
-                              title="Mark as Completed"
-                            >
-                              Done ✓
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-
-                  {colTasks.length === 0 && (
-                    <div className="text-center py-12 text-xs text-slate-400 font-normal border-2 border-dashed border-slate-200 rounded-2xl">
-                      No tickets
-                    </div>
-                  )}
-                </div>
+                <span className="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded-full shadow-2xs">
+                  {colTasks.length}
+                </span>
               </div>
-            );
-          })}
-        </div>
-      )}
 
-      {/* LIST VIEW */}
-      {viewMode === 'list' && (
-        <div className="clean-card p-6 overflow-x-auto">
-          <table className="w-full text-left text-xs font-normal">
-            <thead>
-              <tr className="border-b border-slate-200 text-slate-400 pb-3">
-                <th className="pb-3 pl-2 font-semibold uppercase tracking-wider text-[10px]">Task</th>
-                <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Project</th>
-                <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Assignee</th>
-                <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Priority</th>
-                <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Target Date</th>
-                <th className="pb-3 pr-2 text-right font-semibold uppercase tracking-wider text-[10px]">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filteredTasks.map((t) => (
-                <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
-                  <td className="py-3 pl-2">
-                    <div className="font-bold text-slate-900 text-xs">{t.title}</div>
-                    {t.description && <p className="text-[11px] text-slate-400 line-clamp-1">{t.description}</p>}
-                  </td>
-                  <td className="py-3">
-                    <span className="text-[10px] font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-                      {t.projectName}
-                    </span>
-                  </td>
-                  <td className="py-3 text-slate-700 font-medium">{t.assignedToName}</td>
-                  <td className="py-3">{getPriorityBadge(t.priority)}</td>
-                  <td className="py-3 text-slate-400 font-mono text-[11px]">{t.dueDate}</td>
-                  <td className="py-3 pr-2 text-right">
-                    <select
-                      value={t.status}
-                      onChange={(e) => updateTaskStatus(t.id, e.target.value as any)}
-                      className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
-                    >
-                      <option value="todo">To Do</option>
-                      <option value="in_progress">In Progress</option>
-                      <option value="review">Revisions</option>
-                      <option value="completed">Completed ✓</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              {/* Tasks List */}
+              <div className="space-y-3 min-h-[350px]">
+                {colTasks.map((task) => (
+                  <div
+                    key={task.id}
+                    className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs hover:border-amber-300 hover:shadow-soft transition-all space-y-3"
+                  >
+                    {/* Top Row: Project & Priority */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md truncate max-w-[140px]">
+                        {task.projectName}
+                      </span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded border capitalize shrink-0 ${getPriorityStyle(task.priority)}`}>
+                        {task.priority}
+                      </span>
+                    </div>
+
+                    {/* Task Title */}
+                    <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                      {task.title}
+                    </h4>
+
+                    {/* Description (clean & light) */}
+                    {task.description && (
+                      <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                        {task.description}
+                      </p>
+                    )}
+
+                    {/* Bottom Row: Assignee, Date, Status Selector */}
+                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-6 h-6 rounded-full bg-slate-900 text-amber-300 font-bold text-[10px] flex items-center justify-center shrink-0 border border-amber-500/30">
+                          {task.assignedToName.charAt(0)}
+                        </div>
+                        <span className="text-xs font-medium text-slate-700 truncate">{task.assignedToName}</span>
+                      </div>
+
+                      <span className="text-[11px] font-mono text-slate-400 shrink-0 whitespace-nowrap">
+                        {formatDueDate(task.dueDate)}
+                      </span>
+                    </div>
+
+                    {/* Clean Status Pill Switcher */}
+                    <div className="pt-1 flex items-center justify-between text-xs">
+                      <span className="text-[10px] text-slate-400 font-medium">Status:</span>
+                      <select
+                        value={task.status}
+                        onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
+                        className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
+                      >
+                        <option value="todo">To Do</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="review">Revisions</option>
+                        <option value="completed">Completed ✓</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+
+                {colTasks.length === 0 && (
+                  <div className="text-center py-12 text-xs text-slate-400 font-medium border border-dashed border-slate-200 rounded-2xl">
+                    No tasks
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
       {/* Create Task Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200">
-            <h3 className="text-base font-bold text-slate-900 mb-1">Create Sprint Ticket</h3>
+            <h3 className="text-base font-bold text-slate-900 mb-1">Create Sprint Task</h3>
             <p className="text-xs text-slate-500 mb-4">
               Add task to engineering sprint backlog and assign to staff.
             </p>
@@ -440,7 +249,7 @@ export default function TasksView() {
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Technical details, acceptance criteria..."
+                  placeholder="Task details and acceptance criteria..."
                   rows={2}
                   className="w-full text-xs border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:bg-white focus:border-amber-500"
                 />
@@ -495,7 +304,7 @@ export default function TasksView() {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-2.5 py-2 bg-slate-50"
+                    className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
                   />
                 </div>
               </div>
