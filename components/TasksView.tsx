@@ -21,6 +21,7 @@ export default function TasksView() {
   const [viewMode, setViewMode] = useState<'kanban' | 'list'>('kanban');
   const [showAddModal, setShowAddModal] = useState(false);
   const [projectFilter, setProjectFilter] = useState('ALL');
+  const [openStatusDropdownId, setOpenStatusDropdownId] = useState<string | null>(null);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -194,21 +195,41 @@ export default function TasksView() {
                       </span>
                     </div>
 
-                    {/* Custom Styled Clean Status Switcher */}
-                    <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-100 mt-2">
+                    {/* Custom Interactive Dropdown Menu */}
+                    <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-100 mt-2 relative">
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</span>
                       <div className="relative">
-                        <select
-                          value={task.status}
-                          onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
-                          className="appearance-none text-[11px] font-bold bg-white border border-slate-200 hover:border-amber-300 rounded-lg pl-3 pr-7 py-1 text-slate-800 shadow-2xs focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer transition-colors"
+                        <button
+                          type="button"
+                          onClick={() => setOpenStatusDropdownId(openStatusDropdownId === task.id ? null : task.id)}
+                          className="flex items-center gap-1.5 text-[11px] font-bold bg-slate-50 hover:bg-slate-100/80 px-2.5 py-1 rounded-lg text-slate-800 transition-all select-none"
                         >
-                          <option value="todo">To Do</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="review">Revisions</option>
-                          <option value="completed">Completed ✓</option>
-                        </select>
-                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          <span>{columns.find(c => c.id === task.status)?.label || task.status}</span>
+                          <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${openStatusDropdownId === task.id ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {openStatusDropdownId === task.id && (
+                          <div className="absolute right-0 bottom-full mb-1 z-30 w-36 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/90 py-1 animate-in fade-in zoom-in-95 duration-100">
+                            {columns.map((col) => (
+                              <button
+                                key={col.id}
+                                type="button"
+                                onClick={() => {
+                                  updateTaskStatus(task.id, col.id);
+                                  setOpenStatusDropdownId(null);
+                                }}
+                                className={`w-full text-left px-3 py-1.5 text-xs font-semibold flex items-center justify-between transition-colors ${
+                                  task.status === col.id 
+                                    ? 'bg-amber-50 text-amber-900 font-bold' 
+                                    : 'text-slate-700 hover:bg-slate-50'
+                                }`}
+                              >
+                                <span>{col.label}</span>
+                                {task.status === col.id && <span className="text-amber-600 text-xs font-bold">✓</span>}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -167,45 +167,45 @@ export default function TeamView() {
           return (
             <div
               key={staff.id}
-              className="clean-card p-5 space-y-4 hover:border-amber-300 transition-colors"
+              className="clean-card p-5 space-y-4 hover:border-amber-300 transition-all hover:shadow-md"
             >
               {/* Profile Head */}
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-2xl bg-slate-900 text-amber-300 font-bold text-sm flex items-center justify-center border border-amber-500/30">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-full bg-slate-900 text-amber-300 font-bold text-sm flex items-center justify-center border border-amber-500/30 shrink-0">
                     {staff.name.charAt(0)}
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900">{staff.name}</h4>
-                    <p className="text-xs text-slate-400 capitalize">{staff.role.replace('_', ' ')}</p>
+                  <div className="min-w-0">
+                    <h4 className="text-sm font-bold text-slate-900 truncate">{staff.name}</h4>
+                    <p className="text-xs text-slate-400 capitalize truncate">{staff.role.replace('_', ' ')}</p>
                   </div>
                 </div>
 
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full capitalize ${
+                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full capitalize shrink-0 whitespace-nowrap text-center ${
                   isWorking 
                     ? 'bg-amber-50 text-amber-950 border border-amber-300' 
                     : isOnBreak 
-                    ? 'bg-amber-100/60 text-amber-900' 
-                    : 'bg-slate-100 text-slate-500'
+                    ? 'bg-amber-100/70 text-amber-900 border border-amber-200' 
+                    : 'bg-slate-100 text-slate-600'
                 }`}>
                   {staff.workStatus.replace('_', ' ')}
                 </span>
               </div>
 
               {/* Department & Contact */}
-              <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5 border border-slate-200/60">
-                <div className="flex justify-between text-slate-500">
-                  <span>Department:</span>
-                  <span className="font-semibold text-slate-700">{staff.department}</span>
+              <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-2 border border-slate-200/60">
+                <div className="flex items-center justify-between gap-2 text-slate-500">
+                  <span className="shrink-0">Department:</span>
+                  <span className="font-semibold text-slate-800 truncate text-right">{staff.department}</span>
                 </div>
-                <div className="flex justify-between text-slate-500">
-                  <span>Contact:</span>
-                  <span className="text-slate-700 truncate max-w-[140px]">{staff.email}</span>
+                <div className="flex items-center justify-between gap-2 text-slate-500">
+                  <span className="shrink-0">Contact:</span>
+                  <span className="text-slate-700 truncate text-right max-w-[160px] font-mono text-[11px]">{staff.email}</span>
                 </div>
                 {isLeader && (
-                  <div className="flex justify-between text-slate-500 pt-1 border-t border-slate-200">
-                    <span>Salary:</span>
-                    <span className="font-bold text-slate-900">
+                  <div className="flex items-center justify-between gap-2 text-slate-500 pt-2 border-t border-slate-200/80">
+                    <span className="shrink-0">Salary:</span>
+                    <span className="font-bold text-slate-900 text-right">
                       {staff.salary ? `PKR ${staff.salary.toLocaleString()}` : 'N/A'}
                     </span>
                   </div>
