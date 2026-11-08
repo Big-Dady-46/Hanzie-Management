@@ -71,44 +71,44 @@ export default function StaffDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Shift Card */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+      {/* Shift Controller Card */}
+      <div className="clean-card p-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 bg-[#f4f2ff] px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-md">
                 {currentUser.department}
               </span>
-              <span className="text-xs text-slate-400 capitalize font-medium">
+              <span className="text-xs text-slate-400 capitalize">
                 Role: {currentUser.role.replace('_', ' ')}
               </span>
             </div>
-            <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
-              Hello, {currentUser.name}! 👋
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+              Hello, {currentUser.name}!
             </h2>
-            <p className="text-xs text-slate-400 mt-1 font-medium">
-              Mark your attendance (Hazari), update your tasks progress, and submit daily report on checkout.
+            <p className="text-xs text-slate-500 mt-0.5">
+              Track your shift time, update sprint tasks, and submit daily report on checkout.
             </p>
           </div>
 
-          {/* Hazari Controller */}
-          <div className="bg-[#f8fafc] border border-slate-100 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-5">
+          {/* Shift Timer & Actions */}
+          <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-5">
             <div className="text-center sm:text-left">
-              <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                <Clock className="w-3.5 h-3.5 text-indigo-500" />
-                <span>Shift Timer</span>
+              <div className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                <Clock className="w-3.5 h-3.5 text-blue-600" />
+                <span>Shift Duration</span>
               </div>
-              <div className="text-2xl font-bold font-mono text-slate-800 mt-1">
+              <div className="text-xl font-bold font-mono text-slate-900 mt-0.5">
                 {currentUser.workStatus === 'working' ? (
                   formatStopwatch(secondsElapsed > 0 ? secondsElapsed : 245 * 60)
                 ) : currentUser.workStatus === 'on_break' ? (
-                  <span className="text-amber-600 font-semibold text-lg">On Break ☕</span>
+                  <span className="text-slate-600 font-semibold text-base">On Break</span>
                 ) : (
-                  <span className="text-slate-400 font-semibold text-lg">Offline</span>
+                  <span className="text-slate-400 font-semibold text-base">Offline</span>
                 )}
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                {todayAttendance?.clockInTime ? `Clocked in at ${todayAttendance.clockInTime}` : 'Shift not started'}
+              <p className="text-[10px] text-slate-400 mt-0.5">
+                {todayAttendance?.clockInTime ? `Clocked in: ${todayAttendance.clockInTime}` : 'Not started'}
               </p>
             </div>
 
@@ -116,10 +116,10 @@ export default function StaffDashboard() {
               {currentUser.workStatus === 'offline' && (
                 <button
                   onClick={clockIn}
-                  className="btn-2d-emerald px-5 py-2.5 text-xs flex items-center gap-1.5"
+                  className="btn-primary"
                 >
-                  <Clock className="w-3.5 h-3.5 drop-shadow-xs" />
-                  <span>Clock In (Hazari)</span>
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Clock In</span>
                 </button>
               )}
 
@@ -127,17 +127,17 @@ export default function StaffDashboard() {
                 <>
                   <button
                     onClick={startBreak}
-                    className="btn-2d-amber px-4 py-2 text-xs flex items-center gap-1.5"
+                    className="btn-light"
                   >
-                    <Coffee className="w-3.5 h-3.5 drop-shadow-xs" />
+                    <Coffee className="w-3.5 h-3.5 text-slate-500" />
                     <span>Break</span>
                   </button>
                   <button
                     onClick={() => setIsEODModalOpen(true)}
-                    className="btn-2d-rose px-4 py-2 text-xs flex items-center gap-1.5"
+                    className="btn-secondary"
                   >
-                    <Square className="w-3 h-3 fill-current drop-shadow-xs" />
-                    <span>End Day (Report)</span>
+                    <Square className="w-3 h-3 fill-current" />
+                    <span>End Day</span>
                   </button>
                 </>
               )}
@@ -146,16 +146,16 @@ export default function StaffDashboard() {
                 <>
                   <button
                     onClick={resumeWork}
-                    className="btn-2d-primary px-4 py-2 text-xs flex items-center gap-1.5"
+                    className="btn-primary"
                   >
-                    <Play className="w-3.5 h-3.5 fill-current drop-shadow-xs" />
+                    <Play className="w-3.5 h-3.5 fill-current" />
                     <span>Resume</span>
                   </button>
                   <button
                     onClick={() => setIsEODModalOpen(true)}
-                    className="btn-2d-rose px-4 py-2 text-xs flex items-center gap-1.5"
+                    className="btn-secondary"
                   >
-                    <Square className="w-3 h-3 fill-current drop-shadow-xs" />
+                    <Square className="w-3 h-3 fill-current" />
                     <span>End Day</span>
                   </button>
                 </>
@@ -167,66 +167,61 @@ export default function StaffDashboard() {
 
       {/* Grid: Tasks & Salary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-          <div className="flex items-center justify-between mb-5">
+        <div className="lg:col-span-2 clean-card p-6">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
-              <h3 className="text-sm font-bold text-slate-800">
+              <h3 className="text-sm font-bold text-slate-900">
                 {isCleaner ? 'Daily Cleaning & Maintenance Checklist' : 'My Active Tasks'}
               </h3>
-              <p className="text-xs text-slate-400">Update your sprint task completion percentage</p>
+              <p className="text-xs text-slate-400 mt-0.5">Update sprint progress directly</p>
             </div>
-            <span className="text-xs font-bold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg">
+            <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-md">
               {myTasks.length} Assigned
             </span>
           </div>
 
           {myTasks.length === 0 ? (
             <div className="text-center py-10 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-              <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
-              <p className="text-xs font-bold text-slate-700">All tasks completed!</p>
+              <CheckCircle2 className="w-6 h-6 text-blue-600 mx-auto mb-1.5" />
+              <p className="text-xs font-semibold text-slate-700">All assigned tasks completed!</p>
+              <p className="text-[11px] text-slate-400 mt-0.5">Check with team lead for next tickets.</p>
             </div>
           ) : (
             <div className="space-y-3">
               {myTasks.map((task) => (
-                <div 
+                <div
                   key={task.id}
-                  className="p-4 rounded-xl border border-slate-100 hover:border-slate-200 transition-all bg-[#fafbfc]"
+                  className="p-3.5 rounded-xl border border-slate-200/80 bg-white hover:border-slate-300 space-y-2.5"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                    <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
                           {task.projectName}
                         </span>
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded capitalize ${
-                          task.priority === 'urgent' ? 'bg-[#fff2f5] text-rose-700' :
-                          task.priority === 'high' ? 'bg-[#fffbf0] text-amber-700' : 'bg-slate-100 text-slate-600'
-                        }`}>
+                        <span className="text-[10px] font-medium text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase">
                           {task.priority}
                         </span>
                       </div>
-                      <h4 className="text-xs font-bold text-slate-800">
-                        {task.title}
-                      </h4>
-                      {task.description && (
-                        <p className="text-[11px] text-slate-400 mt-1">{task.description}</p>
-                      )}
+                      <h4 className="text-xs font-semibold text-slate-800">{task.title}</h4>
                     </div>
 
-                    <select
-                      value={task.status}
-                      onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
-                      className="text-xs font-semibold bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700"
-                    >
-                      <option value="todo">To Do</option>
-                      <option value="in_progress">In Progress</option>
-                      <option value="review">Review</option>
-                      <option value="completed">Completed ✓</option>
-                    </select>
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={task.status}
+                        onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
+                        className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 focus:outline-none"
+                      >
+                        <option value="todo">To Do</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="review">Revisions</option>
+                        <option value="completed">Completed ✓</option>
+                      </select>
+                    </div>
                   </div>
 
-                  <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-4">
-                    <span className="text-[11px] font-semibold text-slate-400">Progress:</span>
+                  <div className="flex items-center gap-3 pt-1">
+                    <span className="text-[11px] font-medium text-slate-500">Progress:</span>
                     <input
                       type="range"
                       min="0"
@@ -234,9 +229,9 @@ export default function StaffDashboard() {
                       step="5"
                       value={task.progressPercent}
                       onChange={(e) => updateTaskProgress(task.id, Number(e.target.value))}
-                      className="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                      className="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                     />
-                    <span className="text-xs font-mono font-bold text-indigo-600 w-10 text-right">
+                    <span className="text-xs font-mono font-bold text-blue-600 w-10 text-right">
                       {task.progressPercent}%
                     </span>
                   </div>
@@ -248,57 +243,51 @@ export default function StaffDashboard() {
 
         {/* Right: Salary & Leave */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-slate-800">Salary & Payslip</h3>
+          <div className="clean-card p-6">
+            <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900">Salary & Payslip</h3>
               <button
                 onClick={() => setActiveTab('payroll')}
-                className="text-[11px] font-semibold text-indigo-600 hover:underline"
+                className="text-xs font-semibold text-blue-600 hover:underline"
               >
-                Office Ledger
+                Ledger
               </button>
             </div>
 
             {latestPayroll ? (
-              <div className="space-y-3">
-                <div className={`p-4 rounded-xl border ${
-                  latestPayroll.status === 'paid' 
-                    ? 'bg-[#f0fbf6] border-[#cbf2de]' 
-                    : 'bg-[#fffbf0] border-[#faeec7]'
-                }`}>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-slate-600">{latestPayroll.month}</span>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
-                      latestPayroll.status === 'paid'
-                        ? 'bg-[#10b981] text-white'
-                        : 'bg-[#f59e0b] text-white'
-                    }`}>
-                      {latestPayroll.status}
-                    </span>
-                  </div>
-                  <div className="text-2xl font-bold text-slate-800">
-                    PKR {latestPayroll.netSalary.toLocaleString()}
-                  </div>
-                  <p className="text-[11px] text-slate-500 mt-1">
-                    {latestPayroll.status === 'paid' 
-                      ? `Paid via ${latestPayroll.paymentMethod} on ${latestPayroll.paidDate}` 
-                      : 'Salary processing by Hanzei Accounts.'}
-                  </p>
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-700">{latestPayroll.month}</span>
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded uppercase ${
+                    latestPayroll.status === 'paid'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-100'
+                      : 'bg-slate-200 text-slate-700'
+                  }`}>
+                    {latestPayroll.status}
+                  </span>
                 </div>
+                <div className="text-xl font-bold text-slate-900">
+                  PKR {latestPayroll.netSalary.toLocaleString()}
+                </div>
+                <p className="text-[11px] text-slate-500">
+                  {latestPayroll.status === 'paid' 
+                    ? `Disbursed via ${latestPayroll.paymentMethod} on ${latestPayroll.paidDate}` 
+                    : 'Salary processing by Hanzei Accounts.'}
+                </p>
               </div>
             ) : (
-              <div className="text-xs text-slate-400 bg-slate-50 p-3 rounded-xl">
+              <div className="text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200">
                 Base Monthly Salary: PKR {(currentUser.salary || 50000).toLocaleString()}
               </div>
             )}
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-            <h3 className="text-sm font-bold text-slate-800 mb-2">Apply for Leave (Choti)</h3>
-            <p className="text-xs text-slate-400 mb-4">Need urgent or casual absence? Apply directly.</p>
+          <div className="clean-card p-6">
+            <h3 className="text-sm font-bold text-slate-900 mb-1">Apply for Leave (Choti)</h3>
+            <p className="text-xs text-slate-400 mb-4">Urgent or planned absence request.</p>
             <button
               onClick={() => setShowLeaveModal(true)}
-              className="w-full btn-2d-dark py-2.5 text-xs"
+              className="w-full btn-secondary"
             >
               Submit Leave Request
             </button>
@@ -309,8 +298,8 @@ export default function StaffDashboard() {
       {/* Leave Application Modal */}
       {showLeaveModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-100">
-            <h3 className="text-sm font-bold text-slate-800 mb-3">Apply for Leave</h3>
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200">
+            <h3 className="text-sm font-bold text-slate-900 mb-3">Apply for Leave</h3>
             <form onSubmit={handleLeaveSubmit} className="space-y-3">
               <div>
                 <label className="text-xs font-semibold text-slate-600 block mb-1">Leave Type</label>
@@ -360,17 +349,17 @@ export default function StaffDashboard() {
                 />
               </div>
 
-              <div className="flex justify-end gap-2.5 pt-3">
+              <div className="flex justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowLeaveModal(false)}
-                  className="btn-2d-light px-4 py-2 text-xs"
+                  className="btn-light"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-2d-primary px-5 py-2 text-xs"
+                  className="btn-primary"
                 >
                   Submit Request
                 </button>

@@ -20,141 +20,126 @@ export default function ReportsView() {
   });
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold text-[#0f172a] tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
             Daily EOD Checkout Reports
           </h2>
-          <p className="text-xs text-[#94a3b8] mt-1 font-medium">
-            Mandatory work summaries, blockers and tomorrow's roadmaps submitted by staff upon checkout
+          <p className="text-xs text-slate-500 mt-0.5">
+            Mandatory work summaries, blockers, and tomorrow's roadmaps submitted by staff
           </p>
         </div>
 
         <button
           onClick={() => window.print()}
-          className="btn-2d-light px-5 py-2.5 text-xs flex items-center gap-2"
+          className="btn-light"
         >
           <Printer className="w-4 h-4 text-slate-500" />
-          <span>Export / Print Reports</span>
+          <span>Export Reports</span>
         </button>
       </div>
 
-      {/* Filter Bar with generous padding */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white px-6 py-4 rounded-3xl border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-        <div className="flex items-center gap-4">
+      {/* Filter Bar */}
+      <div className="clean-card px-5 py-3 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchUser}
               onChange={(e) => setSearchUser(e.target.value)}
-              placeholder="Search by staff member..."
-              className="text-xs pl-9 pr-4 py-2 rounded-xl bg-[#f8fafc] border border-slate-200/80 text-slate-800 focus:bg-white focus:outline-none focus:border-blue-500 font-medium"
+              placeholder="Search staff..."
+              className="text-xs pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:outline-none focus:border-blue-600 font-medium"
             />
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-600">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500">
             <Calendar className="w-4 h-4 text-slate-400" />
             <input
               type="date"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="text-xs px-3 py-1.5 rounded-xl bg-[#f8fafc] border border-slate-200/80 text-slate-800 font-medium"
+              className="text-xs px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-700"
             />
           </div>
 
           {dateFilter && (
             <button
               onClick={() => setDateFilter('')}
-              className="text-xs font-bold text-rose-600 hover:underline"
+              className="text-xs font-semibold text-blue-600 hover:underline"
             >
-              Clear Filter
+              Clear
             </button>
           )}
         </div>
 
-        <span className="text-xs font-semibold text-slate-400">
-          Showing {filteredReports.length} submitted reports
+        <span className="text-xs text-slate-400 font-medium">
+          Showing {filteredReports.length} reports
         </span>
       </div>
 
-      {/* Reports Feed (Spacious, Luxury Cards) */}
-      <div className="space-y-6">
+      {/* Reports Feed */}
+      <div className="space-y-4">
         {filteredReports.map((report) => (
           <div
             key={report.id}
-            className="bg-white rounded-3xl border border-slate-100 p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all space-y-5"
+            className="clean-card p-6 space-y-4 hover:border-slate-300 transition-colors"
           >
             {/* Report Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
-              <div className="flex items-center gap-3.5">
-                <div className="icon-round-blue w-11 h-11 text-sm font-bold">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">
                   {report.userName.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#0f172a]">{report.userName}</h4>
-                  <p className="text-xs text-[#94a3b8] mt-0.5">{report.userRole}</p>
+                  <h4 className="text-xs font-bold text-slate-900">{report.userName}</h4>
+                  <p className="text-[11px] text-slate-400">{report.userRole}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1 bg-[#fff9ea] border border-[#faeed0] px-3 py-1.5 rounded-full">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star
-                      key={s}
-                      className={`w-3.5 h-3.5 ${
-                        s <= (report.rating || 5)
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'text-slate-200'
-                      }`}
-                    />
-                  ))}
-                  <span className="text-xs font-bold text-amber-900 ml-1.5">{report.rating || 5}.0</span>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-md text-xs">
+                  <Star className="w-3.5 h-3.5 fill-blue-600 text-blue-600" />
+                  <span className="font-bold text-slate-800">{report.rating || 5}.0</span>
                 </div>
 
-                <span className="text-xs font-bold text-slate-700 bg-[#f1f4f9] px-3.5 py-1.5 rounded-full">
+                <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md">
                   {report.hoursWorked} hrs shift
                 </span>
 
-                <span className="text-xs font-mono text-slate-400">
+                <span className="text-[11px] font-mono text-slate-400">
                   {report.date} @ {report.timestamp}
                 </span>
               </div>
             </div>
 
-            {/* 3 Spacious Detail Columns */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
-              {/* Tasks Accomplished */}
-              <div className="p-5 rounded-2xl bg-[#f8fafc] border border-slate-100 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#065f46] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Tasks Completed</span>
+            {/* 3 Detail Columns */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                  Tasks Completed
                 </span>
-                <p className="text-slate-700 leading-relaxed font-medium">
+                <p className="text-slate-800 leading-relaxed font-normal">
                   {report.tasksCompleted}
                 </p>
               </div>
 
-              {/* Blockers & Issues */}
-              <div className="p-5 rounded-2xl bg-[#fff0f3]/70 border border-[#fcdce3] space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#9f1239] flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4 text-rose-600" />
-                  <span>Blockers & Hurdles</span>
+              <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                  Blockers & Hurdles
                 </span>
-                <p className="text-slate-700 leading-relaxed font-medium">
+                <p className="text-slate-700 leading-relaxed font-normal">
                   {report.blockers || 'None reported. Smooth shift.'}
                 </p>
               </div>
 
-              {/* Tomorrow's Roadmap */}
-              <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-100 space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-700 flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-blue-600" />
-                  <span>Tomorrow's Plan</span>
+              <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 block">
+                  Tomorrow's Plan
                 </span>
-                <p className="text-slate-700 leading-relaxed font-medium">
+                <p className="text-slate-800 leading-relaxed font-normal">
                   {report.planForTomorrow}
                 </p>
               </div>

@@ -274,42 +274,42 @@ export default function AnalyticsView() {
           </div>
 
           <div className="space-y-3 pt-1">
-            <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-100 flex items-center gap-3.5">
-              <div className="icon-round-amber w-9 h-9 min-w-9 min-h-9">
-                <Award className="w-4 h-4 drop-shadow-xs" />
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-3">
+              <div className="icon-badge w-8 h-8 min-w-8 min-h-8">
+                <Award className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <span className="font-extrabold text-slate-900 block">Best day: Wednesday (95%)</span>
+                <span className="font-bold text-slate-900 block">Best day: Wednesday (95%)</span>
                 <span className="text-slate-500 text-[11px]">Highest task completion rate recorded midweek.</span>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-100 flex items-center gap-3.5">
-              <div className="icon-round-rose w-9 h-9 min-w-9 min-h-9">
-                <AlertTriangle className="w-4 h-4 drop-shadow-xs" />
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-3">
+              <div className="icon-badge-slate w-8 h-8 min-w-8 min-h-8">
+                <AlertTriangle className="w-4 h-4 text-slate-500" />
               </div>
               <div className="text-xs">
-                <span className="font-extrabold text-slate-900 block">Overdue Tasks Increased by 5%</span>
+                <span className="font-bold text-slate-900 block">Overdue Tasks: 5%</span>
                 <span className="text-slate-500 text-[11px]">Slight rise in delayed tasks compared to last week.</span>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex items-center gap-3.5">
-              <div className="icon-round-green w-9 h-9 min-w-9 min-h-9">
-                <TrendingUp className="w-4 h-4 drop-shadow-xs" />
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-3">
+              <div className="icon-badge w-8 h-8 min-w-8 min-h-8">
+                <TrendingUp className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <span className="font-extrabold text-slate-900 block">Team Velocity Up 12% This Week</span>
-                <span className="text-slate-500 text-[11px]">More sprint story points resolved with higher efficiency.</span>
+                <span className="font-bold text-slate-900 block">Team Velocity Up 12%</span>
+                <span className="text-slate-500 text-[11px]">More story points resolved with higher efficiency.</span>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-center gap-3.5">
-              <div className="icon-round-blue w-9 h-9 min-w-9 min-h-9">
-                <Target className="w-4 h-4 drop-shadow-xs" />
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-3">
+              <div className="icon-badge w-8 h-8 min-w-8 min-h-8">
+                <Target className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <span className="font-extrabold text-slate-900 block">At-Risk Projects: 0</span>
+                <span className="font-bold text-slate-900 block">At-Risk Projects: 0</span>
                 <span className="text-slate-500 text-[11px]">All 4 current projects are on schedule.</span>
               </div>
             </div>
