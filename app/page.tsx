@@ -17,6 +17,7 @@ import AnalyticsView from '@/components/AnalyticsView';
 import EODReportModal from '@/components/EODReportModal';
 import DatabaseSettingsModal from '@/components/DatabaseSettingsModal';
 import AuthModal from '@/components/AuthModal';
+import LoadingScreen from '@/components/LoadingScreen';
 import { Clock } from 'lucide-react';
 
 export default function Home() {
@@ -29,11 +30,7 @@ export default function Home() {
   }, []);
 
   if (!mounted) {
-    return (
-      <div className="min-h-screen bg-[#f4f6f9] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-amber-600 border-t-transparent animate-spin" />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   // If the logged in user is pending approval
