@@ -276,12 +276,126 @@ body {
   100% { transform: translateX(100%) scaleX(0.2); }
 }
 
+@keyframes drawStrokePillar {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes drawStrokeCrossbar {
+  0% {
+    stroke-dashoffset: 80;
+    opacity: 0;
+  }
+  40% {
+    stroke-dashoffset: 80;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes drawSquircleFrame {
+  0% {
+    stroke-dashoffset: 360;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes goldGlowPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes lightSweepEffect {
+  0% {
+    transform: translateX(-160%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(260%) skewX(-20deg);
+  }
+}
+
+@keyframes logoPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .animate-shimmer {
   animation: shimmer 2.2s infinite ease-in-out;
 }
 
 .animate-indeterminate-bar {
   animation: indeterminate 1.6s infinite ease-in-out;
+}
+
+.animate-draw-pillar-left {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawStrokePillar 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+}
+
+.animate-draw-pillar-right {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawStrokePillar 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.35s;
+}
+
+.animate-draw-crossbar {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: drawStrokeCrossbar 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+}
+
+.animate-draw-frame {
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  animation: drawSquircleFrame 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-gold-glow {
+  animation: goldGlowPulse 2.4s ease-in-out infinite;
+}
+
+.animate-light-sweep {
+  animation: lightSweepEffect 1.8s ease-in-out infinite;
+}
+
+.animate-logo-pop {
+  animation: logoPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ========================================================================= */

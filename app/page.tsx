@@ -23,6 +23,7 @@ import { Clock, Sparkles, X } from 'lucide-react';
 export default function Home() {
   const { currentUser, activeTab, switchUser, notificationMessage, setNotificationMessage } = useApp();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -30,13 +31,24 @@ export default function Home() {
   }, []);
 
   if (!mounted) {
-    return <LoadingScreen />;
+    return (
+      <LoadingScreen
+        userName={currentUser?.name}
+        onComplete={() => setIsLoading(false)}
+      />
+    );
   }
 
   // If the logged in user is pending approval
   if (currentUser.status === 'pending_approval') {
     return (
-      <div className="min-h-screen bg-[#edf2f7] flex items-center justify-center p-6">
+      <div className="min-h-screen bg-[#edf2f7] flex items-center justify-center p-6 relative">
+        {isLoading && (
+          <LoadingScreen
+            userName={currentUser?.name}
+            onComplete={() => setIsLoading(false)}
+          />
+        )}
         <div className="bg-white rounded-[32px] p-10 max-w-lg w-full shadow-[0_20px_50px_rgba(0,0,0,0.06)] text-center border border-slate-100 space-y-6">
           <div className="w-16 h-16 rounded-3xl bg-[#fff9ea] text-amber-600 flex items-center justify-center mx-auto border border-[#faeed0]">
             <Clock className="w-8 h-8" />
@@ -100,7 +112,15 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-[#edf2f7] p-2 sm:p-3 lg:p-4 flex justify-center overflow-hidden">
+    <div className="h-screen bg-[#edf2f7] p-2 sm:p-3 lg:p-4 flex justify-center overflow-hidden relative">
+      {/* Cinematic Opening Splash Overlay with Logo Animation */}
+      {isLoading && (
+        <LoadingScreen
+          userName={currentUser?.name}
+          onComplete={() => setIsLoading(false)}
+        />
+      )}
+
       {/* Outer Floating SaaS Canvas - Fixed Viewport Height */}
       <div className="w-full max-w-[1680px] bg-white rounded-2xl md:rounded-3xl shadow-[0_20px_70px_-10px_rgba(15,23,42,0.06)] border border-slate-200/70 flex overflow-hidden h-full max-h-[96vh]">
         {/* Sidebar Navigation - Fixed, Never Scrolls with Page Content */}
