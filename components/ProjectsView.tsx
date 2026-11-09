@@ -329,42 +329,62 @@ export default function ProjectsView() {
                 </div>
 
                 <div className="space-y-1">
-                  {project.milestones.map((m) => (
-                    <div
-                      key={m.id}
-                      onClick={() => toggleMilestone(project.id, m.id)}
-                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border cursor-pointer select-none transition-all ${
-                        m.completed
-                          ? 'bg-emerald-50/60 border-emerald-200/60'
-                          : 'bg-white border-slate-100 hover:border-amber-200 hover:bg-amber-50/20'
-                      }`}
-                    >
-                      {/* Checkbox */}
-                      <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-all ${
-                        m.completed
-                          ? 'bg-emerald-500 text-white shadow-[0_1px_0_#047857]'
-                          : 'border border-slate-300 bg-white'
-                      }`}>
-                        {m.completed && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                      </div>
+                  {project.milestones.map((m, idx) => {
+                    const isUnlocked = idx === 0 || project.milestones[idx - 1].completed;
+                    const isLocked = !isUnlocked;
 
-                      {/* Title */}
-                      <span className={`text-[11px] font-medium flex-1 truncate transition-all ${
-                        m.completed ? 'text-emerald-700 line-through decoration-emerald-400' : 'text-slate-700'
-                      }`}>
-                        {m.title}
-                      </span>
+                    return (
+                      <div
+                        key={m.id}
+                        onClick={() => !isLocked && toggleMilestone(project.id, m.id)}
+                        className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border select-none transition-all ${
+                          m.completed
+                            ? 'bg-emerald-50/60 border-emerald-200/60 cursor-pointer'
+                            : isLocked
+                              ? 'bg-slate-50/40 border-slate-100 opacity-40 cursor-not-allowed'
+                              : 'bg-white border-slate-100 hover:border-amber-200 hover:bg-amber-50/20 cursor-pointer'
+                        }`}
+                      >
+                        {/* Dot / Status indicator */}
+                        <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                          m.completed
+                            ? 'bg-emerald-500 shadow-[0_1px_0_#047857]'
+                            : isLocked
+                              ? 'bg-slate-200 border border-slate-300'
+                              : 'bg-amber-100 border-2 border-amber-400'
+                        }`}>
+                          {m.completed
+                            ? <Check className="w-2.5 h-2.5 text-white stroke-[3]" />
+                            : isLocked
+                              ? <span className="w-1.5 h-1.5 rounded-full bg-slate-300 block" />
+                              : <span className="w-1.5 h-1.5 rounded-full bg-amber-500 block" />
+                          }
+                        </div>
 
-                      {/* Right: date or done badge */}
-                      {m.completed ? (
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-1.5 py-0.5 rounded-md shrink-0">
-                          Done ✓
+                        {/* Title */}
+                        <span className={`text-[11px] font-medium flex-1 truncate transition-all ${
+                          m.completed
+                            ? 'text-emerald-700 line-through decoration-emerald-400'
+                            : isLocked
+                              ? 'text-slate-400'
+                              : 'text-slate-700'
+                        }`}>
+                          {m.title}
                         </span>
-                      ) : (
-                        <span className="text-[10px] font-semibold text-slate-400 shrink-0">{m.dueDate}</span>
-                      )}
-                    </div>
-                  ))}
+
+                        {/* Right badge */}
+                        {m.completed ? (
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-1.5 py-0.5 rounded-md shrink-0">
+                            Done ✓
+                          </span>
+                        ) : isLocked ? (
+                          <span className="text-[10px] font-semibold text-slate-300 shrink-0">🔒</span>
+                        ) : (
+                          <span className="text-[10px] font-semibold text-slate-400 shrink-0">{m.dueDate}</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
