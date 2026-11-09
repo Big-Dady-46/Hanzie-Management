@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
 import { 
   Plus, Calendar, Sparkles, Filter, Check, X,
-  Flame, Zap, Compass, Search, ChevronDown, GripVertical
+  Flame, Zap, Compass, Search, ChevronDown, GripVertical, Trash2
 } from 'lucide-react';
 import { TaskStatus, TaskPriority } from '@/lib/types';
 
@@ -13,6 +13,7 @@ export default function TasksView() {
     tasks, 
     addTask, 
     updateTaskStatus, 
+    deleteTask,
     projects, 
     users, 
     currentUser 
@@ -105,11 +106,6 @@ export default function TasksView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100/80 border border-slate-200/80 px-3 py-1.5 rounded-xl select-none">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Drag cards between columns to change status</span>
-          </div>
-
           {/* Project Filter */}
           <select
             value={projectFilter}
@@ -203,7 +199,7 @@ export default function TasksView() {
                       draggedTaskId === task.id ? 'opacity-40 scale-[0.98] border-dashed border-amber-400' : ''
                     }`}
                   >
-                    {/* Top Row: Project & Priority */}
+                    {/* Top Row: Project, Priority & Delete */}
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5 min-w-0">
                         <GripVertical className="w-3.5 h-3.5 text-slate-300 hover:text-slate-500 shrink-0 cursor-grab" />
@@ -211,9 +207,22 @@ export default function TasksView() {
                           {task.projectName}
                         </span>
                       </div>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded border capitalize shrink-0 ${getPriorityStyle(task.priority)}`}>
-                        {task.priority}
-                      </span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border capitalize ${getPriorityStyle(task.priority)}`}>
+                          {task.priority}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteTask(task.id);
+                          }}
+                          className="text-slate-300 hover:text-rose-600 transition-colors p-1 rounded-md hover:bg-rose-50"
+                          title="Delete task"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
 
                     {/* Task Title */}

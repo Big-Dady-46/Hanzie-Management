@@ -48,6 +48,7 @@ interface AppContextType {
   addTask: (task: Omit<Task, 'id' | 'createdAt' | 'progressPercent' | 'timeSpentHours'>) => void;
   updateTaskStatus: (taskId: string, status: TaskStatus) => void;
   updateTaskProgress: (taskId: string, progress: number, hours?: number) => void;
+  deleteTask: (taskId: string) => void;
 
   // Payroll actions
   markSalaryPaid: (payrollId: string, paymentMethod: 'Bank Transfer' | 'JazzCash' | 'Easypaisa' | 'Cash' | 'Wise', reference: string) => void;
@@ -556,6 +557,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  // Delete task
+  const deleteTask = (taskId: string) => {
+    setTasks(prev => prev.filter(t => t.id !== taskId));
+    showNotification('Task deleted from sprint');
+  };
+
   // Mark Salary Paid (Leader control)
   const markSalaryPaid = (payrollId: string, paymentMethod: 'Bank Transfer' | 'JazzCash' | 'Easypaisa' | 'Cash' | 'Wise', reference: string) => {
     setPayroll(prev => prev.map(p => {
@@ -625,6 +632,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         addTask,
         updateTaskStatus,
         updateTaskProgress,
+        deleteTask,
         markSalaryPaid,
         generateMonthlyPayroll,
         activeTab,
