@@ -6,7 +6,8 @@ import {
   Plus, DollarSign, Calendar, CheckCircle2, 
   Clock, TrendingUp, X, Filter, ChevronRight,
   ShieldCheck, ArrowUpRight, Sparkles, AlertCircle,
-  Code2, Check, Users
+  Code2, Check, Users, Globe, Smartphone, Palette, Cpu,
+  Layers, Zap, Coins
 } from 'lucide-react';
 import CustomDropdown from '@/components/CustomDropdown';
 import CustomDatePicker from '@/components/CustomDatePicker';
@@ -26,6 +27,21 @@ export default function ProjectsView() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState<string | null>(null);
   const [paymentAmount, setPaymentAmount] = useState<number>(50000);
+
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'Web App':
+        return <Globe className="w-6 h-6 text-amber-500 stroke-[2.2]" />;
+      case 'Mobile App':
+        return <Smartphone className="w-6 h-6 text-amber-500 stroke-[2.2]" />;
+      case 'UI/UX Design':
+        return <Palette className="w-6 h-6 text-amber-500 stroke-[2.2]" />;
+      case 'AI Integration':
+        return <Cpu className="w-6 h-6 text-amber-500 stroke-[2.2]" />;
+      default:
+        return <Code2 className="w-6 h-6 text-amber-500 stroke-[2.2]" />;
+    }
+  };
 
   // Form states
   const [newName, setNewName] = useState('');
@@ -169,243 +185,237 @@ export default function ProjectsView() {
         ))}
       </div>
 
-      {/* 4. Projects Cards - 1:1 Matching User Specification Design */}
+      {/* 4. Executive Projects Cards & Financial Ledger */}
       <div className="space-y-6">
         {filteredProjects.map((project) => {
           const balance = Math.max(0, project.totalBudget - project.paidAmount);
           const isFullyPaid = balance <= 0;
+          const completedMilestones = project.milestones.filter(m => m.completed).length;
+          const totalMilestones = project.milestones.length;
 
           return (
             <div 
               key={project.id}
-              className="bg-white rounded-2xl md:rounded-3xl border border-amber-200/70 p-5 sm:p-6 shadow-[0_4px_25px_rgba(217,119,6,0.04)] hover:shadow-[0_10px_35px_rgba(217,119,6,0.08)] hover:border-amber-300 transition-all"
+              className="bg-white rounded-3xl border border-slate-200/90 hover:border-amber-400/80 p-5 sm:p-7 shadow-[0_4px_24px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_40px_rgba(217,119,6,0.08)] transition-all duration-200 relative overflow-hidden group space-y-6"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                {/* LEFT PANE: Identity, Circular Gauge & Handover Target */}
-                <div className="lg:col-span-4 xl:col-span-4 flex flex-col justify-between space-y-5 pb-5 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-100 pr-0 lg:pr-6">
-                  {/* Top: Icon + Tags + Title + Client */}
-                  <div className="flex items-start gap-3.5">
-                    {/* Amber Code Squircle */}
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_4px_12px_rgba(217,119,6,0.22)] shrink-0 select-none">
-                      <Code2 className="w-6 h-6 stroke-[2.2]" />
-                    </div>
+              {/* Decorative Subtle Ambient Glow */}
+              <div className="absolute -top-20 -right-20 w-52 h-52 bg-gradient-to-br from-amber-100/40 via-amber-50/20 to-transparent rounded-full blur-3xl pointer-events-none group-hover:from-amber-200/40 transition-all duration-500" />
 
-                    <div className="min-w-0 flex-1">
-                      {/* Tags */}
-                      <div className="flex items-center gap-1.5 flex-wrap mb-1">
-                        <span className="text-[11px] font-bold text-amber-900 bg-[#fff5d6] border border-[#fde68a] px-2.5 py-0.5 rounded-full">
-                          {project.category}
-                        </span>
-                        <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1 ${
-                          project.status === 'completed'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-sky-50 text-sky-700 border border-sky-200'
-                        }`}>
-                          <Clock className="w-3 h-3 text-sky-600" />
-                          <span className="capitalize">{project.status.replace('_', ' ')}</span>
-                        </span>
-                      </div>
-
-                      {/* Project Title */}
-                      <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug">
-                        {project.name}
-                      </h3>
-
-                      {/* Client info */}
-                      <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
-                        <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="truncate">
-                          Client: <strong className="text-slate-800 font-semibold">{project.clientName}</strong> {project.clientEmail ? <span className="text-slate-400">({project.clientEmail})</span> : ''}
-                        </span>
-                      </p>
-                    </div>
+              {/* 1. Header Row: Identity, Badges, Dates & Actions */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative z-10">
+                <div className="flex items-start gap-4">
+                  {/* Category Icon Squircle */}
+                  <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100/90 border border-amber-200/80 flex items-center justify-center shrink-0 shadow-xs">
+                    {getCategoryIcon(project.category)}
                   </div>
 
-                  {/* Middle: Circular Velocity Gauge & Horizontal Bar */}
-                  <div className="flex items-center gap-4 bg-amber-50/25 p-3 rounded-2xl border border-amber-100">
-                    {/* 64px Circular Progress Gauge */}
-                    <div className="relative w-16 h-16 shrink-0 flex items-center justify-center">
-                      <svg className="w-16 h-16 -rotate-90" viewBox="0 0 44 44">
-                        <circle
-                          cx="22"
-                          cy="22"
-                          r="18"
-                          className="text-slate-100"
-                          strokeWidth="4"
-                          stroke="currentColor"
-                          fill="none"
-                        />
-                        <circle
-                          cx="22"
-                          cy="22"
-                          r="18"
-                          className="text-amber-500 transition-all duration-300"
-                          strokeWidth="4"
-                          strokeDasharray={113.1}
-                          strokeDashoffset={113.1 - (113.1 * project.progressPercentage) / 100}
-                          strokeLinecap="round"
-                          stroke="currentColor"
-                          fill="none"
-                        />
-                      </svg>
-                      <span className="absolute font-black text-slate-900 text-sm tracking-tight">
-                        {project.progressPercentage}%
+                  <div className="min-w-0">
+                    {/* Meta Tags */}
+                    <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full">
+                        {project.category}
+                      </span>
+
+                      <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 ${
+                        project.status === 'completed'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-sky-50 text-sky-700 border border-sky-200'
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${project.status === 'completed' ? 'bg-emerald-500' : 'bg-sky-500 animate-pulse'}`} />
+                        <span className="capitalize">{project.status.replace('_', ' ')}</span>
+                      </span>
+
+                      <span className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                        <Calendar className="w-3 h-3 text-slate-400" />
+                        <span>Target: <strong className="text-slate-700">{project.deadline}</strong></span>
                       </span>
                     </div>
 
-                    {/* Progress Slider */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs font-bold text-slate-800">Project Velocity</span>
-                      </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="5"
-                        value={project.progressPercentage}
-                        onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
-                      />
-                    </div>
-                  </div>
+                    {/* Title */}
+                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight group-hover:text-amber-900 transition-colors">
+                      {project.name}
+                    </h3>
 
-                  {/* Bottom: Handover Target */}
-                  <div className="flex items-center gap-2.5 text-xs">
-                    <div className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center text-slate-600 shrink-0">
-                      <Calendar className="w-4 h-4 text-slate-500" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold block leading-none">
-                        Handover Target
-                      </span>
-                      <span className="font-extrabold text-slate-900 text-xs mt-1 block">
-                        {project.deadline}
-                      </span>
+                    {/* Client Info */}
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
+                      <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span>Client:</span>
+                      <strong className="text-slate-800 font-bold">{project.clientName}</strong>
+                      {project.clientEmail && (
+                        <span className="text-slate-400">({project.clientEmail})</span>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* RIGHT PANE: Financial Strip & Milestones List */}
-                <div className="lg:col-span-8 xl:col-span-8 flex flex-col justify-between space-y-5">
-                  {/* Top: Financial Strip Box */}
-                  <div className="bg-[#fffdf7] border border-[#fef3c7] rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3 sm:gap-5 flex-wrap sm:flex-nowrap">
-                    {/* 3 Metric Items */}
-                    <div className="flex items-center gap-4 sm:gap-6 flex-wrap sm:flex-nowrap">
-                      {/* Budget */}
-                      <div className="flex items-center gap-2.5 shrink-0">
-                        <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
-                          <DollarSign className="w-4 h-4 stroke-[2.5]" />
-                        </div>
-                        <div>
-                          <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">Budget</span>
-                          <span className="text-sm sm:text-base font-black text-slate-900 tracking-tight block">PKR {project.totalBudget.toLocaleString()}</span>
-                        </div>
-                      </div>
+                {/* Action Button */}
+                {isLeader && (
+                  <div className="flex items-center gap-2 lg:self-center shrink-0">
+                    <button
+                      onClick={() => setShowPaymentModal(project.id)}
+                      className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2.5 px-5 rounded-xl shadow-md shadow-amber-500/20 active:scale-95 transition-all cursor-pointer"
+                    >
+                      <Plus className="w-4 h-4 stroke-[3]" />
+                      <span>Record Payment</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
-                      <div className="h-8 w-[1px] bg-amber-200/60 hidden sm:block shrink-0" />
+              {/* 2. Executive 3-Deck Financial Ledger */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 relative z-10">
+                {/* Total Budget */}
+                <div className="bg-[#fcfaf7] border border-amber-100 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-300 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                      <Coins className="w-3.5 h-3.5 text-amber-500 stroke-[2.2]" />
+                      Contract Budget
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400 bg-white border border-slate-200/80 px-2 py-0.5 rounded-md">
+                      Cap
+                    </span>
+                  </div>
+                  <div className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                    PKR {project.totalBudget.toLocaleString()}
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-1">Fixed commercial volume</p>
+                </div>
 
-                      {/* Paid */}
-                      <div className="flex items-center gap-2.5 shrink-0">
-                        <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
-                          <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                        </div>
-                        <div>
-                          <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">Paid</span>
-                          <span className="text-sm sm:text-base font-black text-emerald-600 tracking-tight block">PKR {project.paidAmount.toLocaleString()}</span>
-                        </div>
-                      </div>
+                {/* Revenue Received */}
+                <div className="bg-[#f0fdf4]/80 border border-emerald-200/80 rounded-2xl p-4 flex flex-col justify-between hover:border-emerald-300 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 stroke-[2.5]" />
+                      Revenue Cleared
+                    </span>
+                    <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-md">
+                      {Math.round((project.paidAmount / (project.totalBudget || 1)) * 100)}%
+                    </span>
+                  </div>
+                  <div className="text-lg sm:text-xl font-black text-emerald-700 tracking-tight">
+                    PKR {project.paidAmount.toLocaleString()}
+                  </div>
+                  <p className="text-[11px] text-emerald-600/80 font-medium mt-1">Disbursed to bank account</p>
+                </div>
 
-                      <div className="h-8 w-[1px] bg-amber-200/60 hidden sm:block shrink-0" />
-
-                      {/* Balance */}
-                      <div className="flex items-center gap-2.5 shrink-0">
-                        <div className="w-9 h-9 rounded-xl bg-amber-50/70 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
-                          <Clock className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">Balance</span>
-                          <span className={`text-sm sm:text-base font-black tracking-tight block ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
-                            {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* + Pay Action Button */}
-                    {isLeader && (
-                      <button
-                        onClick={() => setShowPaymentModal(project.id)}
-                        className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2 px-6 rounded-xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 shrink-0 ml-auto"
-                      >
-                        <Plus className="w-4 h-4 stroke-[3]" />
-                        <span>Pay</span>
-                      </button>
+                {/* Balance Receivable */}
+                <div className="bg-[#fffdfa] border border-amber-200/70 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-300 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-amber-600 stroke-[2.5]" />
+                      Balance Remaining
+                    </span>
+                    {isFullyPaid ? (
+                      <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-md">
+                        Settled ✓
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-extrabold text-amber-800 bg-amber-100/90 px-2 py-0.5 rounded-md">
+                        Receivable
+                      </span>
                     )}
                   </div>
-
-                  {/* Milestones List */}
-                  <div className="space-y-2.5">
-                    {/* Header */}
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shadow-2xs">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </div>
-                      <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
-                        Milestones
-                      </h4>
-                    </div>
-
-                    {/* Milestone Rows */}
-                    <div className="space-y-2">
-                      {project.milestones.map((m) => (
-                        <div
-                          key={m.id}
-                          onClick={() => toggleMilestone(project.id, m.id)}
-                          className={`cursor-pointer px-4 py-2.5 rounded-xl border flex items-center justify-between gap-4 transition-all select-none hover:border-amber-300 ${
-                            m.completed 
-                              ? 'bg-amber-50/20 border-slate-200/90 text-slate-900' 
-                              : 'bg-white border-slate-100 text-slate-700 hover:bg-slate-50'
-                          }`}
-                        >
-                          {/* Left: Check circle + Title */}
-                          <div className="flex items-center gap-3 min-w-0 flex-1">
-                            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] shrink-0 transition-colors ${
-                              m.completed 
-                                ? 'bg-amber-500 text-white shadow-xs' 
-                                : 'border-2 border-slate-300 bg-white'
-                            }`}>
-                              {m.completed && <Check className="w-3 h-3 stroke-[3]" />}
-                            </span>
-                            <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-800' : 'text-slate-600'}`}>
-                              {m.title}
-                            </span>
-                          </div>
-
-                          {/* Date */}
-                          <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium shrink-0">
-                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                            <span>{m.dueDate}</span>
-                          </div>
-
-                          {/* Status Badge */}
-                          <div className="shrink-0">
-                            {m.completed ? (
-                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
-                                <Check className="w-3 h-3 stroke-[3]" />
-                                <span>Completed</span>
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#fffbeb] text-[#d97706] border border-[#fde68a]">
-                                <Clock className="w-3 h-3" />
-                                <span>Pending</span>
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                  <div className={`text-lg sm:text-xl font-black tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
+                    {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
                   </div>
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    {isFullyPaid ? 'Zero outstanding dues' : 'Collect on upcoming milestones'}
+                  </p>
+                </div>
+              </div>
+
+              {/* 3. Sprint Delivery Velocity & Live Interactive Slider */}
+              <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-4 sm:p-5 relative z-10 space-y-2.5">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+                      <Zap className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                    </div>
+                    <span className="text-xs sm:text-sm font-bold text-slate-800">Sprint Delivery Velocity</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-400 font-medium">Sprint Completion:</span>
+                    <span className="text-xs font-black text-amber-600 bg-white border border-amber-200 px-2.5 py-0.5 rounded-lg shadow-2xs">
+                      {project.progressPercentage}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* Progress Bar & Slider */}
+                <div className="relative pt-1">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="5"
+                    value={project.progressPercentage}
+                    onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
+                    className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500 focus:outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* 4. Sprint Milestones Deliverables */}
+              <div className="space-y-3 relative z-10 pt-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-lg bg-amber-500 text-white flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
+                      Sprint Milestones
+                    </h4>
+                  </div>
+
+                  <span className="text-xs font-bold text-slate-500 bg-slate-100 border border-slate-200/60 px-3 py-0.5 rounded-full">
+                    {completedMilestones} of {totalMilestones} Completed
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                  {project.milestones.map((m) => (
+                    <div
+                      key={m.id}
+                      onClick={() => toggleMilestone(project.id, m.id)}
+                      className={`p-3 sm:px-4 rounded-xl border flex items-center justify-between gap-3 cursor-pointer select-none transition-all ${
+                        m.completed
+                          ? 'bg-emerald-50/25 border-emerald-200/70 hover:bg-emerald-50/40'
+                          : 'bg-white border-slate-200/80 hover:border-amber-300 hover:bg-slate-50/80 shadow-2xs'
+                      }`}
+                    >
+                      {/* Left Checkbox & Title */}
+                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                        <div className={`w-5 h-5 rounded-lg flex items-center justify-center text-xs shrink-0 transition-colors ${
+                          m.completed
+                            ? 'bg-emerald-500 text-white shadow-2xs'
+                            : 'border-2 border-slate-300 bg-white'
+                        }`}>
+                          {m.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                        </div>
+                        <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-400 line-through' : 'text-slate-800'}`}>
+                          {m.title}
+                        </span>
+                      </div>
+
+                      {/* Right Date & Status */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
+                          <Calendar className="w-3 h-3 text-slate-400" />
+                          {m.dueDate}
+                        </span>
+                        {m.completed ? (
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-200 px-2 py-0.5 rounded-md">
+                            Done
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold text-amber-800 bg-amber-100/90 border border-amber-200 px-2 py-0.5 rounded-md">
+                            Pending
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
