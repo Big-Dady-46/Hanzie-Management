@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/store';
 import { 
   Plus, Calendar, Sparkles, Filter, Check, X,
-  Flame, Zap, Compass, Search, ChevronDown
+  Flame, Zap, Compass, Search, ChevronDown, GripVertical
 } from 'lucide-react';
 import { TaskStatus, TaskPriority } from '@/lib/types';
 
@@ -22,6 +22,8 @@ export default function TasksView() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [projectFilter, setProjectFilter] = useState('ALL');
   const [openStatusDropdownId, setOpenStatusDropdownId] = useState<string | null>(null);
+  const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
+  const [dragOverColId, setDragOverColId] = useState<TaskStatus | null>(null);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -103,6 +105,11 @@ export default function TasksView() {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100/80 border border-slate-200/80 px-3 py-1.5 rounded-xl select-none">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span>Drag cards between columns to change status</span>
+          </div>
+
           {/* Project Filter */}
           <select
             value={projectFilter}
@@ -135,7 +142,32 @@ export default function TasksView() {
           return (
             <div 
               key={col.id} 
-              className="clean-card p-4 space-y-4 bg-slate-50/70 border border-slate-200/90"
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                if (dragOverColId !== col.id) {
+                  setDragOverColId(col.id);
+                }
+              }}
+              onDragLeave={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                  setDragOverColId(null);
+                }
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                const taskId = e.dataTransfer.getData('text/plain') || draggedTaskId;
+                if (taskId) {
+                  updateTaskStatus(taskId, col.id);
+                }
+                setDraggedTaskId(null);
+                setDragOverColId(null);
+              }}
+              className={`clean-card p-4 space-y-4 transition-all duration-200 ${
+                dragOverColId === col.id 
+                  ? 'bg-amber-50/80 border-2 border-dashed border-amber-400 ring-4 ring-amber-200/40 shadow-md' 
+                  : 'bg-slate-50/70 border border-slate-200/90'
+              }`}
             >
               {/* Column Title & Count */}
               <div className="flex items-center justify-between px-1">
@@ -157,13 +189,28 @@ export default function TasksView() {
                 {colTasks.map((task) => (
                   <div
                     key={task.id}
-                    className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs hover:border-amber-300 hover:shadow-soft transition-all space-y-3"
+                    draggable
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData('text/plain', task.id);
+                      e.dataTransfer.effectAllowed = 'move';
+                      setDraggedTaskId(task.id);
+                    }}
+                    onDragEnd={() => {
+                      setDraggedTaskId(null);
+                      setDragOverColId(null);
+                    }}
+                    className={`bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs hover:border-amber-300 hover:shadow-soft transition-all space-y-3 cursor-grab active:cursor-grabbing select-none ${
+                      draggedTaskId === task.id ? 'opacity-40 scale-[0.98] border-dashed border-amber-400' : ''
+                    }`}
                   >
                     {/* Top Row: Project & Priority */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md truncate max-w-[140px]">
-                        {task.projectName}
-                      </span>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <GripVertical className="w-3.5 h-3.5 text-slate-300 hover:text-slate-500 shrink-0 cursor-grab" />
+                        <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md truncate max-w-[125px]">
+                          {task.projectName}
+                        </span>
+                      </div>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded border capitalize shrink-0 ${getPriorityStyle(task.priority)}`}>
                         {task.priority}
                       </span>
@@ -248,8 +295,12 @@ export default function TasksView() {
                 ))}
 
                 {colTasks.length === 0 && (
-                  <div className="text-center py-12 text-xs text-slate-400 font-medium border border-dashed border-slate-200 rounded-2xl">
-                    No tasks
+                  <div className={`text-center py-12 text-xs font-medium border-2 border-dashed rounded-2xl transition-all duration-150 ${
+                    dragOverColId === col.id 
+                      ? 'border-amber-400 bg-amber-100/50 text-amber-900 font-bold scale-[1.02]' 
+                      : 'border-slate-200 text-slate-400'
+                  }`}>
+                    {dragOverColId === col.id ? 'Release to drop task here' : 'Drop tasks or create one'}
                   </div>
                 )}
               </div>
