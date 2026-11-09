@@ -181,18 +181,16 @@ export default function ProjectsView() {
               className="clean-card p-5 sm:p-6 space-y-5 hover:border-amber-300 transition-all shadow-sm hover:shadow-md bg-white border border-slate-200"
             >
               {/* TOP ROW: Perfectly Aligned Header & Financial Strip */}
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+              <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-5 pb-5 border-b border-slate-100">
                 {/* Left: Code Squircle, Title, Category, Status & Client */}
-                <div className="flex items-center gap-3.5">
-                  <div className="w-11 h-11 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center shadow-xs shrink-0 select-none">
-                    <Code2 className="w-5 h-5 stroke-[2.2]" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(217,119,6,0.22)] shrink-0 select-none">
+                    <Code2 className="w-6 h-6 stroke-[2.2]" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-tight">
-                        {project.name}
-                      </h3>
-                      <span className="text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full">
+                    {/* Row 1: Tags */}
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-[11px] font-bold text-amber-900 bg-[#fff5d6] border border-[#fde68a] px-3 py-0.5 rounded-full">
                         {project.category}
                       </span>
                       <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1 ${
@@ -204,7 +202,14 @@ export default function ProjectsView() {
                         <span className="capitalize">{project.status.replace('_', ' ')}</span>
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500 flex items-center gap-1.5">
+
+                    {/* Row 2: Title */}
+                    <h3 className="text-xl font-black text-slate-900 tracking-tight leading-snug">
+                      {project.name}
+                    </h3>
+
+                    {/* Row 3: Client Details */}
+                    <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
                       <Users className="w-3.5 h-3.5 text-slate-400" />
                       <span>
                         Client: <strong className="text-slate-800 font-semibold">{project.clientName}</strong> {project.clientEmail ? <span className="text-slate-400">({project.clientEmail})</span> : ''}
@@ -213,42 +218,38 @@ export default function ProjectsView() {
                   </div>
                 </div>
 
-                {/* Right: Clean Aligned Financial Metric Pills + Action Button */}
-                <div className="flex items-center gap-3 sm:gap-4 flex-wrap sm:flex-nowrap bg-slate-50/80 border border-slate-200/80 px-4 py-2.5 rounded-xl self-start lg:self-auto">
+                {/* Right: Clean Financial Metric Row + Action Button */}
+                <div className="flex items-center gap-5 sm:gap-7 flex-wrap sm:flex-nowrap self-start xl:self-auto">
                   {/* Budget */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-amber-100/70 text-amber-700 flex items-center justify-center shrink-0">
-                      <DollarSign className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
+                      <DollarSign className="w-4 h-4 stroke-[2.5]" />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 font-medium block leading-none">Budget</span>
-                      <span className="text-xs sm:text-sm font-bold text-slate-900 mt-0.5 block">PKR {project.totalBudget.toLocaleString()}</span>
+                      <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">Budget</span>
+                      <span className="text-base font-black text-slate-900 tracking-tight block">PKR {project.totalBudget.toLocaleString()}</span>
                     </div>
                   </div>
-
-                  <div className="h-6 w-[1px] bg-slate-200" />
 
                   {/* Paid */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-100/70 text-emerald-700 flex items-center justify-center shrink-0">
-                      <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+                      <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 font-medium block leading-none">Paid</span>
-                      <span className="text-xs sm:text-sm font-bold text-emerald-600 mt-0.5 block">PKR {project.paidAmount.toLocaleString()}</span>
+                      <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">Paid</span>
+                      <span className="text-base font-black text-emerald-600 tracking-tight block">PKR {project.paidAmount.toLocaleString()}</span>
                     </div>
                   </div>
 
-                  <div className="h-6 w-[1px] bg-slate-200" />
-
                   {/* Balance */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-amber-100/50 text-amber-700 flex items-center justify-center shrink-0">
-                      <Clock className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-amber-50/70 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
+                      <Clock className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 font-medium block leading-none">Balance</span>
-                      <span className={`text-xs sm:text-sm font-bold mt-0.5 block ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
+                      <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">Balance</span>
+                      <span className={`text-base font-black tracking-tight block ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
                         {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
                       </span>
                     </div>
@@ -257,9 +258,9 @@ export default function ProjectsView() {
                   {isLeader && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="btn-gold text-xs py-1.5 px-4 ml-1 shrink-0 flex items-center gap-1 shadow-sm"
+                      className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2 px-6 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 shrink-0 ml-1"
                     >
-                      <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                      <Plus className="w-4 h-4 stroke-[3]" />
                       <span>Pay</span>
                     </button>
                   )}
