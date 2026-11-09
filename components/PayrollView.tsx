@@ -59,14 +59,14 @@ export default function PayrollView() {
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-              Payroll, Salaries & Compensation
+              Payroll & Compensation
             </h2>
             <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full">
-              Transparent Ledger
+              Verified Ledger
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            Transparent company salary clearances, disbursement vouchers, and employee pay slips
+            Transparent salary disbursements, employee vouchers, and verified pay slips
           </p>
         </div>
 
@@ -84,202 +84,214 @@ export default function PayrollView() {
 
             <button
               onClick={() => generateMonthlyPayroll(selectedMonth)}
-              className="btn-gold"
+              className="btn-gold text-xs py-2 px-3.5 shadow-xs"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Run Payroll Cycle</span>
+              <span>Run Cycle</span>
             </button>
           </div>
         )}
       </div>
 
-      {/* 3 Metric Cards with Financial Progress Gauge */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {/* Card 1: Cycle Budget */}
-        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-all">
+      {/* 3 Metric Cards with 2D Luxury Style */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Card 1: Cycle Budget — Gold */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
+          style={{
+            background: 'linear-gradient(160deg, #fffdf5 0%, #fefce8 50%, #fef9c3 100%)',
+            border: '1px solid #fcd34d',
+            boxShadow: '0 3px 0 #d97706, 0 6px 20px rgba(217,119,6,0.10)',
+          }}>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-amber-800">Total Cycle Outflow</span>
+            <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-300 flex items-center justify-center">
+              <DollarSign className="w-4 h-4 text-amber-700" />
+            </div>
+          </div>
           <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
-              Total Cycle Outflow
-            </span>
-            <div className="text-2xl font-bold text-slate-900 mt-2">
+            <div className="text-2xl font-black text-amber-900 tracking-tight">
               PKR {totalMonthlyOutflow.toLocaleString()}
             </div>
-            <p className="text-xs text-slate-400 mt-1">{filteredPayroll.length} active software house team members</p>
-          </div>
-          <div className="icon-badge-gold">
-            <DollarSign className="w-5 h-5 text-amber-700" />
+            <p className="text-[11px] text-amber-700/70 mt-0.5">{filteredPayroll.length} active team members</p>
           </div>
         </div>
 
-        {/* Card 2: Disbursed & Cleared */}
-        <div className="clean-card p-6 flex items-start justify-between hover:border-amber-300 transition-all">
+        {/* Card 2: Disbursed & Cleared — Emerald */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
+          style={{
+            background: 'linear-gradient(160deg, #f0fdf8 0%, #dcfce7 50%, #bbf7d0 100%)',
+            border: '1px solid #6ee7b7',
+            boxShadow: '0 3px 0 #059669, 0 6px 20px rgba(5,150,105,0.10)',
+          }}>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-emerald-800">Disbursed & Cleared</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-400/20 border border-emerald-300 flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+            </div>
+          </div>
           <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
-              Disbursed & Cleared
-            </span>
-            <div className="text-2xl font-bold text-amber-700 mt-2">
+            <div className="text-2xl font-black text-emerald-800 tracking-tight">
               PKR {totalPaidOutflow.toLocaleString()}
             </div>
-            <div className="mt-2 flex items-center gap-2">
-              <div className="w-24 bg-slate-100 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="bg-gradient-to-r from-amber-600 to-amber-400 h-2 rounded-full"
-                  style={{ width: `${disbursedPct}%` }}
-                />
-              </div>
-              <span className="text-xs font-bold text-amber-800">{disbursedPct}% Cleared</span>
-            </div>
-          </div>
-          <div className="icon-badge-gold">
-            <CheckCircle2 className="w-5 h-5 text-amber-700" />
-          </div>
-        </div>
-
-        {/* Card 3: Pending Release */}
-        <div className="clean-card p-6 flex items-start justify-between hover:border-slate-300 transition-all">
-          <div>
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
-              Pending Release
-            </span>
-            <div className="text-2xl font-bold text-slate-900 mt-2">
-              PKR {totalPendingOutflow.toLocaleString()}
-            </div>
-            <p className="text-xs text-slate-400 mt-1">
-              {payroll.filter(p => p.month === selectedMonth && p.status === 'pending').length} vouchers awaiting leader signoff
+            <p className="text-[11px] text-emerald-700/70 font-semibold mt-0.5">
+              {disbursedPct}% verified cleared
             </p>
           </div>
-          <div className="icon-badge-silver">
-            <Clock className="w-5 h-5 text-slate-500" />
+        </div>
+
+        {/* Card 3: Pending Release — Silver */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
+          style={{
+            background: 'linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%)',
+            border: '1px solid #cbd5e1',
+            boxShadow: '0 3px 0 #94a3b8, 0 6px 20px rgba(100,116,139,0.08)',
+          }}>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-600">Pending Release</span>
+            <div className="w-8 h-8 rounded-xl bg-slate-200/80 border border-slate-300 flex items-center justify-center">
+              <Clock className="w-4 h-4 text-slate-500" />
+            </div>
           </div>
-        </div>
-      </div>
-
-      {/* Filter and Search Bar */}
-      <div className="clean-card p-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
-          {['ALL', 'Development', 'Design', 'Office & Maintenance'].map((dept) => (
-            <button
-              key={dept}
-              onClick={() => setDepartmentFilter(dept)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                departmentFilter === dept
-                  ? 'bg-amber-50 text-amber-950 font-bold border border-amber-300 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              {dept === 'ALL' ? 'All Departments' : dept}
-            </button>
-          ))}
-        </div>
-
-        <div className="relative w-full md:w-64">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search employee..."
-            className="w-full text-xs pl-8 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-amber-500 font-medium"
-          />
-        </div>
-      </div>
-
-      {/* Transparent Ledger Table */}
-      <div className="clean-card p-6 overflow-x-auto">
-        <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="text-sm font-bold text-slate-900">
-              Verified Office Salary Ledger ({selectedMonth})
-            </h3>
-            <p className="text-xs text-slate-400 mt-0.5">Visible to all employees to confirm company salary clearances</p>
+            <div className="text-2xl font-black text-slate-800 tracking-tight">
+              PKR {totalPendingOutflow.toLocaleString()}
+            </div>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              {payroll.filter(p => p.month === selectedMonth && p.status === 'pending').length} vouchers pending approval
+            </p>
           </div>
-          <span className="text-xs font-semibold text-amber-900 bg-amber-50 border border-amber-200 px-3 py-1 rounded-md">
-            All Records Open & Transparent
-          </span>
+        </div>
+      </div>
+
+      {/* Unified Transparent Ledger Panel */}
+      <div className="clean-card overflow-hidden">
+        {/* Top Bar: Dept Filter + Search */}
+        <div className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 bg-slate-50/50">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+            {['ALL', 'Development', 'Design', 'Office & Maintenance'].map((dept) => (
+              <button
+                key={dept}
+                onClick={() => setDepartmentFilter(dept)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                  departmentFilter === dept
+                    ? 'bg-amber-100/80 text-amber-950 font-bold border border-amber-300 shadow-2xs'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-white'
+                }`}
+              >
+                {dept === 'ALL' ? 'All Staff' : dept}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative w-full sm:w-60">
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search staff..."
+              className="w-full text-xs pl-8 pr-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-amber-500 font-medium"
+            />
+          </div>
         </div>
 
-        <table className="w-full text-left text-xs font-normal">
-          <thead>
-            <tr className="border-b border-slate-200 text-slate-400 pb-3">
-              <th className="pb-3 pl-2 font-semibold uppercase tracking-wider text-[10px]">Staff Member</th>
-              <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Department</th>
-              <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Base Salary</th>
-              <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Bonus</th>
-              <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Net Pay</th>
-              <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Status</th>
-              <th className="pb-3 font-semibold uppercase tracking-wider text-[10px]">Method & Date</th>
-              <th className="pb-3 pr-2 text-right font-semibold uppercase tracking-wider text-[10px]">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {filteredPayroll.map((item) => {
-              const isPaid = item.status === 'paid';
-              return (
-                <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
-                  <td className="py-3.5 pl-2">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 min-w-[32px] min-h-[32px] aspect-square rounded-full bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-500/30">
-                        {item.userName.charAt(0)}
+        {/* Table Content */}
+        <div className="p-4 sm:p-5 overflow-x-auto">
+          <table className="w-full text-left text-xs font-normal">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-400 pb-2.5">
+                <th className="pb-2.5 pl-2 font-semibold uppercase tracking-wider text-[10px]">Staff Member</th>
+                <th className="pb-2.5 font-semibold uppercase tracking-wider text-[10px]">Department</th>
+                <th className="pb-2.5 font-semibold uppercase tracking-wider text-[10px]">Net Pay</th>
+                <th className="pb-2.5 font-semibold uppercase tracking-wider text-[10px]">Status</th>
+                <th className="pb-2.5 font-semibold uppercase tracking-wider text-[10px]">Disbursement</th>
+                <th className="pb-2.5 pr-2 text-right font-semibold uppercase tracking-wider text-[10px]">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {filteredPayroll.map((item) => {
+                const isPaid = item.status === 'paid';
+                return (
+                  <tr key={item.id} className="hover:bg-amber-50/20 transition-colors">
+                    {/* Staff Member */}
+                    <td className="py-3 pl-2">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-500/20 shadow-2xs">
+                          {item.userName.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="font-bold text-slate-900 text-xs">{item.userName}</div>
+                          <span className="text-[10px] text-slate-400 capitalize">{item.userRole.replace('_', ' ')}</span>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-bold text-slate-900 text-xs">{item.userName}</div>
-                        <span className="text-[11px] text-slate-400 capitalize">{item.userRole.replace('_', ' ')}</span>
+                    </td>
+
+                    {/* Department */}
+                    <td className="py-3 text-slate-600 font-medium">
+                      <span className="text-xs bg-slate-100/80 text-slate-700 px-2 py-0.5 rounded-md font-medium">
+                        {item.department}
+                      </span>
+                    </td>
+
+                    {/* Net Pay with Base / Bonus hint */}
+                    <td className="py-3">
+                      <div className="font-black text-slate-900 text-xs">
+                        PKR {item.netSalary.toLocaleString()}
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-3.5 text-slate-600 font-medium">{item.department}</td>
-                  <td className="py-3.5 font-medium text-slate-700">
-                    PKR {item.baseSalary.toLocaleString()}
-                  </td>
-                  <td className="py-3.5 text-slate-600">
-                    +PKR {item.bonus.toLocaleString()}
-                  </td>
-                  <td className="py-3.5 font-bold text-slate-900">
-                    PKR {item.netSalary.toLocaleString()}
-                  </td>
-                  <td className="py-3.5">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${
-                      isPaid 
-                        ? 'bg-amber-50 text-amber-950 border border-amber-300' 
-                        : 'bg-slate-100 text-slate-600 border border-slate-200'
-                    }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${isPaid ? 'bg-amber-600' : 'bg-slate-400'}`} />
-                      {isPaid ? 'PAID' : 'PENDING'}
-                    </span>
-                  </td>
-                  <td className="py-3.5 text-slate-500">
-                    {isPaid ? (
-                      <div>
-                        <span className="font-medium text-slate-700">{item.paymentMethod}</span>
-                        <span className="text-[10px] text-slate-400 block font-mono">{item.paidDate}</span>
+                      <div className="text-[10px] text-slate-400">
+                        Base: {(item.baseSalary / 1000).toFixed(0)}K {item.bonus > 0 ? `• +${(item.bonus / 1000).toFixed(0)}K bonus` : ''}
                       </div>
-                    ) : (
-                      <span className="text-slate-400 italic">Processing</span>
-                    )}
-                  </td>
-                  <td className="py-3.5 pr-2 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      {isLeader && !isPaid && (
-                        <button
-                          onClick={() => setShowPayModal(item)}
-                          className="btn-gold text-xs py-1 px-3"
-                        >
-                          Mark as Paid
-                        </button>
+                    </td>
+
+                    {/* Status Pill */}
+                    <td className="py-3">
+                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5 ${
+                        isPaid 
+                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
+                          : 'bg-amber-50 text-amber-800 border border-amber-200'
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${isPaid ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
+                        {isPaid ? 'PAID' : 'PENDING'}
+                      </span>
+                    </td>
+
+                    {/* Disbursement Info */}
+                    <td className="py-3 text-slate-500">
+                      {isPaid ? (
+                        <div>
+                          <span className="font-semibold text-slate-800 text-xs">{item.paymentMethod}</span>
+                          <span className="text-[10px] text-slate-400 block">{item.paidDate}</span>
+                        </div>
+                      ) : (
+                        <span className="text-slate-400 text-xs italic">Awaiting clearance</span>
                       )}
-                      <button
-                        onClick={() => setViewReceipt(item)}
-                        className="btn-silver text-xs py-1 px-3"
-                      >
-                        Slip
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    </td>
+
+                    {/* Actions */}
+                    <td className="py-3 pr-2 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {isLeader && !isPaid && (
+                          <button
+                            onClick={() => setShowPayModal(item)}
+                            className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-[11px] py-1 px-3 rounded-lg shadow-2xs transition-all"
+                          >
+                            Pay
+                          </button>
+                        )}
+                        <button
+                          onClick={() => setViewReceipt(item)}
+                          className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90 font-semibold text-[11px] py-1 px-2.5 rounded-lg transition-all"
+                        >
+                          Slip
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Mark Salary Paid Modal */}
