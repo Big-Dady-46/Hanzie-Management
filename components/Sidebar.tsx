@@ -55,25 +55,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Demo Role Switcher */}
-        <div className="mb-5 p-2 bg-slate-50 border border-slate-200/90 rounded-xl">
-          <label className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
-            Demo Persona Switcher:
-          </label>
-          <select
-            value={currentUser.id}
-            onChange={(e) => switchUser(e.target.value)}
-            className="w-full text-xs font-semibold bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-slate-800 focus:outline-none cursor-pointer"
-          >
-            <option value="usr_leader">👑 Abdul Hannan (Leader)</option>
-            <option value="usr_dev_1">💻 Hamza (Senior Dev)</option>
-            <option value="usr_des_1">🎨 Zainab (UI/UX Designer)</option>
-            <option value="usr_cleaner_1">🧹 Rafiq (Office Staff)</option>
-            <option value="usr_client_1">🏢 Eleyas (Client)</option>
-            <option value="usr_pending_1">⏳ Farhan (Pending User)</option>
-          </select>
-        </div>
-
         {/* Navigation Links */}
         <nav className="space-y-1">
           {menuItems.map((item) => {

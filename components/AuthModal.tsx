@@ -106,32 +106,25 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </div>
         )}
 
-        {/* MODE: INSTANT PERSONA LOGIN */}
+        {/* MODE: ACTIVE REAL USERS LIST */}
         {mode === 'login' && (
           <div className="space-y-3">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">
-              Select Demo Persona to Experience:
+              Select User Account to Sign In:
             </span>
 
-            {[
-              { id: 'usr_leader', name: 'Abdul Hannan', role: 'Leader / CEO', bg: 'bg-amber-50/90 hover:bg-amber-100/80 text-amber-950 border border-amber-200' },
-              { id: 'usr_dev_1', name: 'Hamza Malik', role: 'Senior Developer', bg: 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200' },
-              { id: 'usr_des_1', name: 'Zainab Fatima', role: 'Lead UI/UX Designer', bg: 'bg-amber-50/50 hover:bg-amber-100/60 text-amber-900 border border-amber-200/60' },
-              { id: 'usr_cleaner_1', name: 'Muhammad Rafiq', role: 'Office Caretaker / Cleaner', bg: 'bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200' },
-              { id: 'usr_client_1', name: 'Eleyas Hasan', role: 'Client (Apex Logistics)', bg: 'bg-amber-50/70 hover:bg-amber-100/70 text-amber-900 border border-amber-200/80' },
-              { id: 'usr_pending_1', name: 'Farhan Siddiqui', role: 'Pending User (Approval Gate)', bg: 'bg-rose-50 hover:bg-rose-100/80 text-rose-800 border border-rose-200' },
-            ].map((persona) => (
+            {users.map((u) => (
               <button
-                key={persona.id}
+                key={u.id}
                 onClick={() => {
-                  switchUser(persona.id);
+                  switchUser(u.id);
                   onClose();
                 }}
-                className={`w-full p-3.5 rounded-2xl border border-transparent text-left flex items-center justify-between transition-all hover:scale-[1.01] ${persona.bg}`}
+                className="w-full p-3.5 rounded-2xl border border-slate-200/80 bg-white hover:bg-amber-50/50 text-left flex items-center justify-between transition-all hover:border-amber-300"
               >
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900">{persona.name}</h4>
-                  <span className="text-[11px] font-semibold opacity-80">{persona.role}</span>
+                  <h4 className="text-xs font-bold text-slate-900">{u.name}</h4>
+                  <span className="text-[11px] font-semibold text-slate-500 capitalize">{u.role.replace('_', ' ')} &bull; {u.department}</span>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400" />
               </button>

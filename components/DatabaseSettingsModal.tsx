@@ -105,7 +105,7 @@ export default function DatabaseSettingsModal() {
 
         <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
           <span className="text-[11px] text-slate-400">
-            Works 100% offline & demo mode without keys too!
+            Realtime cloud synchronization enabled
           </span>
           <button
             onClick={() => setIsDbModalOpen(false)}
