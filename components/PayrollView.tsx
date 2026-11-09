@@ -8,6 +8,7 @@ import {
   ShieldCheck, Search, Filter, TrendingUp, AlertCircle
 } from 'lucide-react';
 import { PayrollRecord } from '@/lib/types';
+import CustomDropdown from '@/components/CustomDropdown';
 
 export default function PayrollView() {
   const { 
@@ -71,14 +72,15 @@ export default function PayrollView() {
 
         {isLeader && (
           <div className="flex items-center gap-2.5">
-            <select
+            <CustomDropdown
               value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-              className="text-xs font-bold bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-800 shadow-2xs focus:outline-none focus:border-amber-500 cursor-pointer"
-            >
-              <option value="November 2026">November 2026</option>
-              <option value="October 2026">October 2026</option>
-            </select>
+              onChange={setSelectedMonth}
+              options={[
+                { value: 'November 2026', label: 'November 2026' },
+                { value: 'October 2026', label: 'October 2026' },
+              ]}
+              menuWidth="w-44"
+            />
 
             <button
               onClick={() => generateMonthlyPayroll(selectedMonth)}

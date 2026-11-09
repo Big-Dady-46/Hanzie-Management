@@ -7,6 +7,7 @@ import {
   ArrowUpRight, ArrowDownRight, Sparkles, Filter, ChevronDown, 
   Layers, CheckCircle2, PieChart as PieIcon
 } from 'lucide-react';
+import CustomDropdown from '@/components/CustomDropdown';
 
 export default function AnalyticsView() {
   const { projects, tasks, users } = useApp();
@@ -60,15 +61,16 @@ export default function AnalyticsView() {
         </div>
 
         <div className="flex items-center gap-3">
-          <select
+          <CustomDropdown
             value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500"
-          >
-            <option value="last_30_days">Last 30 Days</option>
-            <option value="6_months">Last 6 Months</option>
-            <option value="this_year">This Year (2026)</option>
-          </select>
+            onChange={setTimeRange}
+            options={[
+              { value: 'last_30_days', label: 'Last 30 Days' },
+              { value: '6_months', label: 'Last 6 Months' },
+              { value: 'this_year', label: 'This Year (2026)' },
+            ]}
+            menuWidth="w-48"
+          />
         </div>
       </div>
 

@@ -5,6 +5,7 @@ import { useApp } from '@/lib/store';
 import { 
   Plus, Mail, Phone, X
 } from 'lucide-react';
+import CustomDropdown from '@/components/CustomDropdown';
 import { UserRole, User } from '@/lib/types';
 
 export default function TeamView() {
@@ -92,17 +93,18 @@ export default function TeamView() {
 
         <div className="flex items-center gap-3">
           {/* Department Filter */}
-          <select
+          <CustomDropdown
             value={departmentFilter}
-            onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="text-xs font-semibold bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none cursor-pointer"
-          >
-            <option value="ALL">All Departments ({activeStaff.length})</option>
-            <option value="Development">Development</option>
-            <option value="Design">Design</option>
-            <option value="Quality Assurance">QA</option>
-            <option value="Office & Maintenance">Office Caretakers</option>
-          </select>
+            onChange={setDepartmentFilter}
+            options={[
+              { value: 'ALL', label: `All Departments (${activeStaff.length})` },
+              { value: 'Development', label: 'Development' },
+              { value: 'Design', label: 'Design' },
+              { value: 'Quality Assurance', label: 'QA' },
+              { value: 'Office & Maintenance', label: 'Office Caretakers' },
+            ]}
+            menuWidth="w-52"
+          />
 
           {isLeader && (
             <button

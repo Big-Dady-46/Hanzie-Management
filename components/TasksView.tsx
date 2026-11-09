@@ -7,6 +7,7 @@ import {
   Flame, Zap, Compass, Search, ChevronDown, GripVertical, Trash2
 } from 'lucide-react';
 import { TaskStatus, TaskPriority } from '@/lib/types';
+import CustomDropdown from '@/components/CustomDropdown';
 
 export default function TasksView() {
   const { 
@@ -107,16 +108,15 @@ export default function TasksView() {
 
         <div className="flex items-center gap-3">
           {/* Project Filter */}
-          <select
+          <CustomDropdown
             value={projectFilter}
-            onChange={(e) => setProjectFilter(e.target.value)}
-            className="text-xs font-semibold bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer shadow-2xs"
-          >
-            <option value="ALL">All Projects ({tasks.length})</option>
-            {projects.map(p => (
-              <option key={p.id} value={p.id}>{p.name}</option>
-            ))}
-          </select>
+            onChange={setProjectFilter}
+            options={[
+              { value: 'ALL', label: `All Projects (${tasks.length})` },
+              ...projects.map(p => ({ value: p.id, label: p.name }))
+            ]}
+            menuWidth="w-56"
+          />
 
           <button
             onClick={() => setShowAddModal(true)}

@@ -5,6 +5,7 @@ import { useApp } from '@/lib/store';
 import { 
   Calendar, Clock, Coffee, Check, Brush, X
 } from 'lucide-react';
+import CustomDropdown from '@/components/CustomDropdown';
 
 export default function AttendanceView() {
   const { 
@@ -128,17 +129,18 @@ export default function AttendanceView() {
         {activeSubTab === 'live_board' && (
           <div className="flex items-center gap-2 pr-2">
             <span className="text-xs text-slate-400">Department:</span>
-            <select
+            <CustomDropdown
               value={departmentFilter}
-              onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-medium focus:outline-none"
-            >
-              <option value="ALL">All Departments</option>
-              <option value="Development">Development</option>
-              <option value="Design">Design</option>
-              <option value="Quality Assurance">QA</option>
-              <option value="Office & Maintenance">Office Caretakers</option>
-            </select>
+              onChange={setDepartmentFilter}
+              options={[
+                { value: 'ALL', label: 'All Departments' },
+                { value: 'Development', label: 'Development' },
+                { value: 'Design', label: 'Design' },
+                { value: 'Quality Assurance', label: 'QA' },
+                { value: 'Office & Maintenance', label: 'Office Caretakers' },
+              ]}
+              menuWidth="w-48"
+            />
           </div>
         )}
       </div>
