@@ -217,29 +217,34 @@ export default function ProjectsView() {
                 </div>
 
                 {/* Middle: Circular Velocity Gauge & Horizontal Bar */}
-                <div className="flex items-center gap-4 bg-amber-50/20 p-3 rounded-2xl border border-amber-100/70">
+                <div className="flex items-center gap-4 bg-amber-50/30 p-3.5 rounded-2xl border border-amber-100">
                   {/* Circular Gauge */}
-                  <div className="relative w-15 h-15 shrink-0 flex items-center justify-center">
-                    <svg className="w-15 h-15 -rotate-90" viewBox="0 0 36 36">
-                      <path
+                  <div className="relative w-16 h-16 shrink-0 flex items-center justify-center">
+                    <svg className="w-16 h-16 -rotate-90" viewBox="0 0 44 44">
+                      <circle
+                        cx="22"
+                        cy="22"
+                        r="18"
                         className="text-slate-100"
-                        strokeWidth="3.5"
+                        strokeWidth="4"
                         stroke="currentColor"
                         fill="none"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                       />
-                      <path
-                        className="text-amber-500"
-                        strokeDasharray={`${project.progressPercentage}, 100`}
-                        strokeWidth="3.5"
+                      <circle
+                        cx="22"
+                        cy="22"
+                        r="18"
+                        className="text-amber-500 transition-all duration-300"
+                        strokeWidth="4"
+                        strokeDasharray={113.1}
+                        strokeDashoffset={113.1 - (113.1 * project.progressPercentage) / 100}
                         strokeLinecap="round"
                         stroke="currentColor"
                         fill="none"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                       />
                     </svg>
                     <span 
-                      className="absolute font-bold text-slate-900 text-sm tracking-tight"
+                      className="absolute font-extrabold text-slate-900 text-sm tracking-tight"
                       style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
                     >
                       {project.progressPercentage}%
@@ -259,7 +264,7 @@ export default function ProjectsView() {
                         step="5"
                         value={project.progressPercentage}
                         onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                        className="w-full h-2.5 bg-slate-200/80 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        className="w-full h-2.5 bg-slate-200/90 rounded-lg appearance-none cursor-pointer accent-amber-500"
                       />
                     </div>
                   </div>
@@ -286,11 +291,11 @@ export default function ProjectsView() {
 
               {/* RIGHT COLUMN: Financial Header Bar & Milestones Table */}
               <div className="flex-1 min-w-0 p-6 flex flex-col justify-between space-y-4">
-                {/* Top Financial Strip: Budget, Paid, Balance, + Pay */}
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
-                  <div className="flex flex-wrap items-center gap-6 sm:gap-8">
+                {/* Top Financial Strip: Budget, Paid, Balance, + Pay (All in ONE single clean row!) */}
+                <div className="flex items-center justify-between gap-4 pb-4 border-b border-slate-100 flex-wrap sm:flex-nowrap">
+                  <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 flex-wrap sm:flex-nowrap">
                     {/* Budget */}
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 shrink-0">
                       <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
                         <DollarSign className="w-4 h-4 stroke-[2.5]" />
                       </div>
@@ -299,7 +304,7 @@ export default function ProjectsView() {
                           Budget
                         </span>
                         <span 
-                          className="font-bold text-slate-900 text-sm sm:text-base tracking-tight"
+                          className="font-bold text-slate-900 text-xs sm:text-sm lg:text-base tracking-tight"
                           style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
                         >
                           PKR {project.totalBudget.toLocaleString()}
@@ -308,7 +313,7 @@ export default function ProjectsView() {
                     </div>
 
                     {/* Paid */}
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 shrink-0">
                       <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
                         <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
                       </div>
@@ -317,7 +322,7 @@ export default function ProjectsView() {
                           Paid
                         </span>
                         <span 
-                          className="font-bold text-emerald-600 text-sm sm:text-base tracking-tight"
+                          className="font-bold text-emerald-600 text-xs sm:text-sm lg:text-base tracking-tight"
                           style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
                         >
                           PKR {project.paidAmount.toLocaleString()}
@@ -326,7 +331,7 @@ export default function ProjectsView() {
                     </div>
 
                     {/* Balance */}
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2.5 shrink-0">
                       <div className="w-9 h-9 rounded-xl bg-amber-50/60 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
                         <Clock className="w-4 h-4" />
                       </div>
@@ -335,7 +340,7 @@ export default function ProjectsView() {
                           Balance
                         </span>
                         <span 
-                          className={`font-bold text-sm sm:text-base tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}
+                          className={`font-bold text-xs sm:text-sm lg:text-base tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}
                           style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
                         >
                           {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
@@ -344,11 +349,11 @@ export default function ProjectsView() {
                     </div>
                   </div>
 
-                  {/* + Pay Button (Vibrant Golden Action Pill) */}
+                  {/* + Pay Button (Fixed on the right side of the same row!) */}
                   {isLeader && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2 px-6 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 shrink-0"
+                      className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2 px-6 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 shrink-0 ml-auto"
                     >
                       <Plus className="w-4 h-4 stroke-[3]" />
                       <span>Pay</span>
