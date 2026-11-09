@@ -6,19 +6,24 @@ import {
   Briefcase, CheckCircle2, Clock, DollarSign, Send, 
   Sparkles, ShieldCheck, ChevronRight, MessageSquare, Check,
   Calendar, User, ArrowUpRight, TrendingUp, Layers, FileCheck,
-  CheckCircle, Lock
+  CheckCircle, Lock, ExternalLink, Printer, X, Download, Award,
+  Users, AlertCircle
 } from 'lucide-react';
 
 export default function ClientDashboard() {
   const { 
     currentUser, 
     projects,
-    tasks 
+    tasks,
+    users,
+    toggleMilestone
   } = useApp();
 
   const [feedbackText, setFeedbackText] = useState('');
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [quickTopic, setQuickTopic] = useState<string>('');
+  const [viewInvoiceModal, setViewInvoiceModal] = useState(false);
+  const [acceptedNotice, setAcceptedNotice] = useState<string | null>(null);
 
   // Filter projects for the client, fallback to all projects for preview
   const clientProjects = currentUser.role === 'client' 
@@ -45,6 +50,14 @@ export default function ClientDashboard() {
       setQuickTopic('');
       setFeedbackSent(false);
     }, 4000);
+  };
+
+  const handleAcceptMilestone = (milestoneId: string, title: string) => {
+    if (selectedProject) {
+      toggleMilestone(selectedProject.id, milestoneId);
+      setAcceptedNotice(`Milestone "${title}" verified & accepted!`);
+      setTimeout(() => setAcceptedNotice(null), 3500);
+    }
   };
 
   if (!selectedProject) {
@@ -74,6 +87,11 @@ export default function ClientDashboard() {
   const projectTasks = tasks.filter(t => t.projectId === selectedProject.id || t.projectName?.toLowerCase() === selectedProject.name?.toLowerCase());
   const completedTasks = projectTasks.filter(t => t.status === 'completed');
 
+  // Find assigned team members
+  const assignedTeam = users.filter(u => 
+    selectedProject.assignedTeamMemberIds?.includes(u.id) || u.role === 'leader'
+  );
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* 1. TOP EXECUTIVE WELCOME & WORKSPACE HEADER */}
@@ -86,7 +104,7 @@ export default function ClientDashboard() {
               VIP Client Workspace
             </span>
             <span className="text-xs text-slate-400 font-medium">
-              Verified Enterprise Contract
+              Contract #{selectedProject.id.slice(0, 8).toUpperCase()} • Active Sprint
             </span>
           </div>
           <h2 className="text-xl font-bold text-slate-900 tracking-tight">
@@ -124,13 +142,26 @@ export default function ClientDashboard() {
             <div>
               <div className="text-xs font-bold text-slate-900 leading-tight">Hanzei Technologies</div>
               <span className="text-[10px] text-slate-500 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                Lead: Abdul Hannan
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Lead: Abdul Hannan (Online)
               </span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Accepted Notice Alert */}
+      {acceptedNotice && (
+        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-xs text-emerald-900 font-semibold flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{acceptedNotice}</span>
+          </div>
+          <button onClick={() => setAcceptedNotice(null)} className="text-emerald-700 hover:text-emerald-900 text-xs font-bold">
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {/* 2. TOP 4 EXECUTIVE STAT CARDS (Overview Style — Clean White & Font-Bold) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -146,8 +177,14 @@ export default function ClientDashboard() {
             <div className="text-2xl font-bold text-slate-900 tracking-tight font-mono">
               {selectedProject.progressPercentage}%
             </div>
-            <p className="text-[11px] text-amber-700/80 font-semibold mt-0.5">
-              Handover: <span className="font-mono">{selectedProject.deadline}</span>
+            <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+              <div 
+                className="bg-amber-500 h-full rounded-full transition-all duration-500"
+                style={{ width: `${selectedProject.progressPercentage}%` }}
+              />
+            </div>
+            <p className="text-[10px] text-slate-400 mt-1">
+              Handover: <strong className="text-slate-700 font-mono">{selectedProject.deadline}</strong>
             </p>
           </div>
         </div>
@@ -164,7 +201,7 @@ export default function ClientDashboard() {
             <div className="text-2xl font-bold text-amber-900 tracking-tight font-mono">
               {completedMilestones.length} <span className="text-sm font-normal text-slate-400">/ {totalMilestonesCount}</span>
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">
+            <p className="text-[11px] text-amber-700/80 font-semibold mt-0.5">
               {milestonePct}% deliverables verified
             </p>
           </div>
@@ -188,20 +225,20 @@ export default function ClientDashboard() {
           </div>
         </div>
 
-        {/* Card 4: Active Sprint Tasks */}
+        {/* Card 4: Engineering Team */}
         <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Sprint Workstream</span>
+            <span className="text-xs font-semibold text-slate-500">Engineering Squad</span>
             <div className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center">
-              <Layers className="w-4 h-4 text-slate-600" />
+              <Users className="w-4 h-4 text-slate-600" />
             </div>
           </div>
           <div>
             <div className="text-2xl font-bold text-slate-900 tracking-tight font-mono">
-              {projectTasks.length > 0 ? projectTasks.length : selectedProject.milestones.length} <span className="text-sm font-normal text-slate-400">Items</span>
+              {assignedTeam.length > 0 ? assignedTeam.length : 1} <span className="text-sm font-normal text-slate-400">Engineers</span>
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">
-              {completedTasks.length} tasks marked complete
+              Dedicated full-stack development & QA
             </p>
           </div>
         </div>
@@ -213,15 +250,15 @@ export default function ClientDashboard() {
         {/* LEFT COLUMN: Deliverables & Sprint Roadmap (7 Cols) */}
         <div className="lg:col-span-7 space-y-6">
           
-          {/* Active Contract Info & Linear Progress */}
+          {/* Active Contract Info Card */}
           <div className="clean-card p-6 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-md">
                     {selectedProject.category}
                   </span>
-                  <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md capitalize">
+                  <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md capitalize">
                     {selectedProject.status.replace('_', ' ')}
                   </span>
                 </div>
@@ -232,7 +269,7 @@ export default function ClientDashboard() {
 
               <div className="text-left sm:text-right">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sprint Health</span>
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1 mt-0.5">
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   On Schedule
                 </span>
@@ -243,22 +280,24 @@ export default function ClientDashboard() {
               {selectedProject.description}
             </p>
 
-            {/* Progress Gauge Bar */}
-            <div className="space-y-1.5 pt-1">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-600">Milestone Delivery Velocity</span>
-                <span className="font-bold text-slate-900 font-mono">{selectedProject.progressPercentage}%</span>
+            {/* Handover Timeline Badges */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-[9px] uppercase font-bold text-slate-400 block">Initiated</span>
+                <span className="text-xs font-bold text-slate-800 font-mono mt-0.5 block">{selectedProject.startDate || '2026-01-01'}</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                <div 
-                  className="bg-gradient-to-r from-amber-500 to-amber-600 h-full rounded-full transition-all duration-500"
-                  style={{ width: `${selectedProject.progressPercentage}%` }}
-                />
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <span className="text-[9px] uppercase font-bold text-slate-400 block">Target Handover</span>
+                <span className="text-xs font-bold text-slate-800 font-mono mt-0.5 block">{selectedProject.deadline}</span>
+              </div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 col-span-2 sm:col-span-1">
+                <span className="text-[9px] uppercase font-bold text-slate-400 block">Quality Assurance</span>
+                <span className="text-xs font-bold text-emerald-700 mt-0.5 block">Automated CI/CD ✓</span>
               </div>
             </div>
           </div>
 
-          {/* Milestones Roadmap & Acceptance Checklist */}
+          {/* Milestones Roadmap & Interactive Client Acceptance */}
           <div className="clean-card p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>
@@ -266,7 +305,7 @@ export default function ClientDashboard() {
                   Milestones Roadmap & Acceptance Checklist
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Sequential delivery verification and handover timeline
+                  Click on active sprint milestones to review or verify acceptance
                 </p>
               </div>
               <span className="text-xs font-bold text-amber-900 bg-amber-50 border border-amber-300 px-2.5 py-0.5 rounded-md">
@@ -274,7 +313,7 @@ export default function ClientDashboard() {
               </span>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {selectedProject.milestones.map((milestone, idx) => {
                 const isCompleted = milestone.completed;
                 const prevCompleted = idx === 0 || selectedProject.milestones[idx - 1].completed;
@@ -283,7 +322,7 @@ export default function ClientDashboard() {
                 return (
                   <div
                     key={milestone.id}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+                    className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                       isCompleted
                         ? 'bg-slate-50/60 border-slate-200/80'
                         : isActive
@@ -291,51 +330,65 @@ export default function ClientDashboard() {
                         : 'bg-white border-slate-200/60 opacity-60'
                     }`}
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex items-start sm:items-center gap-3.5 min-w-0">
                       {/* Step Indicator Dot */}
-                      <div className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 ${
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 ${
                         isCompleted
                           ? 'bg-emerald-600 text-white shadow-2xs'
                           : isActive
                           ? 'bg-amber-500 text-white shadow-xs'
                           : 'bg-slate-100 text-slate-400 border border-slate-200'
                       }`}>
-                        {isCompleted ? <Check className="w-3.5 h-3.5" /> : idx + 1}
+                        {isCompleted ? <Check className="w-4 h-4" /> : idx + 1}
                       </div>
 
                       <div className="min-w-0">
-                        <h4 className={`text-xs font-bold truncate ${
-                          isCompleted ? 'text-slate-700 line-through decoration-slate-300' : 'text-slate-900'
-                        }`}>
-                          {milestone.title}
-                        </h4>
-                        <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono mt-0.5">
-                          <span>Target: {milestone.dueDate}</span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className={`text-xs font-bold ${
+                            isCompleted ? 'text-slate-700 line-through decoration-slate-300' : 'text-slate-900'
+                          }`}>
+                            {milestone.title}
+                          </h4>
                           {isActive && (
-                            <span className="text-amber-700 font-bold font-sans">
-                              • Current Sprint Focus
+                            <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
+                              Current Sprint
                             </span>
                           )}
                         </div>
+                        <span className="text-[10px] text-slate-400 font-mono mt-0.5 block">
+                          Target Due: {milestone.dueDate}
+                        </span>
                       </div>
                     </div>
 
-                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md shrink-0 ${
-                      isCompleted 
-                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
-                        : isActive
-                        ? 'bg-amber-100/80 text-amber-950 border border-amber-300'
-                        : 'bg-slate-100 text-slate-500 border border-slate-200'
-                    }`}>
-                      {isCompleted ? 'Delivered & Accepted ✓' : isActive ? 'In Progress' : 'Queued'}
-                    </span>
+                    <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                      {isCompleted ? (
+                        <span className="text-[10px] font-bold px-3 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 inline-flex items-center gap-1">
+                          <Check className="w-3 h-3 text-emerald-600" />
+                          <span>Accepted ✓</span>
+                        </span>
+                      ) : isActive ? (
+                        <button
+                          type="button"
+                          onClick={() => handleAcceptMilestone(milestone.id, milestone.title)}
+                          className="btn-gold text-[10px] py-1 px-3 shadow-2xs inline-flex items-center gap-1"
+                        >
+                          <Check className="w-3 h-3" />
+                          <span>Approve & Accept</span>
+                        </button>
+                      ) : (
+                        <span className="text-[10px] font-medium px-2.5 py-1 rounded-lg bg-slate-100 text-slate-400 border border-slate-200">
+                          Queued Next
+                        </span>
+                      )}
+                    </div>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Live Engineering Sprint Tasks (Transparency) */}
+          {/* Live Engineering Sprint Tasks (Real Visibility) */}
           <div className="clean-card p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>
@@ -347,41 +400,41 @@ export default function ClientDashboard() {
                 </p>
               </div>
               <span className="text-xs font-semibold text-slate-500">
-                {projectTasks.length} Tracked Items
+                {projectTasks.length} Tracked Tasks
               </span>
             </div>
 
             {projectTasks.length > 0 ? (
               <div className="divide-y divide-slate-100 text-xs">
                 {projectTasks.slice(0, 5).map(task => (
-                  <div key={task.id} className="py-2.5 flex items-center justify-between gap-3">
+                  <div key={task.id} className="py-3 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className={`w-2 h-2 rounded-full shrink-0 ${
-                        task.status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500'
+                        task.status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'
                       }`} />
-                      <span className="font-semibold text-slate-800 truncate">{task.title}</span>
+                      <div>
+                        <span className="font-semibold text-slate-800 block truncate">{task.title}</span>
+                        <span className="text-[10px] text-slate-400">
+                          Assignee: <strong className="text-slate-600">{task.assignedToName}</strong>
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-[10px] text-slate-400 hidden sm:inline">
-                        Assignee: <strong className="text-slate-600">{task.assignedToName}</strong>
-                      </span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded capitalize ${
-                        task.status === 'completed'
-                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                          : task.status === 'in_progress'
-                          ? 'bg-amber-50 text-amber-800 border border-amber-200'
-                          : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {task.status.replace('_', ' ')}
-                      </span>
-                    </div>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded capitalize shrink-0 ${
+                      task.status === 'completed'
+                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        : task.status === 'in_progress'
+                        ? 'bg-amber-50 text-amber-800 border border-amber-200'
+                        : 'bg-slate-100 text-slate-600'
+                    }`}>
+                      {task.status.replace('_', ' ')}
+                    </span>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="p-4 rounded-xl bg-slate-50 text-center text-xs text-slate-500">
-                All sprint deliverables are mapped into the active milestones roadmap above.
+                All sprint deliverables are actively tracked across the milestone roadmap above.
               </div>
             )}
           </div>
@@ -398,12 +451,16 @@ export default function ClientDashboard() {
                   Billing & Financial Ledger
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Verified contract disbursements & receipts
+                  Verified contract disbursements & tax receipts
                 </p>
               </div>
-              <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-                VERIFIED ✓
-              </span>
+              <button
+                onClick={() => setViewInvoiceModal(true)}
+                className="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 hover:bg-amber-100 px-2.5 py-1 rounded-lg transition-colors inline-flex items-center gap-1 shadow-2xs"
+              >
+                <FileCheck className="w-3.5 h-3.5 text-amber-600" />
+                <span>Statement</span>
+              </button>
             </div>
 
             {/* 3 Metric Mini Boxes with White Background & Clean Border */}
@@ -449,9 +506,63 @@ export default function ClientDashboard() {
               </div>
             </div>
 
-            <div className="text-[11px] text-slate-400 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 flex items-center gap-2">
-              <FileCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-              <span>All payments backed by official SECP tax invoices & digital receipts.</span>
+            <div className="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span>SECP Reg: SECP-0192841</span>
+              </div>
+              <button 
+                onClick={() => setViewInvoiceModal(true)}
+                className="text-amber-800 font-bold hover:underline"
+              >
+                View Receipt →
+              </button>
+            </div>
+          </div>
+
+          {/* Deliverable Assets & Staging Links */}
+          <div className="clean-card p-6 space-y-3.5">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900">Project Deliverables & Artifacts</h3>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Cloud Access</span>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <div className="p-3 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                    🌐
+                  </div>
+                  <div>
+                    <span className="font-bold text-slate-800 block leading-tight">Live Staging Preview</span>
+                    <span className="text-[10px] text-slate-400">Automatic branch deployment</span>
+                  </div>
+                </div>
+                <a
+                  href="https://hanzie.vercel.app" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="btn-silver text-[10px] py-1 px-2.5 flex items-center gap-1"
+                >
+                  <span>Open</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500" />
+                </a>
+              </div>
+
+              <div className="p-3 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
+                    🎨
+                  </div>
+                  <div>
+                    <span className="font-bold text-slate-800 block leading-tight">Figma Design Specs</span>
+                    <span className="text-[10px] text-slate-400">Approved component library</span>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
+                  Locked ✓
+                </span>
+              </div>
             </div>
           </div>
 
@@ -471,7 +582,7 @@ export default function ClientDashboard() {
 
             {/* Quick Topic Chips */}
             <div className="flex items-center gap-1.5 flex-wrap">
-              {['Design Revision', 'Scope Inquiry', 'Milestone Review', 'General Note'].map(topic => (
+              {['Design Revision', 'Scope Inquiry', 'Milestone Review', 'Request Sync Call'].map(topic => (
                 <button
                   key={topic}
                   type="button"
@@ -543,6 +654,91 @@ export default function ClientDashboard() {
         </div>
 
       </div>
+
+      {/* Official Invoicing Statement Modal */}
+      {viewInvoiceModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-5 sm:p-6 max-w-sm w-full shadow-2xl border border-slate-200 relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Top Amber Accent Line */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600" />
+
+            {/* Header: Logo + Title + Close */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white font-bold text-sm flex items-center justify-center shadow-xs">
+                  H
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-slate-900 tracking-tight leading-none">
+                    Hanzei Technologies
+                  </h3>
+                  <span className="text-[10px] text-slate-400 font-medium">Contract Financial Statement</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setViewInvoiceModal(false)}
+                className="text-slate-400 hover:text-slate-600 p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="pt-3 text-xs space-y-3">
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <span className="text-[9px] uppercase font-bold text-slate-400 block">Client Account</span>
+                  <span className="font-bold text-slate-900">{selectedProject.clientName || currentUser.name}</span>
+                </div>
+                <span className="text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+                  {selectedProject.category}
+                </span>
+              </div>
+
+              {/* Breakdown */}
+              <div className="space-y-2 border-y border-slate-100 py-3 text-slate-600 text-xs">
+                <div className="flex items-center justify-between">
+                  <span>Agreed Scope Budget</span>
+                  <span className="font-mono font-bold text-slate-900">PKR {selectedProject.totalBudget.toLocaleString()}</span>
+                </div>
+                <div className="flex items-center justify-between text-emerald-700">
+                  <span>Verified Payments Cleared</span>
+                  <span className="font-mono font-bold">-PKR {selectedProject.paidAmount.toLocaleString()}</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-800 font-bold pt-1 border-t border-slate-100">
+                  <span>Remaining Handover Balance</span>
+                  <span className="font-mono">{balance <= 0 ? 'Settled ✓' : `PKR ${balance.toLocaleString()}`}</span>
+                </div>
+              </div>
+
+              {/* SECP Verification Stamp */}
+              <div className="p-2.5 rounded-xl bg-amber-50/50 border border-amber-200 text-[10px] text-amber-900 flex items-center justify-between">
+                <span>SECP Reg: SECP-0192841</span>
+                <span className="font-bold text-emerald-700">VERIFIED RECEIPT ✓</span>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-end gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setViewInvoiceModal(false)}
+                  className="btn-silver text-xs py-1.5 px-3"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="btn-gold text-xs py-1.5 px-3.5 shadow-xs flex items-center gap-1.5"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print Receipt</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
