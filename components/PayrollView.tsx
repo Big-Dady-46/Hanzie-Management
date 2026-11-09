@@ -354,89 +354,172 @@ export default function PayrollView() {
         </div>
       )}
 
-      {/* Slip Modal */}
+      {/* Official Executive Salary Slip Modal */}
       {viewReceipt && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-xl border border-slate-200 printable-slip">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">
-                  Official Salary Certificate
-                </span>
-                <h3 className="text-lg font-bold text-slate-900">Hanzei Technologies (Pvt) Ltd</h3>
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 printable-slip-overlay">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl border border-slate-200 printable-slip relative overflow-hidden">
+            {/* Top Amber Ribbon */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 no-print" />
+
+            {/* Official Letterhead */}
+            <div className="flex items-start justify-between pb-5 border-b border-slate-200">
+              <div className="flex items-start gap-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-amber-500/20 shrink-0">
+                  H
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 tracking-tight leading-snug">
+                    HANZEI TECHNOLOGIES (PVT) LTD
+                  </h3>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Software House & Digital Product Engineering
+                  </p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    NTN: 8941028-4 • Reg: SECP-0192841 • Lahore, Pakistan
+                  </p>
+                </div>
               </div>
-              <button
-                onClick={() => setViewReceipt(null)}
-                className="text-slate-400 hover:text-slate-600 p-1"
-              >
-                <X className="w-5 h-5" />
-              </button>
+
+              <div className="text-right">
+                <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                  Pay Slip Voucher
+                </span>
+                <span className="block text-xs font-mono font-bold text-slate-700 mt-1">
+                  #{viewReceipt.id.toUpperCase()}
+                </span>
+                <button
+                  onClick={() => setViewReceipt(null)}
+                  className="text-slate-400 hover:text-slate-600 p-1 no-print mt-1 inline-block"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+            <div className="space-y-4 pt-4 text-xs">
+              {/* Employee & Pay Period Details */}
+              <div className="grid grid-cols-2 gap-3 bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/80">
                 <div>
-                  <span className="text-slate-400 block text-[10px]">Employee</span>
-                  <span className="font-bold text-slate-800 text-sm">{viewReceipt.userName}</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Staff Member</span>
+                  <span className="font-extrabold text-slate-900 text-sm block mt-0.5">{viewReceipt.userName}</span>
+                  <span className="text-[11px] text-slate-500 capitalize">{viewReceipt.userRole.replace('_', ' ')} &bull; {viewReceipt.department}</span>
                 </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px]">Department & Role</span>
-                  <span className="font-semibold text-slate-700 capitalize">{viewReceipt.userRole} &bull; {viewReceipt.department}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px]">Pay Period</span>
-                  <span className="font-semibold text-slate-700">{viewReceipt.month}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px]">Voucher Status</span>
-                  <span className="font-bold text-amber-700 uppercase">{viewReceipt.status}</span>
+                <div className="text-right">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Payroll Period</span>
+                  <span className="font-extrabold text-amber-800 text-sm block mt-0.5">{viewReceipt.month}</span>
+                  <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-md mt-1 ${
+                    viewReceipt.status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    {viewReceipt.status === 'paid' ? 'DISBURSED ✓' : 'PENDING'}
+                  </span>
                 </div>
               </div>
 
-              <div className="space-y-1.5 pt-1">
-                <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span className="text-slate-500">Base Salary</span>
-                  <span className="font-medium text-slate-800">PKR {viewReceipt.baseSalary.toLocaleString()}</span>
+              {/* Earnings & Deductions Breakdown Table */}
+              <div className="rounded-2xl border border-slate-200 overflow-hidden">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-50 text-slate-500 border-b border-slate-200 text-[10px] font-bold uppercase tracking-wider">
+                    <tr>
+                      <th className="py-2.5 px-3">Description</th>
+                      <th className="py-2.5 px-3 text-right">Type</th>
+                      <th className="py-2.5 px-3 text-right">Amount (PKR)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Basic Contract Salary</td>
+                      <td className="py-2 px-3 text-right text-slate-400 text-[11px]">Earning</td>
+                      <td className="py-2 px-3 text-right font-bold text-slate-800">
+                        PKR {viewReceipt.baseSalary.toLocaleString()}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Sprint Performance Bonus</td>
+                      <td className="py-2 px-3 text-right text-emerald-600 text-[11px]">Incentive</td>
+                      <td className="py-2 px-3 text-right font-bold text-emerald-700">
+                        +PKR {viewReceipt.bonus.toLocaleString()}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-3 font-medium">Tax & Compliance Withholding</td>
+                      <td className="py-2 px-3 text-right text-slate-400 text-[11px]">Deduction</td>
+                      <td className="py-2 px-3 text-right font-bold text-slate-600">
+                        -PKR {(viewReceipt.deductions || 0).toLocaleString()}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Net Disbursed Highlight Card */}
+              <div 
+                className="p-4 rounded-2xl flex items-center justify-between"
+                style={{
+                  background: 'linear-gradient(145deg, #fffdf5 0%, #fefce8 60%, #fef9c3 100%)',
+                  border: '1.5px solid #fcd34d',
+                  boxShadow: '0 2px 0 #d97706, 0 4px 12px rgba(217,119,6,0.12)',
+                }}
+              >
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider font-extrabold text-amber-800 block">
+                    Total Net Salary Disbursed
+                  </span>
+                  <div className="text-xl sm:text-2xl font-black text-amber-950 tracking-tight mt-0.5">
+                    PKR {viewReceipt.netSalary.toLocaleString()}
+                  </div>
                 </div>
-                <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span className="text-slate-500">Performance Bonus</span>
-                  <span className="font-medium text-slate-800">+PKR {viewReceipt.bonus.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between py-1 border-b border-slate-100">
-                  <span className="text-slate-500">Tax Deductions</span>
-                  <span className="font-medium text-slate-800">-PKR {viewReceipt.deductions.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between py-2 text-sm font-bold border-t border-slate-200 pt-2">
-                  <span className="text-slate-900">Total Net Disbursed</span>
-                  <span className="text-amber-700">PKR {viewReceipt.netSalary.toLocaleString()}</span>
+
+                <div className="text-right">
+                  <div className="border-2 border-emerald-600 text-emerald-700 font-black text-[11px] px-3 py-1 rounded-lg uppercase tracking-wider inline-flex items-center gap-1">
+                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <span>AUDITED & CLEARED</span>
+                  </div>
                 </div>
               </div>
 
+              {/* Payment Method & Reference */}
               {viewReceipt.paymentMethod && (
-                <div className="p-2.5 rounded-lg bg-amber-50/60 border border-amber-200 text-[11px] text-amber-900 font-mono">
-                  Disbursed via {viewReceipt.paymentMethod} &bull; Ref: {viewReceipt.transactionReference} &bull; {viewReceipt.paidDate}
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 flex items-center justify-between flex-wrap gap-2">
+                  <span>Channel: <strong className="text-slate-800">{viewReceipt.paymentMethod}</strong></span>
+                  <span>Ref: <strong className="text-slate-800 font-mono">{viewReceipt.transactionReference || 'TXN-DIRECT'}</strong></span>
+                  <span>Date: <strong className="text-slate-800">{viewReceipt.paidDate || 'Cleared'}</strong></span>
                 </div>
               )}
 
-              <div className="pt-3 flex items-center justify-between border-t border-slate-200">
-                <span className="text-[10px] text-slate-400 font-mono">
-                  Doc ID: {viewReceipt.id}
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => window.print()}
-                    className="btn-silver text-xs"
-                  >
-                    <Printer className="w-3.5 h-3.5" />
-                    <span>Print Slip</span>
-                  </button>
-                  <button
-                    onClick={() => setViewReceipt(null)}
-                    className="btn-gold text-xs"
-                  >
-                    Close
-                  </button>
+              {/* Signatures & Seal */}
+              <div className="pt-4 flex items-end justify-between border-t border-slate-200 text-[11px] text-slate-400">
+                <div className="text-center">
+                  <div className="w-32 border-b border-slate-300 pb-1 mb-1 font-semibold text-slate-700">
+                    {viewReceipt.userName}
+                  </div>
+                  <span>Employee Signature</span>
                 </div>
+
+                <div className="text-center">
+                  <div className="w-36 border-b border-slate-300 pb-1 mb-1 font-semibold text-slate-700">
+                    Abdul Hannan
+                  </div>
+                  <span>Authorized Finance Director</span>
+                </div>
+              </div>
+
+              {/* Modal Buttons (Hidden in print) */}
+              <div className="pt-2 flex items-center justify-end gap-2.5 no-print">
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="btn-gold text-xs py-2 px-4 shadow-sm"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print / Save PDF</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewReceipt(null)}
+                  className="btn-silver text-xs py-2 px-4"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>

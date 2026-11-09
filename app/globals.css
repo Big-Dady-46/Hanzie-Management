@@ -283,3 +283,64 @@ body {
 .animate-indeterminate-bar {
   animation: indeterminate 1.6s infinite ease-in-out;
 }
+
+/* ========================================================================= */
+/* PRINT STYLES (Clean PDF exports for Salary Slips & EOD Reports)           */
+/* ========================================================================= */
+@media print {
+  @page {
+    margin: 12mm;
+    size: auto;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* Hide navigation, sidebars, interactive controls, toolbars, buttons */
+  aside,
+  header,
+  nav,
+  .no-print,
+  button,
+  input,
+  select {
+    display: none !important;
+  }
+
+  /* Force browsers to print exact colors and backgrounds */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Printable Slip Styles */
+  .printable-slip-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    inset: auto !important;
+    display: block !important;
+    z-index: auto !important;
+  }
+
+  .printable-slip {
+    box-shadow: none !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+    page-break-inside: avoid;
+  }
+
+  .printable-report-card {
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 12px !important;
+  }
+}
