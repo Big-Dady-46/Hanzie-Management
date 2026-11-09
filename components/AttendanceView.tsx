@@ -73,76 +73,78 @@ export default function AttendanceView() {
         </div>
       </div>
 
-      {/* Clean Presence Counters */}
-      <div className="clean-card p-4 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-amber-950 bg-amber-50 border border-amber-300">
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            <span>{workingCount} Working</span>
+      {/* Unified Presence + Tabs Panel */}
+      <div className="clean-card overflow-hidden">
+        {/* Top Row: Status pills + Office shift */}
+        <div className="p-3.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-bold text-amber-950 bg-amber-50 border border-amber-300">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <span>{workingCount} Working</span>
+            </div>
+            <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-100">
+              <Coffee className="w-3.5 h-3.5 text-amber-700" />
+              <span>{breakCount} Break</span>
+            </div>
+            <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100">
+              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+              <span>{leaveCount} Leave</span>
+            </div>
+            <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs text-slate-400 font-medium">
+              <span>{offlineCount} Offline</span>
+            </div>
           </div>
-          <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-100">
-            <Coffee className="w-3.5 h-3.5 text-amber-700" />
-            <span>{breakCount} Break</span>
-          </div>
-          <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100">
-            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-            <span>{leaveCount} Leave</span>
-          </div>
-          <div className="px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs text-slate-400 font-medium">
-            <span>{offlineCount} Offline</span>
-          </div>
+          <span className="text-xs text-slate-500 font-medium">
+            Office Shift: <strong className="text-slate-800">09:00 AM - 06:00 PM</strong>
+          </span>
         </div>
 
-        <span className="text-xs text-slate-500 font-medium">
-          Office Shift: <strong className="text-slate-800">09:00 AM - 06:00 PM</strong>
-        </span>
-      </div>
-
-      {/* Sub Tabs */}
-      <div className="clean-card p-1.5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5">
-          {[
-            { id: 'live_board', label: 'Live Hazari Floor' },
-            { id: 'cleaners', label: 'Hygiene & Cleaners' },
-            { id: 'history', label: 'Timesheet History' },
-            { id: 'leaves', label: 'Leaves (Choti)', badge: leaves.filter(l => l.status === 'pending').length },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveSubTab(tab.id as any)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
-                activeSubTab === tab.id
-                  ? 'bg-amber-50 text-amber-950 border border-amber-300 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <span>{tab.label}</span>
-              {Boolean(tab.badge && tab.badge > 0) && (
-                <span className="bg-amber-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">
-                  {tab.badge}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-
-        {activeSubTab === 'live_board' && (
-          <div className="flex items-center gap-2 pr-2">
-            <span className="text-xs text-slate-400">Department:</span>
-            <CustomDropdown
-              value={departmentFilter}
-              onChange={setDepartmentFilter}
-              options={[
-                { value: 'ALL', label: 'All Departments' },
-                { value: 'Development', label: 'Development' },
-                { value: 'Design', label: 'Design' },
-                { value: 'Quality Assurance', label: 'QA' },
-                { value: 'Office & Maintenance', label: 'Office Caretakers' },
-              ]}
-              menuWidth="w-48"
-            />
+        {/* Bottom Row: Sub Tabs + Department Filter */}
+        <div className="px-2 py-1.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-1">
+            {[
+              { id: 'live_board', label: 'Live Hazari Floor' },
+              { id: 'cleaners', label: 'Hygiene & Cleaners' },
+              { id: 'history', label: 'Timesheet History' },
+              { id: 'leaves', label: 'Leaves (Choti)', badge: leaves.filter(l => l.status === 'pending').length },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveSubTab(tab.id as any)}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                  activeSubTab === tab.id
+                    ? 'bg-amber-50 text-amber-950 border border-amber-300 shadow-xs'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                <span>{tab.label}</span>
+                {Boolean(tab.badge && tab.badge > 0) && (
+                  <span className="bg-amber-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
-        )}
+
+          {activeSubTab === 'live_board' && (
+            <div className="flex items-center gap-2 pr-1">
+              <span className="text-xs text-slate-400">Department:</span>
+              <CustomDropdown
+                value={departmentFilter}
+                onChange={setDepartmentFilter}
+                options={[
+                  { value: 'ALL', label: 'All Departments' },
+                  { value: 'Development', label: 'Development' },
+                  { value: 'Design', label: 'Design' },
+                  { value: 'Quality Assurance', label: 'QA' },
+                  { value: 'Office & Maintenance', label: 'Office Caretakers' },
+                ]}
+                menuWidth="w-48"
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* SUB-TAB 1: LIVE HAZARI FLOOR */}

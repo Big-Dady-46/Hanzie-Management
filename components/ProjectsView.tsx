@@ -115,55 +115,70 @@ export default function ProjectsView() {
         )}
       </div>
 
-      {/* 2. TOP 3 FINANCIAL KPI CARDS - Minimal, Beautiful, Unified Luxury Style */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Box 1: Total Pipeline */}
-        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-amber-300 transition-colors">
+      {/* 2. TOP 3 FINANCIAL KPI CARDS - 2D Luxury Style */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Box 1: Total Pipeline — Gold */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
+          style={{
+            background: 'linear-gradient(160deg, #fffdf5 0%, #fefce8 50%, #fef9c3 100%)',
+            border: '1px solid #fcd34d',
+            boxShadow: '0 3px 0 #d97706, 0 6px 20px rgba(217,119,6,0.10)',
+          }}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Total Pipeline Value</span>
-            <div className="icon-badge-gold">
+            <span className="text-xs font-bold text-amber-800">Total Pipeline Value</span>
+            <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-300 flex items-center justify-center">
               <DollarSign className="w-4 h-4 text-amber-700" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-slate-900 tracking-tight">
+            <div className="text-2xl font-black text-amber-900 tracking-tight">
               PKR {totalBudget.toLocaleString()}
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">{projects.length} Active commercial contracts</p>
+            <p className="text-[11px] text-amber-700/70 mt-0.5">{projects.length} active contracts</p>
           </div>
         </div>
 
-        {/* Box 2: Payments Cleared */}
-        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-amber-300 transition-colors">
+        {/* Box 2: Payments Cleared — Emerald */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
+          style={{
+            background: 'linear-gradient(160deg, #f0fdf8 0%, #dcfce7 50%, #bbf7d0 100%)',
+            border: '1px solid #6ee7b7',
+            boxShadow: '0 3px 0 #059669, 0 6px 20px rgba(5,150,105,0.10)',
+          }}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Payments Cleared</span>
-            <div className="icon-badge-gold">
-              <Sparkles className="w-4 h-4 text-amber-600" />
+            <span className="text-xs font-bold text-emerald-800">Revenue Cleared</span>
+            <div className="w-8 h-8 rounded-xl bg-emerald-400/20 border border-emerald-300 flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-amber-700 tracking-tight">
+            <div className="text-2xl font-black text-emerald-800 tracking-tight">
               PKR {totalPaid.toLocaleString()}
             </div>
-            <p className="text-[11px] text-amber-700 font-semibold mt-0.5">
-              {Math.round((totalPaid / (totalBudget || 1)) * 100)}% verified revenue collected
+            <p className="text-[11px] text-emerald-700/70 font-semibold mt-0.5">
+              {Math.round((totalPaid / (totalBudget || 1)) * 100)}% collected
             </p>
           </div>
         </div>
 
-        {/* Box 3: Outstanding Receivables */}
-        <div className="clean-card p-5 flex flex-col justify-between h-32 hover:border-slate-300 transition-colors">
+        {/* Box 3: Outstanding Receivables — Silver */}
+        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
+          style={{
+            background: 'linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%)',
+            border: '1px solid #cbd5e1',
+            boxShadow: '0 3px 0 #94a3b8, 0 6px 20px rgba(100,116,139,0.08)',
+          }}>
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500">Outstanding Receivables</span>
-            <div className="icon-badge-silver">
-              <Clock className="w-4 h-4 text-slate-600" />
+            <span className="text-xs font-bold text-slate-600">Outstanding Receivables</span>
+            <div className="w-8 h-8 rounded-xl bg-slate-200/80 border border-slate-300 flex items-center justify-center">
+              <Clock className="w-4 h-4 text-slate-500" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-slate-900 tracking-tight">
+            <div className="text-2xl font-black text-slate-800 tracking-tight">
               PKR {totalBalance.toLocaleString()}
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">Due across upcoming deliverables</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Due across upcoming milestones</p>
           </div>
         </div>
       </div>
