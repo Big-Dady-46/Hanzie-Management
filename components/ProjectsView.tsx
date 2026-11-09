@@ -169,87 +169,89 @@ export default function ProjectsView() {
         ))}
       </div>
 
-      {/* 4. Projects Cards - Executive Split-Pane Architecture (Hanzei Luxury Styling) */}
+      {/* 4. Projects Cards - Clean Horizontal Split-Pane (User Specification) */}
       <div className="space-y-6">
         {filteredProjects.map((project) => {
           const balance = Math.max(0, project.totalBudget - project.paidAmount);
           const isFullyPaid = balance <= 0;
-          const paidPercentage = Math.min(100, Math.round((project.paidAmount / (project.totalBudget || 1)) * 100));
 
           return (
             <div 
               key={project.id}
-              className="bg-white rounded-3xl border border-amber-200/90 p-5 sm:p-6 shadow-[0_4px_25px_rgba(217,119,6,0.05)] hover:shadow-[0_12px_35px_rgba(217,119,6,0.1)] hover:border-amber-300 transition-all"
+              className="bg-white rounded-3xl border border-amber-200/80 shadow-[0_4px_25px_rgba(217,119,6,0.04)] hover:shadow-[0_12px_35px_rgba(217,119,6,0.08)] hover:border-amber-300 transition-all flex flex-col lg:flex-row items-stretch overflow-hidden"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                {/* LEFT PANE: Project Identity, Circular Velocity Gauge & Handover Target */}
-                <div className="lg:col-span-4 xl:col-span-4 flex flex-col justify-between space-y-4 pb-5 lg:pb-0 border-b lg:border-b-0 lg:border-r border-slate-100 pr-0 lg:pr-6">
-                  {/* Top: Icon + Pills + Title + Client */}
-                  <div className="flex items-start gap-3.5">
-                    {/* Hanzei Amber Gradient Code Icon Box */}
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_6px_16px_rgba(217,119,6,0.28)] shrink-0 select-none">
-                      <Code2 className="w-6 h-6 stroke-[2.5]" />
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      {/* Top Pills */}
-                      <div className="flex items-center gap-1.5 flex-wrap mb-1">
-                        <span className="text-[11px] font-bold text-amber-900 bg-amber-100/80 border border-amber-300/80 px-2.5 py-0.5 rounded-full">
-                          {project.category}
-                        </span>
-                        <span className="text-[11px] font-semibold text-sky-800 bg-sky-50 border border-sky-200/90 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-sky-600" />
-                          <span className="capitalize">{project.status.replace('_', ' ')}</span>
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="text-xl font-extrabold text-slate-900 tracking-tight leading-tight truncate" title={project.name}>
-                        {project.name}
-                      </h3>
-
-                      {/* Client */}
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
-                        <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span className="truncate">
-                          Client: <strong className="text-slate-700 font-semibold">{project.clientName}</strong> {project.clientEmail ? `(${project.clientEmail})` : ''}
-                        </span>
-                      </div>
-                    </div>
+              {/* LEFT COLUMN: Identity, Circular Gauge, Velocity & Handover Target */}
+              <div className="w-full lg:w-[320px] xl:w-[350px] shrink-0 p-6 border-b lg:border-b-0 lg:border-r border-slate-100 flex flex-col justify-between space-y-5">
+                {/* Top: Icon + Pills + Title + Client */}
+                <div className="flex items-start gap-3.5">
+                  {/* Amber Code Icon Squircle */}
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(217,119,6,0.25)] shrink-0 select-none">
+                    <Code2 className="w-6 h-6 stroke-[2.5]" />
                   </div>
 
-                  {/* Middle: Circular Velocity Gauge + Velocity Slider */}
-                  <div className="flex items-center gap-4 bg-amber-50/30 p-3.5 rounded-2xl border border-amber-100">
-                    {/* Circular Progress Gauge */}
-                    <div className="relative w-15 h-15 shrink-0 flex items-center justify-center">
-                      <svg className="w-15 h-15 -rotate-90" viewBox="0 0 36 36">
-                        <path
-                          className="text-slate-100"
-                          strokeWidth="3.5"
-                          stroke="currentColor"
-                          fill="none"
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        />
-                        <path
-                          className="text-amber-500"
-                          strokeDasharray={`${project.progressPercentage}, 100`}
-                          strokeWidth="3.5"
-                          strokeLinecap="round"
-                          stroke="currentColor"
-                          fill="none"
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                        />
-                      </svg>
-                      <span className="absolute font-extrabold text-slate-900 text-sm tracking-tight">
-                        {project.progressPercentage}%
+                  <div className="min-w-0 flex-1">
+                    {/* Pills */}
+                    <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                      <span className="text-[11px] font-bold text-amber-900 bg-[#fff5d6] border border-[#fde68a] px-2.5 py-0.5 rounded-full">
+                        {project.category}
+                      </span>
+                      <span className="text-[11px] font-medium text-sky-700 bg-sky-50 border border-sky-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-sky-600" />
+                        <span className="capitalize">{project.status.replace('_', ' ')}</span>
                       </span>
                     </div>
 
-                    {/* Velocity Slider */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs font-bold text-slate-800">Project Velocity</span>
-                      </div>
+                    {/* Project Name */}
+                    <h3 className="text-xl font-bold text-slate-900 tracking-tight leading-tight truncate" title={project.name}>
+                      {project.name}
+                    </h3>
+
+                    {/* Client */}
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
+                      <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="truncate">
+                        Client: <strong className="text-slate-700 font-semibold">{project.clientName}</strong> {project.clientEmail ? `(${project.clientEmail})` : ''}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Middle: Circular Velocity Gauge & Horizontal Bar */}
+                <div className="flex items-center gap-4 bg-amber-50/20 p-3 rounded-2xl border border-amber-100/70">
+                  {/* Circular Gauge */}
+                  <div className="relative w-15 h-15 shrink-0 flex items-center justify-center">
+                    <svg className="w-15 h-15 -rotate-90" viewBox="0 0 36 36">
+                      <path
+                        className="text-slate-100"
+                        strokeWidth="3.5"
+                        stroke="currentColor"
+                        fill="none"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      />
+                      <path
+                        className="text-amber-500"
+                        strokeDasharray={`${project.progressPercentage}, 100`}
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                        stroke="currentColor"
+                        fill="none"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      />
+                    </svg>
+                    <span 
+                      className="absolute font-bold text-slate-900 text-sm tracking-tight"
+                      style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
+                    >
+                      {project.progressPercentage}%
+                    </span>
+                  </div>
+
+                  {/* Velocity Bar & Interactive Slider */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold text-slate-800">Project Velocity</span>
+                    </div>
+                    <div className="relative flex items-center">
                       <input
                         type="range"
                         min="0"
@@ -257,151 +259,165 @@ export default function ProjectsView() {
                         step="5"
                         value={project.progressPercentage}
                         onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                        className="w-full h-2 bg-slate-200/80 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        className="w-full h-2.5 bg-slate-200/80 rounded-lg appearance-none cursor-pointer accent-amber-500"
                       />
-                    </div>
-                  </div>
-
-                  {/* Bottom: Handover Target */}
-                  <div className="flex items-center gap-2.5 text-xs">
-                    <div className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center text-slate-600 shrink-0">
-                      <Calendar className="w-4 h-4 text-slate-500" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold block leading-tight">
-                        Handover Target
-                      </span>
-                      <span className="font-extrabold text-slate-900 text-xs tracking-tight">
-                        {project.deadline}
-                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* RIGHT PANE: Financial Strip & Milestones */}
-                <div className="lg:col-span-8 xl:col-span-8 flex flex-col justify-between space-y-4">
-                  {/* Top: Financial Strip (Budget, Paid, Balance, + Pay) */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
-                    <div className="flex flex-wrap items-center gap-5 sm:gap-7">
-                      {/* Budget */}
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200/90 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
-                          <DollarSign className="w-4 h-4 stroke-[2.5]" />
-                        </div>
-                        <div>
-                          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block leading-tight">
-                            Budget
-                          </span>
-                          <span className="font-extrabold text-slate-900 text-xs sm:text-sm tracking-tight">
-                            PKR {project.totalBudget.toLocaleString()}
-                          </span>
-                        </div>
-                      </div>
+                {/* Bottom: Handover Target */}
+                <div className="flex items-center gap-2.5 text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center text-slate-600 shrink-0">
+                    <Calendar className="w-4 h-4 text-slate-500" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold block leading-tight">
+                      Handover Target
+                    </span>
+                    <span 
+                      className="font-bold text-slate-900 text-xs tracking-tight"
+                      style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
+                    >
+                      {project.deadline}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-                      {/* Paid */}
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200/90 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
-                          <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                        </div>
-                        <div>
-                          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block leading-tight">
-                            Paid
-                          </span>
-                          <span className="font-extrabold text-emerald-600 text-xs sm:text-sm tracking-tight">
-                            PKR {project.paidAmount.toLocaleString()}
-                          </span>
-                        </div>
+              {/* RIGHT COLUMN: Financial Header Bar & Milestones Table */}
+              <div className="flex-1 min-w-0 p-6 flex flex-col justify-between space-y-4">
+                {/* Top Financial Strip: Budget, Paid, Balance, + Pay */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                  <div className="flex flex-wrap items-center gap-6 sm:gap-8">
+                    {/* Budget */}
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
+                        <DollarSign className="w-4 h-4 stroke-[2.5]" />
                       </div>
-
-                      {/* Balance */}
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0 shadow-2xs">
-                          <Clock className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block leading-tight">
-                            Balance
-                          </span>
-                          <span className={`font-extrabold text-xs sm:text-sm tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
-                            {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
-                          </span>
-                        </div>
+                      <div>
+                        <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">
+                          Budget
+                        </span>
+                        <span 
+                          className="font-bold text-slate-900 text-sm sm:text-base tracking-tight"
+                          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
+                        >
+                          PKR {project.totalBudget.toLocaleString()}
+                        </span>
                       </div>
                     </div>
 
-                    {/* + Pay Button */}
-                    {isLeader && (
-                      <button
-                        onClick={() => setShowPaymentModal(project.id)}
-                        className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-extrabold text-xs py-2 px-5 rounded-xl shadow-xs transition-all flex items-center gap-1.5 shrink-0"
-                      >
-                        <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                        <span>Pay</span>
-                      </button>
-                    )}
+                    {/* Paid */}
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
+                        <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">
+                          Paid
+                        </span>
+                        <span 
+                          className="font-bold text-emerald-600 text-sm sm:text-base tracking-tight"
+                          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
+                        >
+                          PKR {project.paidAmount.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Balance */}
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-amber-50/60 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
+                        <Clock className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">
+                          Balance
+                        </span>
+                        <span 
+                          className={`font-bold text-sm sm:text-base tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}
+                          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
+                        >
+                          {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Milestones Section */}
-                  <div className="space-y-2.5">
-                    {/* Header */}
-                    <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shadow-2xs">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                      </div>
-                      <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
-                        Milestones
-                      </h4>
-                    </div>
+                  {/* + Pay Button (Vibrant Golden Action Pill) */}
+                  {isLeader && (
+                    <button
+                      onClick={() => setShowPaymentModal(project.id)}
+                      className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2 px-6 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 shrink-0"
+                    >
+                      <Plus className="w-4 h-4 stroke-[3]" />
+                      <span>Pay</span>
+                    </button>
+                  )}
+                </div>
 
-                    {/* Milestones List */}
-                    <div className="space-y-1.5">
-                      {project.milestones.map((m) => (
-                        <div
-                          key={m.id}
-                          onClick={() => toggleMilestone(project.id, m.id)}
-                          className={`cursor-pointer px-4 py-2.5 rounded-2xl border flex items-center justify-between gap-3 transition-all select-none hover:border-amber-300 ${
+                {/* Milestones Section */}
+                <div className="space-y-3">
+                  {/* Header */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shadow-2xs">
+                      <Check className="w-3 h-3 stroke-[3]" />
+                    </div>
+                    <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
+                      Milestones
+                    </h4>
+                  </div>
+
+                  {/* Milestones List */}
+                  <div className="space-y-2">
+                    {project.milestones.map((m) => (
+                      <div
+                        key={m.id}
+                        onClick={() => toggleMilestone(project.id, m.id)}
+                        className={`cursor-pointer px-4 py-2.5 rounded-xl border flex items-center justify-between gap-4 transition-all select-none hover:border-amber-300 ${
+                          m.completed 
+                            ? 'bg-amber-50/20 border-slate-200/90 text-slate-900' 
+                            : 'bg-white border-slate-100 text-slate-700 hover:bg-slate-50'
+                        }`}
+                      >
+                        {/* Left: Check circle + Title */}
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] shrink-0 transition-colors ${
                             m.completed 
-                              ? 'bg-amber-50/25 border-slate-200/90 text-slate-900' 
-                              : 'bg-white border-slate-200/80 text-slate-700 hover:bg-slate-50'
-                          }`}
-                        >
-                          {/* Left: Check circle + Title */}
-                          <div className="flex items-center gap-3 min-w-0 flex-1">
-                            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 transition-colors ${
-                              m.completed 
-                                ? 'bg-amber-500 text-white shadow-xs' 
-                                : 'border-2 border-slate-300 bg-white'
-                            }`}>
-                              {m.completed && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                            </span>
-                            <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-800' : 'text-slate-600'}`}>
-                              {m.title}
-                            </span>
-                          </div>
-
-                          {/* Date */}
-                          <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium shrink-0">
-                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                            <span>{m.dueDate}</span>
-                          </div>
-
-                          {/* Status Badge */}
-                          <div className="shrink-0">
-                            {m.completed ? (
-                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                <Check className="w-3 h-3 stroke-[3]" />
-                                <span>Completed</span>
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                                <Clock className="w-3 h-3" />
-                                <span>Pending</span>
-                              </span>
-                            )}
-                          </div>
+                              ? 'bg-amber-500 text-white shadow-xs' 
+                              : 'border-2 border-slate-300 bg-white'
+                          }`}>
+                            {m.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                          </span>
+                          <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-800' : 'text-slate-600'}`}>
+                            {m.title}
+                          </span>
                         </div>
-                      ))}
-                    </div>
+
+                        {/* Date */}
+                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium shrink-0">
+                          <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                          <span style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}>
+                            {m.dueDate}
+                          </span>
+                        </div>
+
+                        {/* Status Badge */}
+                        <div className="shrink-0">
+                          {m.completed ? (
+                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
+                              <Check className="w-3 h-3 stroke-[3]" />
+                              <span>Completed</span>
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#fffbeb] text-[#d97706] border border-[#fde68a]">
+                              <Clock className="w-3 h-3" />
+                              <span>Pending</span>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
