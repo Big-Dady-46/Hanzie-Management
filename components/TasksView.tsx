@@ -196,20 +196,25 @@ export default function TasksView() {
                     </div>
 
                     {/* Custom Interactive Dropdown Menu */}
-                    <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-100 mt-2 relative">
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</span>
-                      <div className="relative">
+                    <div className="pt-2.5 flex items-center justify-between gap-3 text-xs border-t border-slate-100 mt-2 relative">
+                      <span className="text-[11px] font-semibold text-slate-400 shrink-0">Status:</span>
+                      <div className="relative shrink-0">
                         <button
                           type="button"
                           onClick={() => setOpenStatusDropdownId(openStatusDropdownId === task.id ? null : task.id)}
-                          className="flex items-center gap-1.5 text-[11px] font-bold bg-slate-50 hover:bg-slate-100/80 px-2.5 py-1 rounded-lg text-slate-800 transition-all select-none"
+                          className="flex items-center gap-2 text-xs font-semibold bg-slate-50 hover:bg-slate-100/90 border border-slate-200/80 px-2.5 py-1.5 rounded-xl text-slate-800 transition-all select-none shadow-2xs"
                         >
+                          <span className={`w-2 h-2 rounded-full shrink-0 ${
+                            task.status === 'completed' ? 'bg-emerald-500' :
+                            task.status === 'in_progress' ? 'bg-amber-500' :
+                            task.status === 'review' ? 'bg-indigo-500' : 'bg-slate-400'
+                          }`} />
                           <span>{columns.find(c => c.id === task.status)?.label || task.status}</span>
-                          <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${openStatusDropdownId === task.id ? 'rotate-180' : ''}`} />
+                          <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 shrink-0 ml-0.5 ${openStatusDropdownId === task.id ? 'rotate-180 text-amber-600' : ''}`} />
                         </button>
 
                         {openStatusDropdownId === task.id && (
-                          <div className="absolute right-0 bottom-full mb-1 z-30 w-36 bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-slate-200/90 py-1 animate-in fade-in zoom-in-95 duration-100">
+                          <div className="absolute right-0 bottom-full mb-1.5 z-40 w-40 bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-slate-200 p-1 animate-in fade-in zoom-in-95 duration-100">
                             {columns.map((col) => (
                               <button
                                 key={col.id}
@@ -218,14 +223,21 @@ export default function TasksView() {
                                   updateTaskStatus(task.id, col.id);
                                   setOpenStatusDropdownId(null);
                                 }}
-                                className={`w-full text-left px-3 py-1.5 text-xs font-semibold flex items-center justify-between transition-colors ${
+                                className={`w-full text-left px-3 py-2 text-xs font-medium rounded-lg flex items-center justify-between transition-colors ${
                                   task.status === col.id 
                                     ? 'bg-amber-50 text-amber-900 font-bold' 
-                                    : 'text-slate-700 hover:bg-slate-50'
+                                    : 'text-slate-700 hover:bg-slate-100/70'
                                 }`}
                               >
-                                <span>{col.label}</span>
-                                {task.status === col.id && <span className="text-amber-600 text-xs font-bold">✓</span>}
+                                <div className="flex items-center gap-2">
+                                  <span className={`w-2 h-2 rounded-full shrink-0 ${
+                                    col.id === 'completed' ? 'bg-emerald-500' :
+                                    col.id === 'in_progress' ? 'bg-amber-500' :
+                                    col.id === 'review' ? 'bg-indigo-500' : 'bg-slate-400'
+                                  }`} />
+                                  <span>{col.label}</span>
+                                </div>
+                                {task.status === col.id && <Check className="w-3.5 h-3.5 text-amber-600 font-bold" />}
                               </button>
                             ))}
                           </div>

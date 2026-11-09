@@ -145,14 +145,23 @@ export default function AttendanceView() {
 
       {/* SUB-TAB 1: LIVE HAZARI FLOOR */}
       {activeSubTab === 'live_board' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
           {filteredUsers.map((user) => {
             const userAttendance = attendance.find(a => a.userId === user.id);
             const isWorking = user.workStatus === 'working';
             const isOnBreak = user.workStatus === 'on_break';
+            const isOnLeave = user.workStatus === 'on_leave';
             const totalMins = userAttendance?.totalWorkMinutes || (isWorking ? 310 : 0);
             const hoursLogged = Math.round((totalMins / 60) * 10) / 10;
             const shiftPct = Math.min(100, Math.round((totalMins / 480) * 100));
+
+            const statusInfo = isWorking
+              ? { label: 'Working', cls: 'bg-amber-50 text-amber-950 border border-amber-300' }
+              : isOnBreak
+              ? { label: 'On Break', cls: 'bg-amber-100/70 text-amber-900 border border-amber-200' }
+              : isOnLeave
+              ? { label: 'On Leave', cls: 'bg-sky-50 text-sky-800 border border-sky-200' }
+              : { label: 'Offline', cls: 'bg-slate-100 text-slate-600 border border-slate-200/80' };
 
             return (
               <div
@@ -160,30 +169,24 @@ export default function AttendanceView() {
                 className="clean-card p-5 space-y-4 hover:border-amber-300 transition-colors"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center justify-between gap-3 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div className="relative shrink-0">
-                      <div className="w-10 h-10 rounded-full bg-slate-900 text-amber-300 font-bold flex items-center justify-center text-sm border border-amber-500/30">
+                      <div className="w-11 h-11 min-w-[44px] min-h-[44px] max-w-[44px] max-h-[44px] aspect-square rounded-full bg-slate-900 text-amber-300 font-bold flex items-center justify-center text-sm border border-amber-500/30 shrink-0">
                         {user.name.charAt(0)}
                       </div>
-                      <span className={`w-3 h-3 rounded-full absolute -bottom-0.5 -right-0.5 border-2 border-white ${
+                      <span className={`w-3 h-3 rounded-full absolute -bottom-0.5 -right-0.5 border-2 border-white shrink-0 ${
                         isWorking ? 'bg-amber-500 animate-pulse' : isOnBreak ? 'bg-amber-400' : 'bg-slate-300'
                       }`} />
                     </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-bold text-slate-900 truncate">{user.name}</h4>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-sm font-bold text-slate-900 truncate" title={user.name}>{user.name}</h4>
                       <p className="text-xs text-slate-400 capitalize truncate">{user.role.replace('_', ' ')}</p>
                     </div>
                   </div>
 
-                  <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full capitalize shrink-0 whitespace-nowrap text-center ${
-                    isWorking 
-                      ? 'bg-amber-50 text-amber-950 border border-amber-300' 
-                      : isOnBreak 
-                      ? 'bg-amber-100/70 text-amber-900 border border-amber-200' 
-                      : 'bg-slate-100 text-slate-600'
-                  }`}>
-                    {user.workStatus.replace('_', ' ')}
+                  <span className={`text-[11px] font-bold px-3 py-1 rounded-full shrink-0 whitespace-nowrap inline-flex items-center justify-center leading-none ${statusInfo.cls}`}>
+                    {statusInfo.label}
                   </span>
                 </div>
 
@@ -202,18 +205,18 @@ export default function AttendanceView() {
                 </div>
 
                 {/* Details */}
-                <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-2 border border-slate-200/60">
-                  <div className="flex items-center justify-between text-slate-500">
-                    <span>Clock In:</span>
+                <div className="bg-slate-50/80 rounded-xl p-3 text-xs space-y-2 border border-slate-200/60">
+                  <div className="flex items-center justify-between gap-3 text-slate-500">
+                    <span className="text-slate-400 font-medium shrink-0">Clock In:</span>
                     <span className="font-mono font-bold text-slate-800">{userAttendance?.clockInTime || 'Not yet'}</span>
                   </div>
-                  <div className="flex items-center justify-between text-slate-500">
-                    <span>Break Taken:</span>
+                  <div className="flex items-center justify-between gap-3 text-slate-500">
+                    <span className="text-slate-400 font-medium shrink-0">Break Taken:</span>
                     <span className="font-mono font-medium text-slate-700">{userAttendance?.totalBreakMinutes || 0} mins</span>
                   </div>
-                  <div className="flex items-center justify-between gap-2 text-slate-500">
-                    <span className="shrink-0">Department:</span>
-                    <span className="font-semibold text-slate-700 truncate text-right">{user.department}</span>
+                  <div className="flex items-center justify-between gap-3 text-slate-500">
+                    <span className="text-slate-400 font-medium shrink-0">Department:</span>
+                    <span className="font-semibold text-slate-800 truncate text-right">{user.department}</span>
                   </div>
                 </div>
               </div>

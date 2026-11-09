@@ -159,10 +159,19 @@ export default function TeamView() {
       )}
 
       {/* Staff Grid Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
         {filteredStaff.map((staff) => {
           const isWorking = staff.workStatus === 'working';
           const isOnBreak = staff.workStatus === 'on_break';
+          const isOnLeave = staff.workStatus === 'on_leave';
+
+          const statusInfo = isWorking
+            ? { label: 'Working', cls: 'bg-amber-50 text-amber-950 border border-amber-300' }
+            : isOnBreak
+            ? { label: 'On Break', cls: 'bg-amber-100/70 text-amber-900 border border-amber-200' }
+            : isOnLeave
+            ? { label: 'On Leave', cls: 'bg-sky-50 text-sky-800 border border-sky-200' }
+            : { label: 'Offline', cls: 'bg-slate-100 text-slate-600 border border-slate-200/80' };
 
           return (
             <div
@@ -170,42 +179,38 @@ export default function TeamView() {
               className="clean-card p-5 space-y-4 hover:border-amber-300 transition-all hover:shadow-md"
             >
               {/* Profile Head */}
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-full bg-slate-900 text-amber-300 font-bold text-sm flex items-center justify-center border border-amber-500/30 shrink-0">
+              <div className="flex items-center justify-between gap-3 min-w-0">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="w-11 h-11 min-w-[44px] min-h-[44px] max-w-[44px] max-h-[44px] aspect-square rounded-full bg-slate-900 text-amber-300 font-bold text-sm flex items-center justify-center border border-amber-500/30 shrink-0">
                     {staff.name.charAt(0)}
                   </div>
-                  <div className="min-w-0">
-                    <h4 className="text-sm font-bold text-slate-900 truncate">{staff.name}</h4>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-sm font-bold text-slate-900 truncate" title={staff.name}>{staff.name}</h4>
                     <p className="text-xs text-slate-400 capitalize truncate">{staff.role.replace('_', ' ')}</p>
                   </div>
                 </div>
 
-                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full capitalize shrink-0 whitespace-nowrap text-center ${
-                  isWorking 
-                    ? 'bg-amber-50 text-amber-950 border border-amber-300' 
-                    : isOnBreak 
-                    ? 'bg-amber-100/70 text-amber-900 border border-amber-200' 
-                    : 'bg-slate-100 text-slate-600'
-                }`}>
-                  {staff.workStatus.replace('_', ' ')}
+                <span className={`text-[11px] font-bold px-3 py-1 rounded-full shrink-0 whitespace-nowrap inline-flex items-center justify-center leading-none ${statusInfo.cls}`}>
+                  {statusInfo.label}
                 </span>
               </div>
 
               {/* Department & Contact */}
-              <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-2 border border-slate-200/60">
-                <div className="flex items-center justify-between gap-2 text-slate-500">
-                  <span className="shrink-0">Department:</span>
+              <div className="bg-slate-50/80 rounded-xl p-3 text-xs space-y-2 border border-slate-200/60">
+                <div className="flex items-center justify-between gap-3 text-slate-500">
+                  <span className="text-slate-400 font-medium shrink-0">Department:</span>
                   <span className="font-semibold text-slate-800 truncate text-right">{staff.department}</span>
                 </div>
-                <div className="flex items-center justify-between gap-2 text-slate-500">
-                  <span className="shrink-0">Contact:</span>
-                  <span className="text-slate-700 truncate text-right max-w-[160px] font-mono text-[11px]">{staff.email}</span>
+                <div className="flex items-center justify-between gap-3 text-slate-500">
+                  <span className="text-slate-400 font-medium shrink-0">Contact:</span>
+                  <span className="text-slate-700 truncate text-right font-mono text-[11px] max-w-[170px]" title={staff.email}>
+                    {staff.email}
+                  </span>
                 </div>
                 {isLeader && (
-                  <div className="flex items-center justify-between gap-2 text-slate-500 pt-2 border-t border-slate-200/80">
-                    <span className="shrink-0">Salary:</span>
-                    <span className="font-bold text-slate-900 text-right">
+                  <div className="flex items-center justify-between gap-3 text-slate-500 pt-2 border-t border-slate-200/80">
+                    <span className="text-slate-400 font-medium shrink-0">Salary:</span>
+                    <span className="font-bold font-mono text-slate-900 text-right">
                       {staff.salary ? `PKR ${staff.salary.toLocaleString()}` : 'N/A'}
                     </span>
                   </div>

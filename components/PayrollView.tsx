@@ -216,7 +216,7 @@ export default function PayrollView() {
                 <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
                   <td className="py-3.5 pl-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-500/30">
+                      <div className="w-8 h-8 min-w-[32px] min-h-[32px] aspect-square rounded-full bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-500/30">
                         {item.userName.charAt(0)}
                       </div>
                       <div>
