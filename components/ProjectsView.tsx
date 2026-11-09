@@ -169,7 +169,7 @@ export default function ProjectsView() {
         ))}
       </div>
 
-      {/* 4. Projects Cards - Clean Horizontal Split-Pane (User Specification) */}
+      {/* 4. Projects Cards - Completely Regenerated Executive Architecture */}
       <div className="space-y-6">
         {filteredProjects.map((project) => {
           const balance = Math.max(0, project.totalBudget - project.paidAmount);
@@ -178,252 +178,150 @@ export default function ProjectsView() {
           return (
             <div 
               key={project.id}
-              className="bg-white rounded-3xl border border-amber-200/80 shadow-[0_4px_25px_rgba(217,119,6,0.04)] hover:shadow-[0_12px_35px_rgba(217,119,6,0.08)] hover:border-amber-300 transition-all flex flex-col lg:flex-row items-stretch overflow-hidden"
+              className="clean-card p-6 md:p-7 space-y-6 hover:border-amber-300 transition-all shadow-sm hover:shadow-md bg-white border border-slate-200"
             >
-              {/* LEFT COLUMN: Identity, Circular Gauge, Velocity & Handover Target */}
-              <div className="w-full lg:w-[320px] xl:w-[350px] shrink-0 p-6 border-b lg:border-b-0 lg:border-r border-slate-100 flex flex-col justify-between space-y-5">
-                {/* Top: Icon + Pills + Title + Client */}
-                <div className="flex items-start gap-3.5">
-                  {/* Amber Code Icon Squircle */}
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_4px_14px_rgba(217,119,6,0.25)] shrink-0 select-none">
+              {/* TOP ROW: Project Identity & Financial Command Bar */}
+              <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-5 pb-5 border-b border-slate-100">
+                {/* Left: Code Squircle, Name, Category, Status & Client */}
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_4px_12px_rgba(217,119,6,0.25)] shrink-0 select-none">
                     <Code2 className="w-6 h-6 stroke-[2.5]" />
                   </div>
-
-                  <div className="min-w-0 flex-1">
-                    {/* Pills */}
-                    <div className="flex items-center gap-1.5 flex-wrap mb-1">
-                      <span className="text-[11px] font-bold text-amber-900 bg-[#fff5d6] border border-[#fde68a] px-2.5 py-0.5 rounded-full">
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="text-[11px] font-bold text-amber-900 bg-[#fff5d6] border border-[#fde68a] px-3 py-0.5 rounded-full">
                         {project.category}
                       </span>
-                      <span className="text-[11px] font-medium text-sky-700 bg-sky-50 border border-sky-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="text-[11px] font-semibold text-sky-800 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
                         <Clock className="w-3 h-3 text-sky-600" />
                         <span className="capitalize">{project.status.replace('_', ' ')}</span>
                       </span>
                     </div>
-
-                    {/* Project Name */}
-                    <h3 className="text-xl font-bold text-slate-900 tracking-tight leading-tight truncate" title={project.name}>
+                    <h3 className="text-xl font-bold text-slate-900 tracking-tight">
                       {project.name}
                     </h3>
-
-                    {/* Client */}
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
-                      <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span className="truncate">
-                        Client: <strong className="text-slate-700 font-semibold">{project.clientName}</strong> {project.clientEmail ? `(${project.clientEmail})` : ''}
+                    <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-slate-400" />
+                      <span>
+                        Client: <strong className="text-slate-700">{project.clientName}</strong> ({project.clientEmail || 'No email specified'})
                       </span>
-                    </div>
+                    </p>
                   </div>
                 </div>
 
-                {/* Middle: Circular Velocity Gauge & Horizontal Bar */}
-                <div className="flex items-center gap-4 bg-amber-50/30 p-3.5 rounded-2xl border border-amber-100">
-                  {/* Circular Gauge */}
-                  <div className="relative w-16 h-16 shrink-0 flex items-center justify-center">
-                    <svg className="w-16 h-16 -rotate-90" viewBox="0 0 44 44">
-                      <circle
-                        cx="22"
-                        cy="22"
-                        r="18"
-                        className="text-slate-100"
-                        strokeWidth="4"
-                        stroke="currentColor"
-                        fill="none"
-                      />
-                      <circle
-                        cx="22"
-                        cy="22"
-                        r="18"
-                        className="text-amber-500 transition-all duration-300"
-                        strokeWidth="4"
-                        strokeDasharray={113.1}
-                        strokeDashoffset={113.1 - (113.1 * project.progressPercentage) / 100}
-                        strokeLinecap="round"
-                        stroke="currentColor"
-                        fill="none"
-                      />
-                    </svg>
-                    <span 
-                      className="absolute font-extrabold text-slate-900 text-sm tracking-tight"
-                      style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
-                    >
-                      {project.progressPercentage}%
+                {/* Right: Clean Financial Bar + Action Button (Always in One Clean Line) */}
+                <div className="flex items-center gap-3 sm:gap-4 flex-wrap sm:flex-nowrap bg-slate-50/90 border border-slate-200 p-3 sm:p-4 rounded-2xl self-start xl:self-auto">
+                  <div className="px-2">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Contract Budget</span>
+                    <span className="text-sm sm:text-base font-bold text-slate-900">PKR {project.totalBudget.toLocaleString()}</span>
+                  </div>
+                  <div className="h-8 w-[1px] bg-slate-200" />
+                  <div className="px-2">
+                    <span className="text-[10px] uppercase font-bold text-emerald-600 tracking-wider block">Paid In</span>
+                    <span className="text-sm sm:text-base font-bold text-emerald-600">PKR {project.paidAmount.toLocaleString()}</span>
+                  </div>
+                  <div className="h-8 w-[1px] bg-slate-200" />
+                  <div className="px-2">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Remaining Balance</span>
+                    <span className={`text-sm sm:text-base font-bold ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
+                      {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
                     </span>
                   </div>
 
-                  {/* Velocity Bar & Interactive Slider */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-bold text-slate-800">Project Velocity</span>
-                    </div>
-                    <div className="relative flex items-center">
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="5"
-                        value={project.progressPercentage}
-                        onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                        className="w-full h-2.5 bg-slate-200/90 rounded-lg appearance-none cursor-pointer accent-amber-500"
-                      />
-                    </div>
+                  {isLeader && (
+                    <button
+                      onClick={() => setShowPaymentModal(project.id)}
+                      className="btn-gold text-xs py-2 px-5 ml-2 shrink-0 flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                      <span>+ Pay</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* MIDDLE ROW: Velocity Progress Bar & Handover Deadline */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center bg-amber-50/25 p-4 rounded-2xl border border-amber-100">
+                <div className="md:col-span-8 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold">
+                    <span className="text-slate-800">Project Velocity & Engineering Progress</span>
+                    <span className="text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200 font-extrabold text-[11px]">
+                      {project.progressPercentage}% Completed
+                    </span>
+                  </div>
+                  <div className="w-full bg-white rounded-full h-3 border border-slate-200 p-0.5 shadow-inner">
+                    <div 
+                      className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 h-full rounded-full transition-all duration-300"
+                      style={{ width: `${project.progressPercentage}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 pt-0.5">
+                    <span className="text-[10px] text-slate-400 font-medium">Adjust Velocity:</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={project.progressPercentage}
+                      onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
+                      className="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                    />
                   </div>
                 </div>
 
-                {/* Bottom: Handover Target */}
-                <div className="flex items-center gap-2.5 text-xs">
-                  <div className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-200/90 flex items-center justify-center text-slate-600 shrink-0">
-                    <Calendar className="w-4 h-4 text-slate-500" />
+                <div className="md:col-span-4 flex items-center justify-start md:justify-end gap-3 text-xs border-t md:border-t-0 md:border-l border-amber-200/60 pt-3 md:pt-0 md:pl-5">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-amber-200 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
+                    <Calendar className="w-5 h-5 text-amber-600" />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold block leading-tight">
-                      Handover Target
-                    </span>
-                    <span 
-                      className="font-bold text-slate-900 text-xs tracking-tight"
-                      style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
-                    >
-                      {project.deadline}
-                    </span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider leading-none mb-1">Handover Deadline</span>
+                    <span className="font-extrabold text-slate-900 text-sm tracking-tight">{project.deadline}</span>
                   </div>
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: Financial Header Bar & Milestones Table */}
-              <div className="flex-1 min-w-0 p-6 flex flex-col justify-between space-y-4">
-                {/* Top Financial Strip: Budget, Paid, Balance, + Pay (All in ONE single clean row!) */}
-                <div className="flex items-center justify-between gap-4 pb-4 border-b border-slate-100 flex-wrap sm:flex-nowrap">
-                  <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 flex-wrap sm:flex-nowrap">
-                    {/* Budget */}
-                    <div className="flex items-center gap-2.5 shrink-0">
-                      <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
-                        <DollarSign className="w-4 h-4 stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">
-                          Budget
-                        </span>
-                        <span 
-                          className="font-bold text-slate-900 text-xs sm:text-sm lg:text-base tracking-tight"
-                          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
-                        >
-                          PKR {project.totalBudget.toLocaleString()}
-                        </span>
-                      </div>
+              {/* BOTTOM ROW: Milestones Grid */}
+              <div className="space-y-3 pt-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shadow-2xs">
+                      <Check className="w-2.5 h-2.5 stroke-[3]" />
                     </div>
-
-                    {/* Paid */}
-                    <div className="flex items-center gap-2.5 shrink-0">
-                      <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
-                        <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">
-                          Paid
-                        </span>
-                        <span 
-                          className="font-bold text-emerald-600 text-xs sm:text-sm lg:text-base tracking-tight"
-                          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
-                        >
-                          PKR {project.paidAmount.toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Balance */}
-                    <div className="flex items-center gap-2.5 shrink-0">
-                      <div className="w-9 h-9 rounded-xl bg-amber-50/60 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
-                        <Clock className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <span className="text-[11px] text-slate-400 font-medium block leading-none mb-1">
-                          Balance
-                        </span>
-                        <span 
-                          className={`font-bold text-xs sm:text-sm lg:text-base tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}
-                          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
-                        >
-                          {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
-                        </span>
-                      </div>
-                    </div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">Contract Deliverable Milestones</h4>
                   </div>
-
-                  {/* + Pay Button (Fixed on the right side of the same row!) */}
-                  {isLeader && (
-                    <button
-                      onClick={() => setShowPaymentModal(project.id)}
-                      className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2 px-6 rounded-2xl shadow-sm hover:shadow transition-all flex items-center gap-1.5 shrink-0 ml-auto"
-                    >
-                      <Plus className="w-4 h-4 stroke-[3]" />
-                      <span>Pay</span>
-                    </button>
-                  )}
+                  <span className="text-xs text-slate-400 font-medium hidden sm:inline">Click milestone to toggle status</span>
                 </div>
 
-                {/* Milestones Section */}
-                <div className="space-y-3">
-                  {/* Header */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shadow-2xs">
-                      <Check className="w-3 h-3 stroke-[3]" />
-                    </div>
-                    <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
-                      Milestones
-                    </h4>
-                  </div>
-
-                  {/* Milestones List */}
-                  <div className="space-y-2">
-                    {project.milestones.map((m) => (
-                      <div
-                        key={m.id}
-                        onClick={() => toggleMilestone(project.id, m.id)}
-                        className={`cursor-pointer px-4 py-2.5 rounded-xl border flex items-center justify-between gap-4 transition-all select-none hover:border-amber-300 ${
-                          m.completed 
-                            ? 'bg-amber-50/20 border-slate-200/90 text-slate-900' 
-                            : 'bg-white border-slate-100 text-slate-700 hover:bg-slate-50'
-                        }`}
-                      >
-                        {/* Left: Check circle + Title */}
-                        <div className="flex items-center gap-3 min-w-0 flex-1">
-                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] shrink-0 transition-colors ${
-                            m.completed 
-                              ? 'bg-amber-500 text-white shadow-xs' 
-                              : 'border-2 border-slate-300 bg-white'
-                          }`}>
-                            {m.completed && <Check className="w-3 h-3 stroke-[3]" />}
-                          </span>
-                          <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-800' : 'text-slate-600'}`}>
-                            {m.title}
-                          </span>
-                        </div>
-
-                        {/* Date */}
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium shrink-0">
-                          <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                          <span style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}>
-                            {m.dueDate}
-                          </span>
-                        </div>
-
-                        {/* Status Badge */}
-                        <div className="shrink-0">
-                          {m.completed ? (
-                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">
-                              <Check className="w-3 h-3 stroke-[3]" />
-                              <span>Completed</span>
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#fffbeb] text-[#d97706] border border-[#fde68a]">
-                              <Clock className="w-3 h-3" />
-                              <span>Pending</span>
-                            </span>
-                          )}
-                        </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {project.milestones.map((m) => (
+                    <div
+                      key={m.id}
+                      onClick={() => toggleMilestone(project.id, m.id)}
+                      className={`cursor-pointer p-3.5 rounded-xl border flex flex-col justify-between space-y-2.5 transition-all select-none hover:shadow-xs hover:border-amber-300 ${
+                        m.completed 
+                          ? 'bg-amber-50/30 border-amber-200 text-slate-900' 
+                          : 'bg-slate-50/70 border-slate-200 text-slate-600 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="text-xs font-semibold leading-snug line-clamp-2">{m.title}</span>
+                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5 ${
+                          m.completed ? 'bg-amber-500 text-white shadow-2xs' : 'border border-slate-300 bg-white text-transparent'
+                        }`}>
+                          ✓
+                        </span>
                       </div>
-                    ))}
-                  </div>
+
+                      <div className="flex items-center justify-between text-[11px] pt-1.5 border-t border-slate-100">
+                        <span className="text-slate-400 font-medium">{m.dueDate}</span>
+                        <span className={`font-bold text-[10px] px-2.5 py-0.5 rounded-full ${
+                          m.completed ? 'bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]' : 'bg-[#fffbeb] text-[#d97706] border border-[#fde68a]'
+                        }`}>
+                          {m.completed ? 'Completed' : 'Pending'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
