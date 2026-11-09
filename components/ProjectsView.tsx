@@ -254,20 +254,44 @@ export default function ProjectsView() {
                 </div>
               </div>
 
-              {/* Row 3: Financials — Budget / Paid / Balance */}
+              {/* Row 3: Financials — Budget / Paid / Balance with 2D luxury feel */}
               <div className="grid grid-cols-3 gap-2">
-                <div className="bg-slate-50 border border-slate-200/70 rounded-xl p-2.5 text-center">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Budget</span>
-                  <span className="text-[11px] font-black text-slate-800 block leading-tight">PKR {(project.totalBudget / 1000).toFixed(0)}K</span>
+                {/* Budget — gold */}
+                <div className="rounded-xl p-2.5 text-center relative overflow-hidden"
+                  style={{
+                    background: 'linear-gradient(145deg, #fefce8 0%, #fef9c3 60%, #fde68a 100%)',
+                    border: '1px solid #fcd34d',
+                    boxShadow: '0 2px 0 #d97706, 0 3px 8px rgba(217,119,6,0.12)',
+                  }}>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-700 block mb-1">Budget</span>
+                  <span className="text-[11px] font-black text-amber-900 block leading-tight">PKR {(project.totalBudget / 1000).toFixed(0)}K</span>
                 </div>
-                <div className="bg-emerald-50/60 border border-emerald-200/70 rounded-xl p-2.5 text-center">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Paid</span>
-                  <span className="text-[11px] font-black text-emerald-700 block leading-tight">PKR {(project.paidAmount / 1000).toFixed(0)}K</span>
+
+                {/* Paid — emerald */}
+                <div className="rounded-xl p-2.5 text-center relative overflow-hidden"
+                  style={{
+                    background: 'linear-gradient(145deg, #f0fdf4 0%, #dcfce7 60%, #bbf7d0 100%)',
+                    border: '1px solid #6ee7b7',
+                    boxShadow: '0 2px 0 #059669, 0 3px 8px rgba(5,150,105,0.12)',
+                  }}>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700 block mb-1">Paid</span>
+                  <span className="text-[11px] font-black text-emerald-800 block leading-tight">PKR {(project.paidAmount / 1000).toFixed(0)}K</span>
                 </div>
-                <div className={`rounded-xl p-2.5 text-center border ${isFullyPaid ? 'bg-slate-50 border-slate-200/70' : 'bg-amber-50/60 border-amber-200/70'}`}>
-                  <span className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${isFullyPaid ? 'text-slate-400' : 'text-amber-700'}`}>Balance</span>
-                  <span className={`text-[11px] font-black block leading-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
-                    {isFullyPaid ? 'Cleared' : `PKR ${(balance / 1000).toFixed(0)}K`}
+
+                {/* Balance — silver/slate if cleared, amber if pending */}
+                <div className="rounded-xl p-2.5 text-center relative overflow-hidden"
+                  style={isFullyPaid ? {
+                    background: 'linear-gradient(145deg, #f8fafc 0%, #f1f5f9 60%, #e2e8f0 100%)',
+                    border: '1px solid #cbd5e1',
+                    boxShadow: '0 2px 0 #94a3b8, 0 3px 8px rgba(100,116,139,0.10)',
+                  } : {
+                    background: 'linear-gradient(145deg, #fffbeb 0%, #fef3c7 60%, #fde68a 100%)',
+                    border: '1px solid #fbbf24',
+                    boxShadow: '0 2px 0 #b45309, 0 3px 8px rgba(180,83,9,0.10)',
+                  }}>
+                  <span className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${isFullyPaid ? 'text-slate-500' : 'text-amber-800'}`}>Balance</span>
+                  <span className={`text-[11px] font-black block leading-tight ${isFullyPaid ? 'text-slate-500' : 'text-amber-900'}`}>
+                    {isFullyPaid ? 'Cleared ✓' : `PKR ${(balance / 1000).toFixed(0)}K`}
                   </span>
                 </div>
               </div>
@@ -276,8 +300,8 @@ export default function ProjectsView() {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[10px] font-bold text-slate-500 flex items-center gap-1">
-                    <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
-                    Velocity
+                    <TrendingUp className="w-3 h-3 text-amber-500" />
+                    Progress
                   </span>
                   <span className="text-[11px] font-black text-amber-700">{project.progressPercentage}%</span>
                 </div>
@@ -309,27 +333,36 @@ export default function ProjectsView() {
                     <div
                       key={m.id}
                       onClick={() => toggleMilestone(project.id, m.id)}
-                      className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg border cursor-pointer select-none transition-all ${
+                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border cursor-pointer select-none transition-all ${
                         m.completed
-                          ? 'bg-emerald-50/40 border-emerald-100'
-                          : 'bg-slate-50/60 border-slate-100 hover:border-amber-200'
+                          ? 'bg-emerald-50/60 border-emerald-200/60'
+                          : 'bg-white border-slate-100 hover:border-amber-200 hover:bg-amber-50/20'
                       }`}
                     >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 ${
-                          m.completed ? 'bg-emerald-500 text-white' : 'border border-slate-300 bg-white'
-                        }`}>
-                          {m.completed && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                        </div>
-                        <span className={`text-[11px] font-medium truncate ${m.completed ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
-                          {m.title}
-                        </span>
-                      </div>
-                      <span className={`text-[10px] font-bold shrink-0 px-1.5 py-0.5 rounded-md ${
-                        m.completed ? 'text-emerald-700 bg-emerald-100' : 'text-amber-700 bg-amber-50'
+                      {/* Checkbox */}
+                      <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-all ${
+                        m.completed
+                          ? 'bg-emerald-500 text-white shadow-[0_1px_0_#047857]'
+                          : 'border border-slate-300 bg-white'
                       }`}>
-                        {m.completed ? '✓' : m.dueDate}
+                        {m.completed && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </div>
+
+                      {/* Title */}
+                      <span className={`text-[11px] font-medium flex-1 truncate transition-all ${
+                        m.completed ? 'text-emerald-700 line-through decoration-emerald-400' : 'text-slate-700'
+                      }`}>
+                        {m.title}
                       </span>
+
+                      {/* Right: date or done badge */}
+                      {m.completed ? (
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-1.5 py-0.5 rounded-md shrink-0">
+                          Done ✓
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-semibold text-slate-400 shrink-0">{m.dueDate}</span>
+                      )}
                     </div>
                   ))}
                 </div>
