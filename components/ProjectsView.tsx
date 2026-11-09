@@ -184,16 +184,20 @@ export default function ProjectsView() {
               <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-5 pb-5 border-b border-slate-100">
                 {/* Left: Code Squircle, Name, Category, Status & Client */}
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 text-white flex items-center justify-center shadow-[0_4px_12px_rgba(217,119,6,0.25)] shrink-0 select-none">
-                    <Code2 className="w-6 h-6 stroke-[2.5]" />
+                  <div className="w-12 h-12 rounded-2xl bg-[#fff9ea] border border-[#faeed0] text-amber-600 flex items-center justify-center shadow-xs shrink-0 select-none">
+                    <Code2 className="w-6 h-6 stroke-[2]" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="text-[11px] font-bold text-amber-900 bg-[#fff5d6] border border-[#fde68a] px-3 py-0.5 rounded-full">
+                    <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                      <span className="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200/80 px-3 py-0.5 rounded-full">
                         {project.category}
                       </span>
-                      <span className="text-[11px] font-semibold text-sky-800 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-sky-600" />
+                      <span className={`text-xs font-semibold px-3 py-0.5 rounded-full flex items-center gap-1.5 ${
+                        project.status === 'completed'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-sky-50 text-sky-700 border border-sky-200'
+                      }`}>
+                        <Clock className="w-3 h-3" />
                         <span className="capitalize">{project.status.replace('_', ' ')}</span>
                       </span>
                     </div>
@@ -203,60 +207,77 @@ export default function ProjectsView() {
                     <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
                       <Users className="w-3.5 h-3.5 text-slate-400" />
                       <span>
-                        Client: <strong className="text-slate-700">{project.clientName}</strong> ({project.clientEmail || 'No email specified'})
+                        Client: <strong className="text-slate-800 font-semibold">{project.clientName}</strong> {project.clientEmail ? <span className="text-slate-400">({project.clientEmail})</span> : ''}
                       </span>
                     </p>
                   </div>
                 </div>
 
-                {/* Right: Clean Financial Bar + Action Button (Always in One Clean Line) */}
-                <div className="flex items-center gap-3 sm:gap-4 flex-wrap sm:flex-nowrap bg-slate-50/90 border border-slate-200 p-3 sm:p-4 rounded-2xl self-start xl:self-auto">
-                  <div className="px-2">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Contract Budget</span>
-                    <span className="text-sm sm:text-base font-bold text-slate-900">PKR {project.totalBudget.toLocaleString()}</span>
+                {/* Right: Clean Financial Bar with Dedicated Icons (Always in One Clean Line) */}
+                <div className="flex items-center gap-4 sm:gap-6 flex-wrap sm:flex-nowrap bg-white border border-slate-200/90 shadow-2xs px-4 py-3 rounded-2xl self-start xl:self-auto">
+                  {/* Budget */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
+                      <DollarSign className="w-4 h-4 stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-medium text-slate-400 block leading-tight">Budget</span>
+                      <span className="text-sm font-bold text-slate-900 mt-0.5 block">PKR {project.totalBudget.toLocaleString()}</span>
+                    </div>
                   </div>
-                  <div className="h-8 w-[1px] bg-slate-200" />
-                  <div className="px-2">
-                    <span className="text-[10px] uppercase font-bold text-emerald-600 tracking-wider block">Paid In</span>
-                    <span className="text-sm sm:text-base font-bold text-emerald-600">PKR {project.paidAmount.toLocaleString()}</span>
+
+                  <div className="h-7 w-[1px] bg-slate-200/80 hidden sm:block" />
+
+                  {/* Paid */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
+                      <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-medium text-slate-400 block leading-tight">Paid</span>
+                      <span className="text-sm font-bold text-emerald-600 mt-0.5 block">PKR {project.paidAmount.toLocaleString()}</span>
+                    </div>
                   </div>
-                  <div className="h-8 w-[1px] bg-slate-200" />
-                  <div className="px-2">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Remaining Balance</span>
-                    <span className={`text-sm sm:text-base font-bold ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
-                      {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
-                    </span>
+
+                  <div className="h-7 w-[1px] bg-slate-200/80 hidden sm:block" />
+
+                  {/* Balance */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-amber-50/70 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
+                      <Clock className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-medium text-slate-400 block leading-tight">Balance</span>
+                      <span className={`text-sm font-bold mt-0.5 block ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
+                        {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
+                      </span>
+                    </div>
                   </div>
 
                   {isLeader && (
                     <button
                       onClick={() => setShowPaymentModal(project.id)}
-                      className="btn-gold text-xs py-2 px-5 ml-2 shrink-0 flex items-center gap-1.5 shadow-sm"
+                      className="btn-gold text-xs py-2 px-5 ml-1 shrink-0 flex items-center gap-1.5 shadow-sm"
                     >
                       <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                      <span>+ Pay</span>
+                      <span>Pay</span>
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* MIDDLE ROW: Velocity Progress Bar & Handover Deadline */}
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center bg-amber-50/25 p-4 rounded-2xl border border-amber-100">
-                <div className="md:col-span-8 space-y-2">
+              {/* MIDDLE ROW: Clean Project Velocity & Handover Deadline */}
+              <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-5">
+                {/* Left: Velocity Meter */}
+                <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold">
-                    <span className="text-slate-800">Project Velocity & Engineering Progress</span>
-                    <span className="text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200 font-extrabold text-[11px]">
+                    <span className="text-slate-800">Project Velocity & Progress</span>
+                    <span className="text-amber-800 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full font-bold text-[11px]">
                       {project.progressPercentage}% Completed
                     </span>
                   </div>
-                  <div className="w-full bg-white rounded-full h-3 border border-slate-200 p-0.5 shadow-inner">
-                    <div 
-                      className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 h-full rounded-full transition-all duration-300"
-                      style={{ width: `${project.progressPercentage}%` }}
-                    />
-                  </div>
-                  <div className="flex items-center gap-2 pt-0.5">
-                    <span className="text-[10px] text-slate-400 font-medium">Adjust Velocity:</span>
+                  {/* Single Clean Interactive Progress Track */}
+                  <div className="relative flex items-center pt-1">
                     <input
                       type="range"
                       min="0"
@@ -264,18 +285,19 @@ export default function ProjectsView() {
                       step="5"
                       value={project.progressPercentage}
                       onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                      className="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                      className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
                     />
                   </div>
                 </div>
 
-                <div className="md:col-span-4 flex items-center justify-start md:justify-end gap-3 text-xs border-t md:border-t-0 md:border-l border-amber-200/60 pt-3 md:pt-0 md:pl-5">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-amber-200 flex items-center justify-center text-amber-700 shrink-0 shadow-2xs">
-                    <Calendar className="w-5 h-5 text-amber-600" />
+                {/* Right: Handover Target */}
+                <div className="flex items-center gap-3 shrink-0 md:pl-6 md:border-l border-slate-200 pt-3 md:pt-0 border-t md:border-t-0">
+                  <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 shrink-0">
+                    <Calendar className="w-4 h-4 text-amber-600" />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider leading-none mb-1">Handover Deadline</span>
-                    <span className="font-extrabold text-slate-900 text-sm tracking-tight">{project.deadline}</span>
+                    <span className="text-[11px] font-semibold text-slate-400 block leading-tight">Handover Target</span>
+                    <span className="font-bold text-slate-900 text-sm mt-0.5 block">{project.deadline}</span>
                   </div>
                 </div>
               </div>
