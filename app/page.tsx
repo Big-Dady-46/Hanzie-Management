@@ -18,10 +18,10 @@ import EODReportModal from '@/components/EODReportModal';
 import DatabaseSettingsModal from '@/components/DatabaseSettingsModal';
 import AuthModal from '@/components/AuthModal';
 import LoadingScreen from '@/components/LoadingScreen';
-import { Clock } from 'lucide-react';
+import { Clock, Sparkles, X } from 'lucide-react';
 
 export default function Home() {
-  const { currentUser, activeTab, switchUser } = useApp();
+  const { currentUser, activeTab, switchUser, notificationMessage, setNotificationMessage } = useApp();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -120,6 +120,28 @@ export default function Home() {
       <EODReportModal />
       <DatabaseSettingsModal />
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+
+      {/* Global Action Toast Notification */}
+      {notificationMessage && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-[99999] max-w-md w-[92vw] sm:w-auto animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-[0_20px_50px_rgba(15,23,42,0.35)] border border-slate-700/80 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shrink-0 text-amber-400">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <p className="text-xs sm:text-sm font-medium text-slate-100 flex-1 leading-snug">
+              {notificationMessage}
+            </p>
+            <button
+              type="button"
+              onClick={() => setNotificationMessage(null)}
+              className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors shrink-0"
+              aria-label="Dismiss notification"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -40,6 +40,7 @@ export default function Header() {
   const [isOpenNotifications, setIsOpenNotifications] = useState(false);
   const [readIds, setReadIds] = useState<string[]>([]);
   const [cleared, setCleared] = useState(false);
+  const [notifFilter, setNotifFilter] = useState<'all' | 'unread' | 'action'>('all');
   const notifRef = useRef<HTMLDivElement>(null);
 
   // Close notifications on outside click
@@ -96,7 +97,7 @@ export default function Header() {
         id: `task-${t.id}`,
         type: 'task',
         title: `Sprint Task: ${t.title}`,
-        message: `Assigned to ${t.assignedToName} &bull; Due ${t.dueDate}`,
+        message: `Assigned to ${t.assignedToName} • Due ${t.dueDate}`,
         time: t.status === 'in_progress' ? 'In progress' : 'To Do',
         tab: 'tasks',
         unread: true,
@@ -142,6 +143,12 @@ export default function Header() {
   }, [rawNotifications, readIds]);
 
   const unreadCount = notifications.filter(n => n.unread).length;
+
+  const filteredNotifications = useMemo(() => {
+    if (notifFilter === 'unread') return notifications.filter(n => n.unread);
+    if (notifFilter === 'action') return notifications.filter(n => n.type === 'approval' || n.type === 'leave' || n.type === 'payroll');
+    return notifications;
+  }, [notifications, notifFilter]);
 
   const handleMarkAllRead = () => {
     setReadIds(rawNotifications.map(n => n.id));
@@ -263,26 +270,26 @@ export default function Header() {
 
           {/* Luxury Solid High-Z Notifications Panel */}
           {isOpenNotifications && (
-            <div className="absolute right-0 top-full mt-2 w-80 sm:w-[380px] bg-white rounded-2xl shadow-[0_25px_60px_-12px_rgba(15,23,42,0.25)] border border-slate-200/90 z-[9999] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="absolute right-0 top-full mt-2 w-[360px] sm:w-[440px] md:w-[460px] bg-white rounded-2xl shadow-[0_25px_60px_-12px_rgba(15,23,42,0.25)] border border-slate-200 z-[9999] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
               {/* Header */}
-              <div className="px-4 py-3.5 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xs font-bold text-slate-900 tracking-tight">Notifications</h3>
+              <div className="px-5 py-3.5 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">Notifications</h3>
                   {unreadCount > 0 ? (
-                    <span className="text-[10px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-full shadow-2xs">
+                    <span className="text-xs font-bold bg-amber-500 text-white px-2.5 py-0.5 rounded-full shadow-2xs">
                       {unreadCount} new
                     </span>
                   ) : (
-                    <span className="text-[10px] text-slate-400 font-medium">All caught up</span>
+                    <span className="text-xs text-slate-400 font-medium">All caught up</span>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2">
                   {unreadCount > 0 && (
                     <button
                       type="button"
                       onClick={handleMarkAllRead}
-                      className="text-[11px] font-semibold text-amber-900 hover:text-amber-700 transition-colors flex items-center gap-1"
+                      className="text-xs font-semibold text-amber-800 hover:text-amber-950 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1 shadow-2xs"
                     >
                       <CheckCheck className="w-3.5 h-3.5" />
                       <span>Mark all read</span>
@@ -292,7 +299,7 @@ export default function Header() {
                     <button
                       type="button"
                       onClick={handleClearAll}
-                      className="text-slate-400 hover:text-rose-600 transition-colors p-1 rounded-md hover:bg-slate-200/70"
+                      className="text-slate-400 hover:text-rose-600 transition-colors p-1.5 rounded-lg hover:bg-slate-200/70"
                       title="Clear notifications"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -301,23 +308,60 @@ export default function Header() {
                 </div>
               </div>
 
+              {/* Filter Tabs */}
+              <div className="px-4 py-2 bg-slate-50/50 border-b border-slate-100 flex items-center gap-1.5 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setNotifFilter('all')}
+                  className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                    notifFilter === 'all'
+                      ? 'bg-white text-slate-900 font-bold border border-slate-200 shadow-2xs'
+                      : 'text-slate-500 hover:text-slate-900'
+                  }`}
+                >
+                  All ({notifications.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNotifFilter('unread')}
+                  className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                    notifFilter === 'unread'
+                      ? 'bg-white text-slate-900 font-bold border border-slate-200 shadow-2xs'
+                      : 'text-slate-500 hover:text-slate-900'
+                  }`}
+                >
+                  Unread ({unreadCount})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setNotifFilter('action')}
+                  className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                    notifFilter === 'action'
+                      ? 'bg-white text-slate-900 font-bold border border-slate-200 shadow-2xs'
+                      : 'text-slate-500 hover:text-slate-900'
+                  }`}
+                >
+                  Action Required
+                </button>
+              </div>
+
               {/* Items List */}
-              <div className="max-h-[350px] overflow-y-auto divide-y divide-slate-100 bg-white">
-                {notifications.length === 0 ? (
-                  <div className="py-10 text-center px-4">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2">
-                      <Bell className="w-5 h-5 opacity-60" />
+              <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-100 bg-white">
+                {filteredNotifications.length === 0 ? (
+                  <div className="py-12 text-center px-4">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2.5">
+                      <Bell className="w-6 h-6 opacity-60" />
                     </div>
-                    <p className="text-xs font-bold text-slate-800">No new notifications</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">Everything is up to date and in sync.</p>
+                    <p className="text-sm font-bold text-slate-800">No notifications found</p>
+                    <p className="text-xs text-slate-400 mt-1">Everything is in sync and up to date.</p>
                   </div>
                 ) : (
-                  notifications.map((item) => {
+                  filteredNotifications.map((item) => {
                     const iconConfig = 
-                      item.type === 'approval' ? { icon: Users, bg: 'bg-amber-50 border-amber-200 text-amber-800' } :
+                      item.type === 'approval' ? { icon: Users, bg: 'bg-amber-50 border-amber-300 text-amber-800' } :
                       item.type === 'leave' ? { icon: Calendar, bg: 'bg-purple-50 border-purple-200 text-purple-700' } :
                       item.type === 'task' ? { icon: CheckSquare, bg: 'bg-sky-50 border-sky-200 text-sky-700' } :
-                      item.type === 'payroll' ? { icon: DollarSign, bg: 'bg-emerald-50 border-emerald-200 text-emerald-700' } :
+                      item.type === 'payroll' ? { icon: DollarSign, bg: 'bg-emerald-50 border-emerald-300 text-emerald-700' } :
                       { icon: Sparkles, bg: 'bg-amber-50 border-amber-200 text-amber-600' };
 
                     const IconComponent = iconConfig.icon;
@@ -326,30 +370,33 @@ export default function Header() {
                       <div
                         key={item.id}
                         onClick={() => handleNotificationClick(item)}
-                        className={`p-3.5 transition-colors cursor-pointer flex items-start gap-3 hover:bg-slate-50 relative ${
-                          item.unread ? 'bg-amber-50/20' : 'bg-white'
+                        className={`p-4 transition-colors cursor-pointer flex items-start gap-3.5 hover:bg-slate-50/90 relative ${
+                          item.unread ? 'bg-amber-50/25' : 'bg-white'
                         }`}
                       >
                         {item.unread && (
-                          <div className="absolute left-0 top-2 bottom-2 w-0.5 bg-amber-500 rounded-r" />
+                          <div className="absolute left-0 top-3 bottom-3 w-1 bg-amber-500 rounded-r" />
                         )}
 
-                        <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border ${iconConfig.bg}`}>
-                          <IconComponent className="w-4 h-4" />
+                        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border shadow-2xs ${iconConfig.bg}`}>
+                          <IconComponent className="w-5 h-5" />
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-1 mb-0.5">
-                            <h4 className={`text-xs truncate ${item.unread ? 'font-bold text-slate-900' : 'font-semibold text-slate-700'}`}>
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <h4 className={`text-sm truncate leading-snug ${item.unread ? 'font-bold text-slate-900' : 'font-semibold text-slate-800'}`}>
                               {item.title}
                             </h4>
-                            <span className="text-[10px] text-slate-400 font-mono shrink-0 whitespace-nowrap bg-slate-100 px-1.5 py-0.5 rounded">
+                            <span className="text-xs text-slate-400 font-mono shrink-0 whitespace-nowrap bg-slate-100 px-2 py-0.5 rounded-md">
                               {item.time}
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                             {item.message}
                           </p>
+                          <span className="text-xs font-semibold text-amber-800 hover:text-amber-950 inline-flex items-center gap-1 mt-1.5">
+                            Open in {item.tab} &rarr;
+                          </span>
                         </div>
                       </div>
                     );
@@ -358,8 +405,8 @@ export default function Header() {
               </div>
 
               {/* Footer */}
-              <div className="px-4 py-2 bg-slate-50/90 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                <span className="font-mono">Live Activity Stream</span>
+              <div className="px-5 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                <span className="font-mono">Live Cloud Activity Stream</span>
                 <span>Click item to navigate &rarr;</span>
               </div>
             </div>
