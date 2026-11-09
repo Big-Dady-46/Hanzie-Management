@@ -93,67 +93,52 @@ export default function PayrollView() {
         )}
       </div>
 
-      {/* 3 Metric Cards with 2D Luxury Style */}
+      {/* 3 Metric Cards with White Background, Clean Border & No Shadow */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Card 1: Cycle Budget — Gold */}
-        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
-          style={{
-            background: 'linear-gradient(160deg, #fffdf5 0%, #fefce8 50%, #fef9c3 100%)',
-            border: '1px solid #fcd34d',
-            boxShadow: '0 3px 0 #d97706, 0 6px 20px rgba(217,119,6,0.10)',
-          }}>
+        {/* Card 1: Cycle Budget — Amber Border */}
+        <div className="bg-white rounded-2xl p-5 flex flex-col justify-between h-32 border border-amber-300 transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-amber-800">Total Cycle Outflow</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-400/20 border border-amber-300 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center">
               <DollarSign className="w-4 h-4 text-amber-700" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black text-amber-900 tracking-tight">
+            <div className="text-2xl font-bold text-amber-900 tracking-tight">
               PKR {totalMonthlyOutflow.toLocaleString()}
             </div>
-            <p className="text-[11px] text-amber-700/70 mt-0.5">{filteredPayroll.length} active team members</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">{filteredPayroll.length} active team members</p>
           </div>
         </div>
 
-        {/* Card 2: Disbursed & Cleared — Emerald */}
-        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
-          style={{
-            background: 'linear-gradient(160deg, #f0fdf8 0%, #dcfce7 50%, #bbf7d0 100%)',
-            border: '1px solid #6ee7b7',
-            boxShadow: '0 3px 0 #059669, 0 6px 20px rgba(5,150,105,0.10)',
-          }}>
+        {/* Card 2: Disbursed & Cleared — Emerald Border */}
+        <div className="bg-white rounded-2xl p-5 flex flex-col justify-between h-32 border border-emerald-300 transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-emerald-800">Disbursed & Cleared</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-400/20 border border-emerald-300 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4 text-emerald-700" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black text-emerald-800 tracking-tight">
+            <div className="text-2xl font-bold text-emerald-800 tracking-tight">
               PKR {totalPaidOutflow.toLocaleString()}
             </div>
-            <p className="text-[11px] text-emerald-700/70 font-semibold mt-0.5">
+            <p className="text-[11px] text-emerald-700/80 font-semibold mt-0.5">
               {disbursedPct}% verified cleared
             </p>
           </div>
         </div>
 
-        {/* Card 3: Pending Release — Silver */}
-        <div className="rounded-2xl p-5 flex flex-col justify-between h-32 transition-all"
-          style={{
-            background: 'linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%)',
-            border: '1px solid #cbd5e1',
-            boxShadow: '0 3px 0 #94a3b8, 0 6px 20px rgba(100,116,139,0.08)',
-          }}>
+        {/* Card 3: Pending Release — Slate Border */}
+        <div className="bg-white rounded-2xl p-5 flex flex-col justify-between h-32 border border-slate-300 transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-600">Pending Release</span>
-            <div className="w-8 h-8 rounded-xl bg-slate-200/80 border border-slate-300 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-300 flex items-center justify-center">
               <Clock className="w-4 h-4 text-slate-500" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black text-slate-800 tracking-tight">
+            <div className="text-2xl font-bold text-slate-800 tracking-tight">
               PKR {totalPendingOutflow.toLocaleString()}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">
@@ -235,7 +220,7 @@ export default function PayrollView() {
 
                     {/* Net Pay with Base / Bonus hint */}
                     <td className="py-3">
-                      <div className="font-black text-slate-900 text-xs">
+                      <div className="font-bold text-slate-900 text-xs">
                         PKR {item.netSalary.toLocaleString()}
                       </div>
                       <div className="text-[10px] text-slate-400">
@@ -433,7 +418,7 @@ export default function PayrollView() {
                 <span className="text-[9px] uppercase tracking-wider font-extrabold text-amber-800 block">
                   Total Net Disbursed
                 </span>
-                <div className="text-lg font-black text-amber-950 tracking-tight">
+                <div className="text-lg font-bold text-amber-950 tracking-tight">
                   PKR {viewReceipt.netSalary.toLocaleString()}
                 </div>
               </div>

@@ -131,7 +131,7 @@ export default function ProjectsView() {
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black text-amber-900 tracking-tight">
+            <div className="text-2xl font-bold text-amber-900 tracking-tight">
               PKR {totalBudget.toLocaleString()}
             </div>
             <p className="text-[11px] text-amber-700/70 mt-0.5">{projects.length} active contracts</p>
@@ -152,7 +152,7 @@ export default function ProjectsView() {
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black text-emerald-800 tracking-tight">
+            <div className="text-2xl font-bold text-emerald-800 tracking-tight">
               PKR {totalPaid.toLocaleString()}
             </div>
             <p className="text-[11px] text-emerald-700/70 font-semibold mt-0.5">
@@ -175,7 +175,7 @@ export default function ProjectsView() {
             </div>
           </div>
           <div>
-            <div className="text-2xl font-black text-slate-800 tracking-tight">
+            <div className="text-2xl font-bold text-slate-800 tracking-tight">
               PKR {totalBalance.toLocaleString()}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">Due across upcoming milestones</p>
@@ -279,7 +279,7 @@ export default function ProjectsView() {
                     boxShadow: '0 2px 0 #d97706, 0 3px 8px rgba(217,119,6,0.12)',
                   }}>
                   <span className="text-[9px] font-bold uppercase tracking-wider text-amber-700 block mb-1">Budget</span>
-                  <span className="text-[11px] font-black text-amber-900 block leading-tight">PKR {(project.totalBudget / 1000).toFixed(0)}K</span>
+                  <span className="text-[11px] font-bold text-amber-900 block leading-tight">PKR {(project.totalBudget / 1000).toFixed(0)}K</span>
                 </div>
 
                 {/* Paid — emerald */}
@@ -290,7 +290,7 @@ export default function ProjectsView() {
                     boxShadow: '0 2px 0 #059669, 0 3px 8px rgba(5,150,105,0.12)',
                   }}>
                   <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700 block mb-1">Paid</span>
-                  <span className="text-[11px] font-black text-emerald-800 block leading-tight">PKR {(project.paidAmount / 1000).toFixed(0)}K</span>
+                  <span className="text-[11px] font-bold text-emerald-800 block leading-tight">PKR {(project.paidAmount / 1000).toFixed(0)}K</span>
                 </div>
 
                 {/* Balance — silver/slate if cleared, amber if pending */}
@@ -305,7 +305,7 @@ export default function ProjectsView() {
                     boxShadow: '0 2px 0 #b45309, 0 3px 8px rgba(180,83,9,0.10)',
                   }}>
                   <span className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${isFullyPaid ? 'text-slate-500' : 'text-amber-800'}`}>Balance</span>
-                  <span className={`text-[11px] font-black block leading-tight ${isFullyPaid ? 'text-slate-500' : 'text-amber-900'}`}>
+                  <span className={`text-[11px] font-bold block leading-tight ${isFullyPaid ? 'text-slate-500' : 'text-amber-900'}`}>
                     {isFullyPaid ? 'Cleared ✓' : `PKR ${(balance / 1000).toFixed(0)}K`}
                   </span>
                 </div>

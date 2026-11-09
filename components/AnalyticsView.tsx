@@ -78,7 +78,7 @@ export default function AnalyticsView() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Task Completion Rate */}
         <div className="clean-card p-5 hover:border-amber-300 transition-colors">
-          <div className="text-3xl font-black text-slate-900 tracking-tight">
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">
             94.2%
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
@@ -92,7 +92,7 @@ export default function AnalyticsView() {
 
         {/* Metric 2: Average Response Time */}
         <div className="clean-card p-5 hover:border-slate-300 transition-colors">
-          <div className="text-3xl font-black text-slate-900 tracking-tight">
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">
             2.4h
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
@@ -106,7 +106,7 @@ export default function AnalyticsView() {
 
         {/* Metric 3: Team Velocity */}
         <div className="clean-card p-5 hover:border-amber-300 transition-colors">
-          <div className="text-3xl font-black text-slate-900 tracking-tight">
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">
             18.5
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
@@ -120,7 +120,7 @@ export default function AnalyticsView() {
 
         {/* Metric 4: Sprint Success Rate */}
         <div className="clean-card p-5 hover:border-slate-300 transition-colors">
-          <div className="text-3xl font-black text-slate-900 tracking-tight">
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">
             87%
           </div>
           <p className="text-xs font-semibold text-slate-500 mt-1">
