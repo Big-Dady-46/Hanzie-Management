@@ -185,8 +185,8 @@ export default function ProjectsView() {
         ))}
       </div>
 
-      {/* 4. Executive Projects Cards & Financial Ledger */}
-      <div className="space-y-6">
+      {/* 4. Projects Grid — 2 per row, compact clean cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredProjects.map((project) => {
           const balance = Math.max(0, project.totalBudget - project.paidAmount);
           const isFullyPaid = balance <= 0;
@@ -194,226 +194,142 @@ export default function ProjectsView() {
           const totalMilestones = project.milestones.length;
 
           return (
-            <div 
+            <div
               key={project.id}
-              className="bg-white rounded-3xl border border-slate-200/90 hover:border-amber-400/80 p-5 sm:p-7 shadow-[0_4px_24px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_40px_rgba(217,119,6,0.08)] transition-all duration-200 relative overflow-hidden group space-y-6"
+              className="bg-white rounded-2xl border border-slate-200/80 hover:border-amber-300 p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col gap-4"
             >
-              {/* Decorative Subtle Ambient Glow */}
-              <div className="absolute -top-20 -right-20 w-52 h-52 bg-gradient-to-br from-amber-100/40 via-amber-50/20 to-transparent rounded-full blur-3xl pointer-events-none group-hover:from-amber-200/40 transition-all duration-500" />
-
-              {/* 1. Header Row: Identity, Badges, Dates & Actions */}
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative z-10">
-                <div className="flex items-start gap-4">
-                  {/* Category Icon Squircle */}
-                  <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100/90 border border-amber-200/80 flex items-center justify-center shrink-0 shadow-xs">
+              {/* Row 1: Icon + Title + Status + Action */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* Icon */}
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/80 flex items-center justify-center shrink-0">
                     {getCategoryIcon(project.category)}
                   </div>
 
                   <div className="min-w-0">
-                    {/* Meta Tags */}
-                    <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                      <span className="text-[11px] font-bold text-amber-900 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <h3 className="text-sm font-bold text-slate-900 tracking-tight truncate">
+                        {project.name}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className="text-[10px] font-semibold text-amber-800 bg-amber-50 border border-amber-200/70 px-2 py-0.5 rounded-full">
                         {project.category}
                       </span>
-
-                      <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 ${
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
                         project.status === 'completed'
                           ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-sky-50 text-sky-700 border border-sky-200'
+                          : 'bg-sky-50 text-sky-600 border border-sky-200'
                       }`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${project.status === 'completed' ? 'bg-emerald-500' : 'bg-sky-500 animate-pulse'}`} />
                         <span className="capitalize">{project.status.replace('_', ' ')}</span>
                       </span>
-
-                      <span className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
-                        <Calendar className="w-3 h-3 text-slate-400" />
-                        <span>Target: <strong className="text-slate-700">{project.deadline}</strong></span>
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-tight group-hover:text-amber-900 transition-colors">
-                      {project.name}
-                    </h3>
-
-                    {/* Client Info */}
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1">
-                      <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span>Client:</span>
-                      <strong className="text-slate-800 font-bold">{project.clientName}</strong>
-                      {project.clientEmail && (
-                        <span className="text-slate-400">({project.clientEmail})</span>
-                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* Action Button */}
                 {isLeader && (
-                  <div className="flex items-center gap-2 lg:self-center shrink-0">
-                    <button
-                      onClick={() => setShowPaymentModal(project.id)}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm py-2.5 px-5 rounded-xl shadow-md shadow-amber-500/20 active:scale-95 transition-all cursor-pointer"
-                    >
-                      <Plus className="w-4 h-4 stroke-[3]" />
-                      <span>Record Payment</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setShowPaymentModal(project.id)}
+                    className="shrink-0 flex items-center gap-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-[11px] py-1.5 px-3 rounded-lg shadow-xs transition-all"
+                  >
+                    <Plus className="w-3 h-3 stroke-[3]" />
+                    Pay
+                  </button>
                 )}
               </div>
 
-              {/* 2. Executive 3-Deck Financial Ledger */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 relative z-10">
-                {/* Total Budget */}
-                <div className="bg-[#fcfaf7] border border-amber-100 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-300 transition-colors">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                      <Coins className="w-3.5 h-3.5 text-amber-500 stroke-[2.2]" />
-                      Contract Budget
-                    </span>
-                    <span className="text-[10px] font-bold text-slate-400 bg-white border border-slate-200/80 px-2 py-0.5 rounded-md">
-                      Cap
-                    </span>
-                  </div>
-                  <div className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                    PKR {project.totalBudget.toLocaleString()}
-                  </div>
-                  <p className="text-[11px] text-slate-400 mt-1">Fixed commercial volume</p>
+              {/* Row 2: Client + Deadline */}
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <span className="font-medium text-slate-700 truncate">{project.clientName}</span>
+                  {project.clientEmail && (
+                    <span className="text-slate-400 hidden sm:inline truncate">({project.clientEmail})</span>
+                  )}
                 </div>
-
-                {/* Revenue Received */}
-                <div className="bg-[#f0fdf4]/80 border border-emerald-200/80 rounded-2xl p-4 flex flex-col justify-between hover:border-emerald-300 transition-colors">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 stroke-[2.5]" />
-                      Revenue Cleared
-                    </span>
-                    <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-md">
-                      {Math.round((project.paidAmount / (project.totalBudget || 1)) * 100)}%
-                    </span>
-                  </div>
-                  <div className="text-lg sm:text-xl font-black text-emerald-700 tracking-tight">
-                    PKR {project.paidAmount.toLocaleString()}
-                  </div>
-                  <p className="text-[11px] text-emerald-600/80 font-medium mt-1">Disbursed to bank account</p>
-                </div>
-
-                {/* Balance Receivable */}
-                <div className="bg-[#fffdfa] border border-amber-200/70 rounded-2xl p-4 flex flex-col justify-between hover:border-amber-300 transition-colors">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-amber-600 stroke-[2.5]" />
-                      Balance Remaining
-                    </span>
-                    {isFullyPaid ? (
-                      <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-md">
-                        Settled ✓
-                      </span>
-                    ) : (
-                      <span className="text-[10px] font-extrabold text-amber-800 bg-amber-100/90 px-2 py-0.5 rounded-md">
-                        Receivable
-                      </span>
-                    )}
-                  </div>
-                  <div className={`text-lg sm:text-xl font-black tracking-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
-                    {isFullyPaid ? 'Cleared ✓' : `PKR ${balance.toLocaleString()}`}
-                  </div>
-                  <p className="text-[11px] text-slate-400 mt-1">
-                    {isFullyPaid ? 'Zero outstanding dues' : 'Collect on upcoming milestones'}
-                  </p>
+                <div className="flex items-center gap-1 text-slate-400 shrink-0">
+                  <Calendar className="w-3 h-3" />
+                  <span className="font-semibold text-slate-600">{project.deadline}</span>
                 </div>
               </div>
 
-              {/* 3. Sprint Delivery Velocity & Live Interactive Slider */}
-              <div className="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-4 sm:p-5 relative z-10 space-y-2.5">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
-                      <Zap className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold text-slate-800">Sprint Delivery Velocity</span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400 font-medium">Sprint Completion:</span>
-                    <span className="text-xs font-black text-amber-600 bg-white border border-amber-200 px-2.5 py-0.5 rounded-lg shadow-2xs">
-                      {project.progressPercentage}%
-                    </span>
-                  </div>
+              {/* Row 3: Financials — Budget / Paid / Balance */}
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-slate-50 border border-slate-200/70 rounded-xl p-2.5 text-center">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Budget</span>
+                  <span className="text-[11px] font-black text-slate-800 block leading-tight">PKR {(project.totalBudget / 1000).toFixed(0)}K</span>
                 </div>
-
-                {/* Progress Bar & Slider */}
-                <div className="relative pt-1">
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="5"
-                    value={project.progressPercentage}
-                    onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
-                    className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500 focus:outline-none transition-all"
-                  />
+                <div className="bg-emerald-50/60 border border-emerald-200/70 rounded-xl p-2.5 text-center">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Paid</span>
+                  <span className="text-[11px] font-black text-emerald-700 block leading-tight">PKR {(project.paidAmount / 1000).toFixed(0)}K</span>
+                </div>
+                <div className={`rounded-xl p-2.5 text-center border ${isFullyPaid ? 'bg-slate-50 border-slate-200/70' : 'bg-amber-50/60 border-amber-200/70'}`}>
+                  <span className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${isFullyPaid ? 'text-slate-400' : 'text-amber-700'}`}>Balance</span>
+                  <span className={`text-[11px] font-black block leading-tight ${isFullyPaid ? 'text-slate-400' : 'text-amber-800'}`}>
+                    {isFullyPaid ? 'Cleared' : `PKR ${(balance / 1000).toFixed(0)}K`}
+                  </span>
                 </div>
               </div>
 
-              {/* 4. Sprint Milestones Deliverables */}
-              <div className="space-y-3 relative z-10 pt-1">
+              {/* Row 4: Progress Bar */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] font-bold text-slate-500 flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
+                    Velocity
+                  </span>
+                  <span className="text-[11px] font-black text-amber-700">{project.progressPercentage}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value={project.progressPercentage}
+                  onChange={(e) => updateProjectProgress(project.id, Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-amber-500 bg-slate-200"
+                />
+              </div>
+
+              {/* Row 5: Milestones compact */}
+              <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-lg bg-amber-500 text-white flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
-                    </div>
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
-                      Sprint Milestones
-                    </h4>
-                  </div>
-
-                  <span className="text-xs font-bold text-slate-500 bg-slate-100 border border-slate-200/60 px-3 py-0.5 rounded-full">
-                    {completedMilestones} of {totalMilestones} Completed
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                    <Layers className="w-3 h-3 text-slate-400" />
+                    Milestones
+                  </span>
+                  <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200/70 px-2 py-0.5 rounded-full">
+                    {completedMilestones}/{totalMilestones}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                <div className="space-y-1">
                   {project.milestones.map((m) => (
                     <div
                       key={m.id}
                       onClick={() => toggleMilestone(project.id, m.id)}
-                      className={`p-3 sm:px-4 rounded-xl border flex items-center justify-between gap-3 cursor-pointer select-none transition-all ${
+                      className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg border cursor-pointer select-none transition-all ${
                         m.completed
-                          ? 'bg-emerald-50/25 border-emerald-200/70 hover:bg-emerald-50/40'
-                          : 'bg-white border-slate-200/80 hover:border-amber-300 hover:bg-slate-50/80 shadow-2xs'
+                          ? 'bg-emerald-50/40 border-emerald-100'
+                          : 'bg-slate-50/60 border-slate-100 hover:border-amber-200'
                       }`}
                     >
-                      {/* Left Checkbox & Title */}
-                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                        <div className={`w-5 h-5 rounded-lg flex items-center justify-center text-xs shrink-0 transition-colors ${
-                          m.completed
-                            ? 'bg-emerald-500 text-white shadow-2xs'
-                            : 'border-2 border-slate-300 bg-white'
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 ${
+                          m.completed ? 'bg-emerald-500 text-white' : 'border border-slate-300 bg-white'
                         }`}>
-                          {m.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                          {m.completed && <Check className="w-2.5 h-2.5 stroke-[3]" />}
                         </div>
-                        <span className={`text-xs font-semibold truncate ${m.completed ? 'text-slate-400 line-through' : 'text-slate-800'}`}>
+                        <span className={`text-[11px] font-medium truncate ${m.completed ? 'text-slate-400 line-through' : 'text-slate-700'}`}>
                           {m.title}
                         </span>
                       </div>
-
-                      {/* Right Date & Status */}
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
-                          <Calendar className="w-3 h-3 text-slate-400" />
-                          {m.dueDate}
-                        </span>
-                        {m.completed ? (
-                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-200 px-2 py-0.5 rounded-md">
-                            Done
-                          </span>
-                        ) : (
-                          <span className="text-[10px] font-bold text-amber-800 bg-amber-100/90 border border-amber-200 px-2 py-0.5 rounded-md">
-                            Pending
-                          </span>
-                        )}
-                      </div>
+                      <span className={`text-[10px] font-bold shrink-0 px-1.5 py-0.5 rounded-md ${
+                        m.completed ? 'text-emerald-700 bg-emerald-100' : 'text-amber-700 bg-amber-50'
+                      }`}>
+                        {m.completed ? '✓' : m.dueDate}
+                      </span>
                     </div>
                   ))}
                 </div>
