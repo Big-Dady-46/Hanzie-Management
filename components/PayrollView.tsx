@@ -296,17 +296,18 @@ export default function PayrollView() {
             <div className="space-y-3.5">
               <div>
                 <label className="text-xs font-semibold text-slate-700 block mb-1">Payment Method</label>
-                <select
+                <CustomDropdown
+                  fullWidth
                   value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value as any)}
-                  className="w-full text-xs font-medium border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
-                >
-                  <option value="Bank Transfer">Bank Transfer (Meezan / HBL / Alfalah)</option>
-                  <option value="JazzCash">JazzCash Mobile Wallet</option>
-                  <option value="Easypaisa">Easypaisa Mobile Wallet</option>
-                  <option value="Cash">Cash (Handed directly)</option>
-                  <option value="Wise">Wise / Remittance</option>
-                </select>
+                  onChange={(val) => setPaymentMethod(val as any)}
+                  options={[
+                    { value: 'Bank Transfer', label: 'Bank Transfer (Meezan / HBL / Alfalah)' },
+                    { value: 'JazzCash', label: 'JazzCash Mobile Wallet' },
+                    { value: 'Easypaisa', label: 'Easypaisa Mobile Wallet' },
+                    { value: 'Cash', label: 'Cash (Handed directly)' },
+                    { value: 'Wise', label: 'Wise / Remittance' },
+                  ]}
+                />
               </div>
 
               <div>

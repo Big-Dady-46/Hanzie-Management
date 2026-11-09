@@ -15,6 +15,7 @@ interface CustomDropdownProps {
   placeholder?: string;
   className?: string;
   menuWidth?: string;
+  fullWidth?: boolean;
 }
 
 export default function CustomDropdown({
@@ -23,7 +24,8 @@ export default function CustomDropdown({
   options,
   placeholder = 'Select option...',
   className = '',
-  menuWidth = 'w-48'
+  menuWidth = 'w-48',
+  fullWidth = false,
 }: CustomDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -43,18 +45,23 @@ export default function CustomDropdown({
   const displayLabel = selectedOption ? selectedOption.label : placeholder;
 
   return (
-    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
+    <div 
+      className={`relative ${fullWidth ? 'w-full block' : 'inline-block'} text-left ${className}`} 
+      ref={dropdownRef}
+    >
       {/* Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between gap-2.5 text-xs font-semibold bg-white hover:bg-slate-50 border border-slate-200/90 rounded-xl px-3 py-2 text-slate-800 transition-all select-none shadow-2xs hover:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-200/50"
+        className={`flex items-center justify-between gap-2.5 text-xs font-semibold bg-white hover:bg-slate-50 border border-slate-200/90 rounded-xl px-3 py-2 text-slate-800 transition-all select-none shadow-2xs hover:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-200/50 ${
+          fullWidth ? 'w-full' : ''
+        }`}
       >
-        <span className="truncate max-w-[120px] sm:max-w-[150px] inline-block text-left" title={displayLabel}>
+        <span className={`truncate text-left ${fullWidth ? 'flex-1' : 'max-w-[140px] sm:max-w-[170px]'}`} title={displayLabel}>
           {displayLabel}
         </span>
         <ChevronDown 
-          className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${
+          className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ml-1 ${
             isOpen ? 'rotate-180 text-amber-600' : ''
           }`} 
         />
@@ -62,7 +69,9 @@ export default function CustomDropdown({
 
       {/* Floating Menu */}
       {isOpen && (
-        <div className={`absolute right-0 top-full mt-1.5 ${menuWidth} bg-white rounded-xl shadow-xl border border-slate-200 z-[999] overflow-hidden animate-in fade-in zoom-in-95 duration-100`}>
+        <div 
+          className={`absolute ${fullWidth ? 'w-full left-0' : 'right-0 ' + menuWidth} top-full mt-1.5 bg-white rounded-xl shadow-2xl border border-slate-200 z-[9999] overflow-hidden animate-in fade-in zoom-in-95 duration-100`}
+        >
           <div className="max-h-60 overflow-y-auto divide-y divide-slate-100 py-1">
             {options.map((option) => {
               const isSelected = option.value === value;
@@ -80,11 +89,11 @@ export default function CustomDropdown({
                       : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                   }`}
                 >
-                  <span className="truncate pr-2 max-w-[180px] inline-block" title={option.label}>
+                  <span className="truncate pr-2 flex-1" title={option.label}>
                     {option.label}
                   </span>
                   {isSelected && (
-                    <Check className="w-3.5 h-3.5 text-amber-600 shrink-0 ml-1" />
+                    <Check className="w-3.5 h-3.5 text-amber-600 shrink-0 ml-1.5" />
                   )}
                 </button>
               );

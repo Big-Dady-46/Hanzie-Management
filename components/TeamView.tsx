@@ -235,17 +235,18 @@ export default function TeamView() {
             <div className="space-y-3">
               <div>
                 <label className="text-xs font-semibold text-slate-600 block mb-1">Assigned Role</label>
-                <select
+                <CustomDropdown
+                  fullWidth
                   value={assignedRole}
-                  onChange={(e) => setAssignedRole(e.target.value as UserRole)}
-                  className="w-full text-xs font-medium border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
-                >
-                  <option value="developer">Developer</option>
-                  <option value="designer">UI/UX Designer</option>
-                  <option value="qa">QA Engineer</option>
-                  <option value="support_cleaner">Office Staff / Cleaner</option>
-                  <option value="client">Client</option>
-                </select>
+                  onChange={(v) => setAssignedRole(v as UserRole)}
+                  options={[
+                    { value: 'developer', label: 'Developer' },
+                    { value: 'designer', label: 'UI/UX Designer' },
+                    { value: 'qa', label: 'QA Engineer' },
+                    { value: 'support_cleaner', label: 'Office Staff / Cleaner' },
+                    { value: 'client', label: 'Client' },
+                  ]}
+                />
               </div>
 
               <div>
@@ -323,16 +324,17 @@ export default function TeamView() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">Role</label>
-                  <select
+                  <CustomDropdown
+                    fullWidth
                     value={role}
-                    onChange={(e) => setRole(e.target.value as UserRole)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
-                  >
-                    <option value="developer">Developer</option>
-                    <option value="designer">UI/UX Designer</option>
-                    <option value="qa">QA Engineer</option>
-                    <option value="support_cleaner">Office Staff / Cleaner</option>
-                  </select>
+                    onChange={(v) => setRole(v as UserRole)}
+                    options={[
+                      { value: 'developer', label: 'Developer' },
+                      { value: 'designer', label: 'UI/UX Designer' },
+                      { value: 'qa', label: 'QA Engineer' },
+                      { value: 'support_cleaner', label: 'Office Staff / Cleaner' },
+                    ]}
+                  />
                 </div>
 
                 <div>

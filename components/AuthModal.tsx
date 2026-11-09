@@ -7,6 +7,7 @@ import {
   AlertCircle, Sparkles, X, ChevronRight, ArrowRight
 } from 'lucide-react';
 import { UserRole } from '@/lib/types';
+import CustomDropdown from '@/components/CustomDropdown';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -172,17 +173,18 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
             <div>
               <label className="text-xs font-bold text-slate-700 block mb-1">Applying Role / Field</label>
-              <select
+              <CustomDropdown
+                fullWidth
                 value={role}
-                onChange={(e) => setRole(e.target.value as any)}
-                className="w-full text-xs font-bold border border-slate-200 rounded-xl px-4 py-2.5 bg-slate-50"
-              >
-                <option value="developer">Developer</option>
-                <option value="designer">UI/UX Designer</option>
-                <option value="qa">QA Engineer</option>
-                <option value="support_cleaner">Office Staff / Cleaner</option>
-                <option value="client">Client</option>
-              </select>
+                onChange={(v) => setRole(v as any)}
+                options={[
+                  { value: 'developer', label: 'Developer' },
+                  { value: 'designer', label: 'UI/UX Designer' },
+                  { value: 'qa', label: 'QA Engineer' },
+                  { value: 'support_cleaner', label: 'Office Staff / Cleaner' },
+                  { value: 'client', label: 'Client' },
+                ]}
+              />
             </div>
 
             <div className="p-3.5 rounded-2xl bg-[#fff9ea] text-xs text-[#92400e] border border-[#faeed0] font-medium leading-relaxed">

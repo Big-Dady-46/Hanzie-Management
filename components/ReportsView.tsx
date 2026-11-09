@@ -7,6 +7,7 @@ import {
   Search, CheckCircle2, AlertTriangle, ArrowRight,
   Sparkles, Target, Rocket, ShieldCheck, Flame
 } from 'lucide-react';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export default function ReportsView() {
   const { eodReports } = useApp();
@@ -116,12 +117,10 @@ export default function ReportsView() {
           </div>
 
           <div className="flex items-center gap-1.5 text-xs text-slate-500">
-            <Calendar className="w-4 h-4 text-slate-400" />
-            <input
-              type="date"
+            <CustomDatePicker
               value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="text-xs px-2.5 py-1 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-medium focus:outline-none"
+              onChange={setDateFilter}
+              placeholder="Filter by date..."
             />
           </div>
 

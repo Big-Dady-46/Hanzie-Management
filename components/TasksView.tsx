@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { TaskStatus, TaskPriority } from '@/lib/types';
 import CustomDropdown from '@/components/CustomDropdown';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export default function TasksView() {
   const { 
@@ -354,53 +355,50 @@ export default function TasksView() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">Project</label>
-                  <select
+                  <CustomDropdown
+                    fullWidth
                     value={projectId}
-                    onChange={(e) => setProjectId(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-2.5 py-2 bg-slate-50"
-                  >
-                    {projects.map((p) => (
-                      <option key={p.id} value={p.id}>{p.name}</option>
-                    ))}
-                  </select>
+                    onChange={setProjectId}
+                    options={projects.map((p) => ({ value: p.id, label: p.name }))}
+                  />
                 </div>
 
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">Assignee</label>
-                  <select
+                  <CustomDropdown
+                    fullWidth
                     value={assignedToId}
-                    onChange={(e) => setAssignedToId(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-2.5 py-2 bg-slate-50"
-                  >
-                    {users.filter(u => u.role !== 'client' && u.status === 'active').map((u) => (
-                      <option key={u.id} value={u.id}>{u.name} ({u.role.replace('_', ' ')})</option>
-                    ))}
-                  </select>
+                    onChange={setAssignedToId}
+                    options={users.filter(u => u.role !== 'client' && u.status === 'active').map((u) => ({
+                      value: u.id,
+                      label: `${u.name} (${u.role.replace('_', ' ')})`
+                    }))}
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">Priority</label>
-                  <select
+                  <CustomDropdown
+                    fullWidth
                     value={priority}
-                    onChange={(e) => setPriority(e.target.value as TaskPriority)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-2.5 py-2 bg-slate-50"
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                    <option value="urgent">Urgent</option>
-                  </select>
+                    onChange={(val) => setPriority(val as TaskPriority)}
+                    options={[
+                      { value: 'low', label: 'Low' },
+                      { value: 'medium', label: 'Medium' },
+                      { value: 'high', label: 'High' },
+                      { value: 'urgent', label: 'Urgent' },
+                    ]}
+                  />
                 </div>
 
                 <div>
                   <label className="text-xs font-semibold text-slate-700 block mb-1">Due Date</label>
-                  <input
-                    type="date"
+                  <CustomDatePicker
+                    fullWidth
                     value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
+                    onChange={setDueDate}
                   />
                 </div>
               </div>

@@ -7,6 +7,8 @@ import {
   Calendar, FileText, Sparkles, CheckCircle2, AlertCircle,
   TrendingUp, Award, Send, Check, ShieldCheck, Flame, Zap
 } from 'lucide-react';
+import CustomDropdown from '@/components/CustomDropdown';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export default function StaffDashboard() {
   const { 
@@ -212,16 +214,17 @@ export default function StaffDashboard() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <select
+                      <CustomDropdown
                         value={task.status}
-                        onChange={(e) => updateTaskStatus(task.id, e.target.value as any)}
-                        className="text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-slate-700 focus:outline-none focus:border-amber-500 cursor-pointer"
-                      >
-                        <option value="todo">To Do</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="review">Revisions</option>
-                        <option value="completed">Completed ✓</option>
-                      </select>
+                        onChange={(val) => updateTaskStatus(task.id, val as any)}
+                        options={[
+                          { value: 'todo', label: 'To Do' },
+                          { value: 'in_progress', label: 'In Progress' },
+                          { value: 'review', label: 'Revisions' },
+                          { value: 'completed', label: 'Completed ✓' },
+                        ]}
+                        menuWidth="w-36"
+                      />
                     </div>
                   </div>
 
@@ -312,37 +315,34 @@ export default function StaffDashboard() {
             <form onSubmit={handleLeaveSubmit} className="space-y-3">
               <div>
                 <label className="text-xs font-semibold text-slate-600 block mb-1">Leave Type</label>
-                <select
+                <CustomDropdown
+                  fullWidth
                   value={leaveType}
-                  onChange={(e) => setLeaveType(e.target.value as any)}
-                  className="w-full text-xs font-bold border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
-                >
-                  <option value="casual">Casual Leave</option>
-                  <option value="sick">Sick / Medical Leave</option>
-                  <option value="emergency">Emergency Absence</option>
-                  <option value="annual">Annual Leave</option>
-                </select>
+                  onChange={(val) => setLeaveType(val as any)}
+                  options={[
+                    { value: 'casual', label: 'Casual Leave' },
+                    { value: 'sick', label: 'Sick / Medical Leave' },
+                    { value: 'emergency', label: 'Emergency Absence' },
+                    { value: 'annual', label: 'Annual Leave' },
+                  ]}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">Start Date</label>
-                  <input
-                    type="date"
+                  <CustomDatePicker
+                    fullWidth
                     value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
-                    required
+                    onChange={setStartDate}
                   />
                 </div>
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">End Date</label>
-                  <input
-                    type="date"
+                  <CustomDatePicker
+                    fullWidth
                     value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50"
-                    required
+                    onChange={setEndDate}
                   />
                 </div>
               </div>

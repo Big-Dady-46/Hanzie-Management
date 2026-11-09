@@ -7,6 +7,8 @@ import {
   Clock, TrendingUp, X, Filter, ChevronRight,
   ShieldCheck, ArrowUpRight, Sparkles, AlertCircle
 } from 'lucide-react';
+import CustomDropdown from '@/components/CustomDropdown';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export default function ProjectsView() {
   const { 
@@ -390,17 +392,18 @@ export default function ProjectsView() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">Category</label>
-                  <select
+                  <CustomDropdown
+                    fullWidth
                     value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-medium text-slate-800 outline-none focus:border-amber-500"
-                  >
-                    <option value="Web App">Web App</option>
-                    <option value="Mobile App">Mobile App</option>
-                    <option value="UI/UX Design">UI/UX Design</option>
-                    <option value="AI Integration">AI Integration</option>
-                    <option value="Custom Software">Custom Software</option>
-                  </select>
+                    onChange={(val) => setNewCategory(val as any)}
+                    options={[
+                      { value: 'Web App', label: 'Web App' },
+                      { value: 'Mobile App', label: 'Mobile App' },
+                      { value: 'UI/UX Design', label: 'UI/UX Design' },
+                      { value: 'AI Integration', label: 'AI Integration' },
+                      { value: 'Custom Software', label: 'Custom Software' },
+                    ]}
+                  />
                 </div>
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">Total Contract Budget (PKR) *</label>
@@ -429,20 +432,18 @@ export default function ProjectsView() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">Start Date</label>
-                  <input
-                    type="date"
+                  <CustomDatePicker
+                    fullWidth
                     value={newStartDate}
-                    onChange={(e) => setNewStartDate(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-700 outline-none focus:border-amber-500"
+                    onChange={setNewStartDate}
                   />
                 </div>
                 <div>
                   <label className="text-xs font-semibold text-slate-600 block mb-1">Handover Target Date</label>
-                  <input
-                    type="date"
+                  <CustomDatePicker
+                    fullWidth
                     value={newDeadline}
-                    onChange={(e) => setNewDeadline(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-700 outline-none focus:border-amber-500"
+                    onChange={setNewDeadline}
                   />
                 </div>
               </div>
