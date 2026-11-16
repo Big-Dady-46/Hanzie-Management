@@ -169,7 +169,7 @@ export default function TasksView() {
                 setDraggedTaskId(null);
                 setDragOverColId(null);
               }}
-              className={`clean-card p-4 space-y-4 transition-all duration-200 ${
+              className={`clean-card p-3 sm:p-3.5 space-y-3.5 transition-all duration-200 ${
                 dragOverColId === col.id 
                   ? 'bg-amber-50/80 border-2 border-dashed border-amber-400 ring-4 ring-amber-200/40 shadow-md' 
                   : 'bg-slate-50/70 border border-slate-200/90'
@@ -205,7 +205,7 @@ export default function TasksView() {
                       setDraggedTaskId(null);
                       setDragOverColId(null);
                     }}
-                    className={`bg-white rounded-2xl p-4 border border-slate-200/80 shadow-2xs hover:border-amber-300 hover:shadow-soft transition-all space-y-3 cursor-grab active:cursor-grabbing select-none ${
+                    className={`bg-white rounded-2xl p-3.5 border border-slate-200/80 shadow-2xs hover:border-amber-300 hover:shadow-soft transition-all space-y-3 cursor-grab active:cursor-grabbing select-none overflow-hidden ${
                       draggedTaskId === task.id ? 'opacity-40 scale-[0.98] border-dashed border-amber-400' : ''
                     }`}
                   >
@@ -213,7 +213,7 @@ export default function TasksView() {
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5 min-w-0">
                         <GripVertical className="w-3.5 h-3.5 text-slate-300 hover:text-slate-500 shrink-0 cursor-grab" />
-                        <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md truncate max-w-[125px]">
+                        <span className="text-[11px] font-semibold text-amber-900 bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-md truncate max-w-[120px]">
                           {task.projectName}
                         </span>
                       </div>
@@ -262,25 +262,25 @@ export default function TasksView() {
                     </div>
 
                     {/* Custom Interactive Dropdown Menu */}
-                    <div className="pt-2.5 flex items-center justify-between gap-3 text-xs border-t border-slate-100 mt-2 relative">
-                      <span className="text-[11px] font-semibold text-slate-400 shrink-0">Status:</span>
-                      <div className="relative shrink-0">
+                    <div className="pt-2 flex items-center justify-between gap-2 text-xs border-t border-slate-100 mt-2 relative">
+                      <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider shrink-0">Status:</span>
+                      <div className="relative">
                         <button
                           type="button"
                           onClick={() => setOpenStatusDropdownId(openStatusDropdownId === task.id ? null : task.id)}
-                          className="flex items-center gap-2 text-xs font-semibold bg-slate-50 hover:bg-slate-100/90 border border-slate-200/80 px-2.5 py-1.5 rounded-xl text-slate-800 transition-all select-none shadow-2xs"
+                          className="flex items-center gap-1.5 text-[11px] font-semibold bg-slate-50 hover:bg-slate-100/90 border border-slate-200/80 px-2 py-1 rounded-lg text-slate-800 transition-all select-none shadow-2xs"
                         >
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                             task.status === 'completed' ? 'bg-emerald-500' :
                             task.status === 'in_progress' ? 'bg-amber-500' :
                             task.status === 'review' ? 'bg-indigo-500' : 'bg-slate-400'
                           }`} />
-                          <span>{columns.find(c => c.id === task.status)?.label || task.status}</span>
-                          <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 shrink-0 ml-0.5 ${openStatusDropdownId === task.id ? 'rotate-180 text-amber-600' : ''}`} />
+                          <span className="truncate max-w-[90px]">{columns.find(c => c.id === task.status)?.label || task.status}</span>
+                          <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform duration-150 shrink-0 ${openStatusDropdownId === task.id ? 'rotate-180 text-amber-600' : ''}`} />
                         </button>
 
                         {openStatusDropdownId === task.id && (
-                          <div className="absolute right-0 bottom-full mb-1.5 z-40 w-40 bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-slate-200 p-1 animate-in fade-in zoom-in-95 duration-100">
+                          <div className="absolute right-0 bottom-full mb-1.5 z-40 w-36 bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-slate-200 p-1 animate-in fade-in zoom-in-95 duration-100">
                             {columns.map((col) => (
                               <button
                                 key={col.id}
@@ -289,21 +289,21 @@ export default function TasksView() {
                                   updateTaskStatus(task.id, col.id);
                                   setOpenStatusDropdownId(null);
                                 }}
-                                className={`w-full text-left px-3 py-2 text-xs font-medium rounded-lg flex items-center justify-between transition-colors ${
+                                className={`w-full text-left px-2.5 py-1.5 text-xs font-medium rounded-lg flex items-center justify-between transition-colors ${
                                   task.status === col.id 
                                     ? 'bg-amber-50 text-amber-900 font-bold' 
                                     : 'text-slate-700 hover:bg-slate-100/70'
                                 }`}
                               >
-                                <div className="flex items-center gap-2">
-                                  <span className={`w-2 h-2 rounded-full shrink-0 ${
+                                <div className="flex items-center gap-1.5">
+                                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                                     col.id === 'completed' ? 'bg-emerald-500' :
                                     col.id === 'in_progress' ? 'bg-amber-500' :
                                     col.id === 'review' ? 'bg-indigo-500' : 'bg-slate-400'
                                   }`} />
                                   <span>{col.label}</span>
                                 </div>
-                                {task.status === col.id && <Check className="w-3.5 h-3.5 text-amber-600 font-bold" />}
+                                {task.status === col.id && <Check className="w-3 h-3 text-amber-600 font-bold" />}
                               </button>
                             ))}
                           </div>
