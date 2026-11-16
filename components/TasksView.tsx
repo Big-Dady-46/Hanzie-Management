@@ -18,7 +18,9 @@ export default function TasksView() {
     deleteTask,
     projects, 
     users, 
-    currentUser 
+    currentUser,
+    searchQuery,
+    setSearchQuery
   } = useApp();
 
   const [viewMode, setViewMode] = useState<'kanban' | 'list'>('kanban');
@@ -35,9 +37,16 @@ export default function TasksView() {
   const [priority, setPriority] = useState<TaskPriority>('medium');
   const [dueDate, setDueDate] = useState('2026-11-20');
 
-  const filteredTasks = projectFilter === 'ALL'
-    ? tasks
-    : tasks.filter(t => t.projectId === projectFilter);
+  const filteredTasks = tasks.filter(t => {
+    const matchesProject = projectFilter === 'ALL' || t.projectId === projectFilter;
+    const q = searchQuery.trim().toLowerCase();
+    const matchesSearch = !q ||
+      t.title.toLowerCase().includes(q) ||
+      t.projectName.toLowerCase().includes(q) ||
+      t.assignedToName.toLowerCase().includes(q) ||
+      (t.description && t.description.toLowerCase().includes(q));
+    return matchesProject && matchesSearch;
+  });
 
   const columns: { id: TaskStatus; label: string }[] = [
     { id: 'todo', label: 'To Do' },

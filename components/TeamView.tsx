@@ -14,7 +14,8 @@ export default function TeamView() {
     approveUser, 
     rejectUser, 
     signupUser, 
-    currentUser 
+    currentUser,
+    searchQuery
   } = useApp();
 
   const isLeader = currentUser.role === 'leader';
@@ -37,7 +38,14 @@ export default function TeamView() {
   const activeStaff = users.filter(u => u.status === 'active' && u.role !== 'client');
 
   const filteredStaff = activeStaff.filter(u => {
-    return departmentFilter === 'ALL' || u.department === departmentFilter;
+    const matchesDept = departmentFilter === 'ALL' || u.department === departmentFilter;
+    const q = searchQuery.trim().toLowerCase();
+    const matchesSearch = !q ||
+      u.name.toLowerCase().includes(q) ||
+      u.role.toLowerCase().includes(q) ||
+      u.department.toLowerCase().includes(q) ||
+      u.email.toLowerCase().includes(q);
+    return matchesDept && matchesSearch;
   });
 
   const handleOpenApproval = (user: User) => {

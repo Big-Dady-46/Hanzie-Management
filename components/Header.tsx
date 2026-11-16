@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useApp } from '@/lib/store';
 import { 
   Search, Clock, Coffee, Play, Square, Bell, Sparkles, 
-  Users, CheckSquare, Calendar, DollarSign, CheckCheck, Trash2, X
+  Users, CheckSquare, Calendar, DollarSign, CheckCheck, Trash2, X,
+  FolderKanban, ArrowRight, CornerDownLeft
 } from 'lucide-react';
 
 interface NotificationItem {
@@ -28,6 +29,7 @@ export default function Header() {
     setSearchQuery,
     activeTab,
     setActiveTab,
+    projects,
     users,
     tasks,
     leaves,
@@ -43,11 +45,18 @@ export default function Header() {
   const [notifFilter, setNotifFilter] = useState<'all' | 'unread' | 'action'>('all');
   const notifRef = useRef<HTMLDivElement>(null);
 
-  // Close notifications on outside click
+  // Search dropdown state & ref
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Close notifications & search on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
         setIsOpenNotifications(false);
+      }
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -166,6 +175,62 @@ export default function Header() {
     setIsOpenNotifications(false);
   };
 
+  // Live Multi-Entity Global Search Results
+  const searchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return { projects: [], tasks: [], users: [], total: 0 };
+
+    const matchedProjects = (projects || []).filter(p => 
+      p.name.toLowerCase().includes(q) ||
+      p.clientName.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      (p.description && p.description.toLowerCase().includes(q))
+    ).slice(0, 4);
+
+    const matchedTasks = (tasks || []).filter(t => 
+      t.title.toLowerCase().includes(q) ||
+      t.projectName.toLowerCase().includes(q) ||
+      t.assignedToName.toLowerCase().includes(q)
+    ).slice(0, 4);
+
+    const matchedUsers = (users || []).filter(u => 
+      u.name.toLowerCase().includes(q) ||
+      u.role.toLowerCase().includes(q) ||
+      u.department.toLowerCase().includes(q) ||
+      u.email.toLowerCase().includes(q)
+    ).slice(0, 4);
+
+    return {
+      projects: matchedProjects,
+      tasks: matchedTasks,
+      users: matchedUsers,
+      total: matchedProjects.length + matchedTasks.length + matchedUsers.length,
+    };
+  }, [searchQuery, projects, tasks, users]);
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      setIsSearchOpen(false);
+      (e.target as HTMLInputElement).blur();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      // Jump to the primary matching view on Enter
+      if (searchResults.projects.length > 0) {
+        setActiveTab('projects');
+      } else if (searchResults.tasks.length > 0) {
+        setActiveTab('tasks');
+      } else if (searchResults.users.length > 0) {
+        setActiveTab('team');
+      }
+      setIsSearchOpen(false);
+    }
+  };
+
+  const handleSelectSearchResult = (tab: string) => {
+    setActiveTab(tab);
+    setIsSearchOpen(false);
+  };
+
   return (
     <header className="relative z-50 px-8 lg:px-10 pt-7 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 bg-white/80 backdrop-blur-md mb-6">
       {/* Left Title & Subtitle */}
@@ -183,16 +248,191 @@ export default function Header() {
 
       {/* Right Controls: Search, Frosted 2D Glass Shift Actions & Profile */}
       <div className="flex items-center gap-3">
-        {/* Search Input with Gold/Silver focus */}
-        <div className="relative w-56 sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+        {/* Search Input with Gold/Silver focus & Live Spotlight Results */}
+        <div ref={searchRef} className="relative w-56 sm:w-72 md:w-80">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => {
+              if (searchQuery.trim()) setIsSearchOpen(true);
+            }}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setIsSearchOpen(e.target.value.trim().length > 0);
+            }}
+            onKeyDown={handleSearchKeyDown}
             placeholder="Search projects, tasks, staff..."
-            className="w-full bg-slate-50 text-xs text-slate-900 placeholder-slate-400 pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 transition-all font-medium"
+            className="w-full bg-slate-50 text-xs text-slate-900 placeholder-slate-400 pl-10 pr-8 py-2 rounded-xl border border-slate-200 focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 transition-all font-medium"
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery('');
+                setIsSearchOpen(false);
+              }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-md transition-colors"
+              title="Clear search"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+
+          {/* Luxury Live Search Results Dropdown */}
+          {isSearchOpen && searchQuery.trim() && (
+            <div className="absolute left-0 sm:right-0 sm:left-auto top-full mt-2 w-[340px] sm:w-[460px] md:w-[480px] bg-white rounded-2xl shadow-[0_25px_60px_-12px_rgba(15,23,42,0.25)] border border-slate-200 z-[9999] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+              {/* Header */}
+              <div className="px-4 py-3 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-slate-900">Search Results</span>
+                  <span className="text-[10px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-full">
+                    {searchResults.total} matches
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
+                  <span className="bg-slate-200/80 px-1.5 py-0.5 rounded text-slate-600 font-semibold flex items-center gap-1">
+                    <CornerDownLeft className="w-2.5 h-2.5" /> Enter
+                  </span>
+                  <span>to jump</span>
+                </div>
+              </div>
+
+              {/* Scrollable Results */}
+              <div className="max-h-[360px] overflow-y-auto divide-y divide-slate-100 bg-white">
+                {searchResults.total === 0 ? (
+                  <div className="py-10 text-center px-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-2">
+                      <Search className="w-5 h-5 opacity-60" />
+                    </div>
+                    <p className="text-xs font-bold text-slate-800">No results found for &ldquo;{searchQuery}&rdquo;</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">Try searching for &ldquo;Apex&rdquo;, task titles, or team member names.</p>
+                  </div>
+                ) : (
+                  <>
+                    {/* Projects Section */}
+                    {searchResults.projects.length > 0 && (
+                      <div className="p-2">
+                        <div className="px-2.5 py-1 text-[10px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                          <FolderKanban className="w-3.5 h-3.5 text-amber-600" />
+                          <span>Projects ({searchResults.projects.length})</span>
+                        </div>
+                        <div className="space-y-1 mt-1">
+                          {searchResults.projects.map(proj => (
+                            <div
+                              key={proj.id}
+                              onClick={() => handleSelectSearchResult('projects')}
+                              className="p-2.5 rounded-xl hover:bg-amber-50/50 transition-colors cursor-pointer flex items-center justify-between gap-3 group"
+                            >
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-amber-900 truncate">
+                                    {proj.name}
+                                  </h4>
+                                  <span className="text-[10px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.2 rounded shrink-0">
+                                    {proj.category}
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                                  Client: {proj.clientName} &bull; PKR {proj.totalBudget.toLocaleString()}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="text-[10px] font-bold text-slate-600 font-mono bg-slate-100 px-2 py-0.5 rounded-md">
+                                  {proj.progressPercentage}%
+                                </span>
+                                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-amber-600 group-hover:translate-x-0.5 transition-all" />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tasks Section */}
+                    {searchResults.tasks.length > 0 && (
+                      <div className="p-2">
+                        <div className="px-2.5 py-1 text-[10px] font-bold text-sky-800 uppercase tracking-wider flex items-center gap-1.5">
+                          <CheckSquare className="w-3.5 h-3.5 text-sky-600" />
+                          <span>Tasks ({searchResults.tasks.length})</span>
+                        </div>
+                        <div className="space-y-1 mt-1">
+                          {searchResults.tasks.map(task => (
+                            <div
+                              key={task.id}
+                              onClick={() => handleSelectSearchResult('tasks')}
+                              className="p-2.5 rounded-xl hover:bg-sky-50/50 transition-colors cursor-pointer flex items-center justify-between gap-3 group"
+                            >
+                              <div className="min-w-0 flex-1">
+                                <h4 className="text-xs font-bold text-slate-900 group-hover:text-sky-900 truncate">
+                                  {task.title}
+                                </h4>
+                                <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                                  {task.projectName} &bull; Assigned to {task.assignedToName}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="text-[10px] font-semibold text-slate-500 capitalize bg-slate-100 px-2 py-0.5 rounded-md">
+                                  {task.status.replace('_', ' ')}
+                                </span>
+                                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-sky-600 group-hover:translate-x-0.5 transition-all" />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Team Members Section */}
+                    {searchResults.users.length > 0 && (
+                      <div className="p-2">
+                        <div className="px-2.5 py-1 text-[10px] font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
+                          <Users className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Staff & Team ({searchResults.users.length})</span>
+                        </div>
+                        <div className="space-y-1 mt-1">
+                          {searchResults.users.map(u => (
+                            <div
+                              key={u.id}
+                              onClick={() => handleSelectSearchResult('team')}
+                              className="p-2.5 rounded-xl hover:bg-emerald-50/50 transition-colors cursor-pointer flex items-center justify-between gap-3 group"
+                            >
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-900 truncate">
+                                    {u.name}
+                                  </h4>
+                                  <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded capitalize shrink-0">
+                                    {u.role.replace('_', ' ')}
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                                  {u.department} &bull; {u.email}
+                                </p>
+                              </div>
+                              <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="px-4 py-2 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                <span>Click result or press Enter to navigate</span>
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(false)}
+                  className="text-slate-400 hover:text-slate-700 text-[10px] font-semibold"
+                >
+                  Close &times;
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Staff Shift Actions (Frosted Glass 2D Buttons) */}

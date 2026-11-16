@@ -19,7 +19,9 @@ export default function ProjectsView() {
     updateProjectProgress, 
     recordProjectPayment, 
     toggleMilestone,
-    currentUser 
+    currentUser,
+    searchQuery,
+    setSearchQuery
   } = useApp();
 
   const isLeader = currentUser.role === 'leader';
@@ -57,9 +59,16 @@ export default function ProjectsView() {
   const totalPaid = projects.reduce((acc, p) => acc + p.paidAmount, 0);
   const totalBalance = totalBudget - totalPaid;
 
-  const filteredProjects = filterCategory === 'all' 
-    ? projects 
-    : projects.filter(p => p.category === filterCategory);
+  const filteredProjects = projects.filter(p => {
+    const matchesCategory = filterCategory === 'all' || p.category === filterCategory;
+    const q = searchQuery.trim().toLowerCase();
+    const matchesSearch = !q ||
+      p.name.toLowerCase().includes(q) ||
+      p.clientName.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      (p.description && p.description.toLowerCase().includes(q));
+    return matchesCategory && matchesSearch;
+  });
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,8 +209,50 @@ export default function ProjectsView() {
         ))}
       </div>
 
+      {/* Active Search Filter Chip */}
+      {searchQuery.trim() && (
+        <div className="flex items-center justify-between bg-amber-50/70 border border-amber-200/80 px-4 py-2 rounded-xl text-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-amber-900">Search Filter:</span>
+            <span className="font-bold text-amber-800 bg-white px-2 py-0.5 rounded-md border border-amber-200">
+              &ldquo;{searchQuery}&rdquo;
+            </span>
+            <span className="text-amber-700 font-medium">({filteredProjects.length} matched)</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSearchQuery('')}
+            className="text-amber-800 hover:text-amber-950 font-bold flex items-center gap-1 hover:underline"
+          >
+            <X className="w-3.5 h-3.5" />
+            <span>Clear search</span>
+          </button>
+        </div>
+      )}
+
       {/* 4. Projects Grid — 2 per row, compact clean cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {filteredProjects.length === 0 ? (
+        <div className="bg-white rounded-2xl p-12 text-center border border-slate-200/80 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <Layers className="w-6 h-6 opacity-60" />
+          </div>
+          <h4 className="text-sm font-bold text-slate-800">No projects found</h4>
+          <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+            {searchQuery 
+              ? `No contracts or projects matched "${searchQuery}". Clear your search query to see all contracts.` 
+              : 'No commercial projects found in this category.'}
+          </p>
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="mt-4 text-xs font-semibold text-amber-800 hover:text-amber-950 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 transition-colors"
+            >
+              Clear Search Filter
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredProjects.map((project) => {
           const balance = Math.max(0, project.totalBudget - project.paidAmount);
           const isFullyPaid = balance <= 0;
@@ -406,6 +457,7 @@ export default function ProjectsView() {
           );
         })}
       </div>
+      )}
 
       {/* Record Payment Modal */}
       {showPaymentModal && (
