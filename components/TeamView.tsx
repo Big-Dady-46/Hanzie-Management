@@ -6,7 +6,7 @@ import {
   Plus, Mail, Phone, X, Users
 } from 'lucide-react';
 import CustomDropdown from '@/components/CustomDropdown';
-import { UserRole, User } from '@/lib/types';
+import { UserRole, User, formatRole } from '@/lib/types';
 
 export default function TeamView() {
   const {
@@ -145,7 +145,7 @@ export default function TeamView() {
               >
                 <div>
                   <h4 className="text-xs font-bold text-slate-900">{u.name}</h4>
-                  <p className="text-xs text-slate-400 capitalize">{u.role.replace('_', ' ')} &bull; {u.email}</p>
+                  <p className="text-xs text-slate-400">{formatRole(u.role)} &bull; {u.email}</p>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -239,7 +239,7 @@ export default function TeamView() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-bold text-slate-900 truncate" title={staff.name}>{staff.name}</h4>
-                    <p className="text-xs text-slate-400 capitalize truncate">{staff.role.replace('_', ' ')}</p>
+                    <p className="text-xs text-slate-400 truncate">{formatRole(staff.role)}</p>
                   </div>
                 </div>
 

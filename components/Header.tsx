@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useApp } from '@/lib/store';
+import { formatRole } from '@/lib/types';
 import { 
   Search, Clock, Coffee, Play, Square, Bell, Sparkles, 
   Users, CheckSquare, Calendar, DollarSign, CheckCheck, Trash2, X,
@@ -402,8 +403,8 @@ export default function Header() {
                                   <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-900 truncate">
                                     {u.name}
                                   </h4>
-                                  <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded capitalize shrink-0">
-                                    {u.role.replace('_', ' ')}
+                                  <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded shrink-0">
+                                    {formatRole(u.role)}
                                   </span>
                                 </div>
                                 <p className="text-[11px] text-slate-400 truncate mt-0.5">

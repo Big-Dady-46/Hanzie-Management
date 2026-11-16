@@ -1,5 +1,18 @@
 export type UserRole = 'leader' | 'developer' | 'designer' | 'qa' | 'support_cleaner' | 'manager' | 'client';
 
+export function formatRole(role?: string): string {
+  if (!role) return '';
+  const r = role.toLowerCase().trim();
+  if (r === 'qa') return 'QA';
+  if (r === 'ui/ux designer' || r === 'designer') return 'UI/UX Designer';
+  if (r === 'support_cleaner') return 'Support / Cleaner';
+  if (r === 'developer') return 'Developer';
+  if (r === 'leader') return 'Leader';
+  if (r === 'client') return 'Client';
+  if (r === 'manager') return 'Manager';
+  return role.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
 export type UserStatus = 'active' | 'pending_approval' | 'rejected' | 'suspended';
 
 export type WorkStatus = 'working' | 'on_break' | 'on_leave' | 'offline';

@@ -7,7 +7,7 @@ import {
   CreditCard, FileText, Download, Building2, User, Printer, X,
   ShieldCheck, Search, Filter, TrendingUp, AlertCircle
 } from 'lucide-react';
-import { PayrollRecord } from '@/lib/types';
+import { PayrollRecord, formatRole } from '@/lib/types';
 import CustomDropdown from '@/components/CustomDropdown';
 
 export default function PayrollView() {
@@ -206,7 +206,7 @@ export default function PayrollView() {
                         </div>
                         <div>
                           <div className="font-bold text-slate-900 text-xs">{item.userName}</div>
-                          <span className="text-[10px] text-slate-400 capitalize">{item.userRole.replace('_', ' ')}</span>
+                          <span className="text-[10px] text-slate-400 font-semibold">{formatRole(item.userRole)}</span>
                         </div>
                       </div>
                     </td>
@@ -378,7 +378,7 @@ export default function PayrollView() {
               <div>
                 <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Employee</span>
                 <span className="text-sm font-black text-slate-900 block leading-tight">{viewReceipt.userName}</span>
-                <span className="text-[11px] text-slate-500 capitalize">{viewReceipt.userRole.replace('_', ' ')} • {viewReceipt.department}</span>
+                <span className="text-[11px] text-slate-500">{formatRole(viewReceipt.userRole)} • {viewReceipt.department}</span>
               </div>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
                 viewReceipt.status === 'paid' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-amber-100 text-amber-800 border border-amber-200'
