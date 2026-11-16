@@ -287,7 +287,7 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-slate-900">Search Results</span>
                   <span className="text-[10px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-full">
-                    {searchResults.total} matches
+                    {searchResults.total} {searchResults.total === 1 ? 'match' : 'matches'}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
