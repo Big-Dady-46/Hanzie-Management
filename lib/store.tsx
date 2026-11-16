@@ -69,7 +69,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const STORAGE_KEY_PREFIX = 'hanzei_v4_demo_';
+const STORAGE_KEY_PREFIX = 'hanzei_v5_demo_';
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // Load state from localStorage or fallback to Mock data
@@ -582,6 +582,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   // Generate monthly payroll run
   const generateMonthlyPayroll = (month: string) => {
+    // Prevent duplicate cycle vouchers for the same month
+    const existingForMonth = payroll.filter(p => p.month === month);
+    if (existingForMonth.length > 0) {
+      showNotification(`Payroll cycle for ${month} is already active! (${existingForMonth.length} vouchers generated)`);
+      return;
+    }
+
     const activeStaff = users.filter(u => u.status === 'active' && u.role !== 'client');
     const newRecords: PayrollRecord[] = activeStaff.map(u => ({
       id: `pay_${Date.now()}_${u.id}`,
@@ -599,7 +606,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
 
     setPayroll(prev => [...newRecords, ...prev]);
-    showNotification(`Generated new payroll cycle for ${month}!`);
+    showNotification(`Generated new payroll cycle for ${month} (${newRecords.length} staff members)!`);
   };
 
   return (

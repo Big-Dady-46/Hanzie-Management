@@ -5,8 +5,9 @@ import { useApp } from '@/lib/store';
 import { 
   Briefcase, CheckCircle2, Clock, Send, 
   ShieldCheck, Check, TrendingUp, Users,
-  Activity, Globe, MessageSquare
+  Activity, Globe, MessageSquare, Layers
 } from 'lucide-react';
+import CustomDropdown from '@/components/CustomDropdown';
 
 export default function ClientDashboard() {
   const { 
@@ -96,8 +97,24 @@ export default function ClientDashboard() {
           </div>
         </div>
 
-        {/* Right Side: Target Handover & Lead Partner */}
-        <div className="flex items-center gap-4 shrink-0 self-start md:self-auto">
+        {/* Right Side: Project Switcher, Target Handover & Lead Partner */}
+        <div className="flex items-center gap-3.5 shrink-0 self-start md:self-auto flex-wrap">
+          {/* Project Switcher Dropdown */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-500 hidden sm:inline">Project:</span>
+            <CustomDropdown
+              value={selectedProject.id}
+              onChange={setSelectedProjectId}
+              options={clientProjects.map(p => ({
+                value: p.id,
+                label: p.name
+              }))}
+              menuWidth="w-64 sm:w-72"
+            />
+          </div>
+
+          <div className="h-8 w-px bg-slate-200 hidden sm:block" />
+
           <div className="text-left md:text-right">
             <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
               Target Handover

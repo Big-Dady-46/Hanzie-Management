@@ -107,6 +107,7 @@ export default function TeamView() {
             onChange={setDepartmentFilter}
             options={[
               { value: 'ALL', label: `All Departments (${activeStaff.length})` },
+              { value: 'Leadership', label: 'Leadership' },
               { value: 'Development', label: 'Development' },
               { value: 'Design', label: 'Design' },
               { value: 'Quality Assurance', label: 'QA' },

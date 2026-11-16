@@ -21,9 +21,9 @@ export default function ReportsView() {
     return matchesUser && matchesDate;
   });
 
-  const totalHoursLogged = Math.round(eodReports.reduce((acc, r) => acc + (r.hoursWorked || 8), 0) * 10) / 10;
-  const avgRating = eodReports.length > 0 
-    ? (eodReports.reduce((acc, r) => acc + (r.rating || 5), 0) / eodReports.length).toFixed(1)
+  const totalHoursLogged = Math.round(filteredReports.reduce((acc, r) => acc + (r.hoursWorked || 8), 0) * 10) / 10;
+  const avgRating = filteredReports.length > 0 
+    ? (filteredReports.reduce((acc, r) => acc + (r.rating || 5), 0) / filteredReports.length).toFixed(1)
     : '5.0';
 
   const handleExportPDF = () => {
@@ -187,7 +187,7 @@ export default function ReportsView() {
           </div>
           <div>
             <div className="text-2xl font-bold text-amber-900 tracking-tight">
-              {eodReports.length} Vouchers
+              {filteredReports.length} {filteredReports.length === 1 ? 'Report' : 'Reports'}
             </div>
             <p className="text-[11px] text-slate-400 mt-0.5">100% on-time EOD compliance</p>
           </div>

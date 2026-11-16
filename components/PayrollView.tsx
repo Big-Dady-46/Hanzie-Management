@@ -29,6 +29,8 @@ export default function PayrollView() {
   const [paymentMethod, setPaymentMethod] = useState<'Bank Transfer' | 'JazzCash' | 'Easypaisa' | 'Cash' | 'Wise'>('Bank Transfer');
   const [transRef, setTransRef] = useState('');
 
+  const currentMonthPayroll = payroll.filter(p => p.month === selectedMonth);
+
   const filteredPayroll = payroll.filter(p => {
     const matchesMonth = p.month === selectedMonth;
     const matchesDept = departmentFilter === 'ALL' || p.department === departmentFilter;
@@ -36,8 +38,8 @@ export default function PayrollView() {
     return matchesMonth && matchesDept && matchesSearch;
   });
 
-  const totalMonthlyOutflow = payroll.filter(p => p.month === selectedMonth).reduce((acc, p) => acc + p.netSalary, 0);
-  const totalPaidOutflow = payroll.filter(p => p.month === selectedMonth && p.status === 'paid').reduce((acc, p) => acc + p.netSalary, 0);
+  const totalMonthlyOutflow = currentMonthPayroll.reduce((acc, p) => acc + p.netSalary, 0);
+  const totalPaidOutflow = currentMonthPayroll.filter(p => p.status === 'paid').reduce((acc, p) => acc + p.netSalary, 0);
   const totalPendingOutflow = totalMonthlyOutflow - totalPaidOutflow;
   const disbursedPct = totalMonthlyOutflow > 0 ? Math.round((totalPaidOutflow / totalMonthlyOutflow) * 100) : 0;
 
@@ -107,7 +109,7 @@ export default function PayrollView() {
             <div className="text-2xl font-bold text-amber-900 tracking-tight">
               PKR {totalMonthlyOutflow.toLocaleString()}
             </div>
-            <p className="text-[11px] text-slate-400 mt-0.5">{filteredPayroll.length} active team members</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">{currentMonthPayroll.length} active team members</p>
           </div>
         </div>
 
@@ -153,7 +155,7 @@ export default function PayrollView() {
         {/* Top Bar: Dept Filter + Search */}
         <div className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 bg-slate-50/50">
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-            {['ALL', 'Development', 'Design', 'Office & Maintenance'].map((dept) => (
+            {['ALL', 'Development', 'Design', 'Quality Assurance', 'Office & Maintenance'].map((dept) => (
               <button
                 key={dept}
                 onClick={() => setDepartmentFilter(dept)}
@@ -163,7 +165,7 @@ export default function PayrollView() {
                     : 'text-slate-500 hover:text-slate-900 hover:bg-white'
                 }`}
               >
-                {dept === 'ALL' ? 'All Staff' : dept}
+                {dept === 'ALL' ? 'All Staff' : dept === 'Quality Assurance' ? 'QA' : dept}
               </button>
             ))}
           </div>
