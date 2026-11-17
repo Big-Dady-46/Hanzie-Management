@@ -296,21 +296,21 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* ULTRA-LUXURY GLASSMORPHIC AUTH CARD */}
-        <div className="w-full bg-[#0c101c]/85 backdrop-blur-2xl border border-amber-500/25 rounded-3xl p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(212,175,55,0.06)] relative transition-all">
+        {/* ULTRA-LUXURY TRANSLUCENT FROSTED GLASS AUTH CARD */}
+        <div className="w-full bg-white/[0.08] backdrop-blur-md border border-white/20 hover:border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_35px_rgba(212,175,55,0.1)] relative transition-all">
           
           {/* Subtle Top Glowing Line Accent */}
-          <div className="absolute top-0 left-12 right-12 h-[1px] bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
+          <div className="absolute top-0 left-12 right-12 h-[1px] bg-gradient-to-r from-transparent via-amber-400/80 to-transparent" />
 
           {/* Segmented Auth Tabs */}
-          <div className="flex bg-[#05070d]/90 p-1.5 rounded-2xl border border-white/[0.08] mb-6 shadow-inner">
+          <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/15 mb-6 backdrop-blur-sm shadow-inner">
             <button
               type="button"
               onClick={() => { setMode('signin'); setFeedback(null); }}
               className={`flex-1 py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 ${
                 mode === 'signin'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_2px_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-400 hover:text-slate-200 font-medium'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_2px_15px_rgba(245,158,11,0.4)]'
+                  : 'text-slate-300 hover:text-white font-medium'
               }`}
             >
               <KeyRound className="w-3.5 h-3.5" />
@@ -321,8 +321,8 @@ export default function LoginPage() {
               onClick={() => { setMode('signup'); setFeedback(null); }}
               className={`flex-1 py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2 ${
                 mode === 'signup'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_2px_15px_rgba(245,158,11,0.35)]'
-                  : 'text-slate-400 hover:text-slate-200 font-medium'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 font-bold shadow-[0_2px_15px_rgba(245,158,11,0.4)]'
+                  : 'text-slate-300 hover:text-white font-medium'
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -361,7 +361,7 @@ export default function LoginPage() {
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     placeholder="e.g. admin@gmail.com"
-                    className="w-full bg-[#060912]/90 border border-white/[0.12] rounded-xl pl-10 pr-3.5 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
+                    className="w-full bg-black/40 border border-white/20 rounded-xl pl-10 pr-3.5 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:bg-black/60 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
                   />
                 </div>
               </div>
@@ -378,7 +378,7 @@ export default function LoginPage() {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full bg-[#060912]/90 border border-white/[0.12] rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
+                    className="w-full bg-black/40 border border-white/20 rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:bg-black/60 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
                   />
                   <button
                     type="button"
@@ -417,7 +417,7 @@ export default function LoginPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Bilal Ahmed"
-                    className="w-full bg-[#060912]/90 border border-white/[0.12] rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
+                    className="w-full bg-black/40 border border-white/20 rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:bg-black/60 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
                   />
                 </div>
               </div>
@@ -434,7 +434,7 @@ export default function LoginPage() {
                     value={signupEmail}
                     onChange={(e) => setSignupEmail(e.target.value)}
                     placeholder="e.g. bilal@hanzie.com"
-                    className="w-full bg-[#060912]/90 border border-white/[0.12] rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
+                    className="w-full bg-black/40 border border-white/20 rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:bg-black/60 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
                   />
                 </div>
               </div>
@@ -451,7 +451,7 @@ export default function LoginPage() {
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                     placeholder="Choose a strong password"
-                    className="w-full bg-[#060912]/90 border border-white/[0.12] rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
+                    className="w-full bg-black/40 border border-white/20 rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:bg-black/60 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
                   />
                   <button
                     type="button"
@@ -463,7 +463,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Redesigned Workspace Role Cards (Full Text, No Truncations, Clean Icons) */}
+              {/* Redesigned Workspace Role Cards */}
               <div>
                 <label className="block text-xs font-normal text-slate-300 mb-1.5">
                   Select Workspace Role
@@ -479,13 +479,13 @@ export default function LoginPage() {
                         onClick={() => setRole(r.id)}
                         className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 cursor-pointer ${
                           isSelected
-                            ? 'bg-amber-500/20 border-amber-400/80 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.25)]'
-                            : 'bg-white/[0.03] border-white/[0.08] text-slate-400 hover:bg-white/[0.07] hover:border-white/20 hover:text-slate-200'
+                            ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+                            : 'bg-black/30 border-white/15 text-slate-300 hover:bg-white/10 hover:border-white/25 hover:text-white'
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <div className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
-                            isSelected ? 'bg-amber-400/30 text-amber-300' : 'bg-white/5 text-slate-400'
+                            isSelected ? 'bg-amber-400/30 text-amber-300' : 'bg-white/10 text-slate-400'
                           }`}>
                             <Icon className="w-3.5 h-3.5" />
                           </div>
@@ -493,7 +493,7 @@ export default function LoginPage() {
                             <span className="text-xs font-medium block truncate leading-tight">
                               {r.title}
                             </span>
-                            <span className="text-[10px] text-slate-500 block truncate">
+                            <span className="text-[10px] text-slate-400 block truncate">
                               {r.subtitle}
                             </span>
                           </div>
@@ -516,7 +516,7 @@ export default function LoginPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+92 300 1234567"
-                    className="w-full bg-[#060912]/90 border border-white/[0.12] rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
+                    className="w-full bg-black/40 border border-white/20 rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400/80 focus:bg-black/60 focus:ring-1 focus:ring-amber-400/30 transition-all font-normal"
                   />
                 </div>
               </div>
