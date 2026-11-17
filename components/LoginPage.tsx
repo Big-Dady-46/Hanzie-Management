@@ -191,7 +191,6 @@ export default function LoginPage() {
   };
 
   const roleList: { id: UserRole; title: string; subtitle: string; icon: any }[] = [
-    { id: 'leader', title: 'Leader (CEO)', subtitle: 'Full Admin', icon: ShieldCheck },
     { id: 'developer', title: 'Developer', subtitle: 'Engineering', icon: Laptop },
     { id: 'designer', title: 'UI/UX Designer', subtitle: 'Design & Assets', icon: Palette },
     { id: 'qa', title: 'QA Engineer', subtitle: 'Testing & Bugs', icon: Bug },
