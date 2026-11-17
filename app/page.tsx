@@ -18,10 +18,11 @@ import EODReportModal from '@/components/EODReportModal';
 import DatabaseSettingsModal from '@/components/DatabaseSettingsModal';
 import AuthModal from '@/components/AuthModal';
 import LoadingScreen from '@/components/LoadingScreen';
+import LoginPage from '@/components/LoginPage';
 import { Clock, Sparkles, X } from 'lucide-react';
 
 export default function Home() {
-  const { currentUser, activeTab, switchUser, notificationMessage, setNotificationMessage } = useApp();
+  const { currentUser, isAuthenticated, activeTab, switchUser, notificationMessage, setNotificationMessage } = useApp();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -37,6 +38,11 @@ export default function Home() {
         onComplete={() => setIsLoading(false)}
       />
     );
+  }
+
+  // If user is not authenticated, show dedicated Login & Sign Up page
+  if (!isAuthenticated) {
+    return <LoginPage />;
   }
 
   // If the logged in user is pending approval

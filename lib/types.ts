@@ -21,6 +21,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  password?: string;
   role: UserRole;
   department: 'Leadership' | 'Development' | 'Design' | 'Quality Assurance' | 'Office & Maintenance' | 'Clients';
   avatar?: string;

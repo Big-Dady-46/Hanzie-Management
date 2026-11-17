@@ -15,6 +15,7 @@ export default function Sidebar() {
     setActiveTab, 
     users, 
     switchUser,
+    logoutUser,
     setIsDbModalOpen
   } = useApp();
 
@@ -95,15 +96,24 @@ export default function Sidebar() {
           <span>Cloud Sync & DB</span>
         </button>
 
-        {/* User Mini Profile with Gold Border */}
-        <div className="flex items-center gap-2.5 px-2">
-          <div className="w-8 h-8 rounded-full bg-slate-900 text-amber-300 border border-amber-500/40 flex items-center justify-center font-bold text-xs shadow-xs">
-            {currentUser.name.charAt(0)}
+        {/* User Mini Profile with Gold Border & Logout Button */}
+        <div className="flex items-center justify-between gap-2 px-2 py-1 bg-slate-50/80 rounded-2xl border border-slate-100">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-slate-900 text-amber-300 border border-amber-500/40 flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
+              {currentUser.name.charAt(0)}
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-slate-800 truncate">{currentUser.name}</p>
+              <p className="text-[10px] text-slate-400 capitalize truncate">{currentUser.role.replace('_', ' ')}</p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-slate-800 truncate">{currentUser.name}</p>
-            <p className="text-[10px] text-slate-400 capitalize truncate">{currentUser.role.replace('_', ' ')}</p>
-          </div>
+          <button
+            onClick={logoutUser}
+            title="Log Out"
+            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors shrink-0"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </aside>

@@ -6,7 +6,7 @@ import { formatRole } from '@/lib/types';
 import { 
   Search, Clock, Coffee, Play, Square, Bell, Sparkles, 
   Users, CheckSquare, Calendar, DollarSign, CheckCheck, Trash2, X,
-  FolderKanban, ArrowRight, CornerDownLeft
+  FolderKanban, ArrowRight, CornerDownLeft, LogOut
 } from 'lucide-react';
 
 interface NotificationItem {
@@ -22,6 +22,7 @@ interface NotificationItem {
 export default function Header() {
   const { 
     currentUser, 
+    logoutUser,
     clockIn, 
     startBreak, 
     resumeWork, 
@@ -654,9 +655,18 @@ export default function Header() {
           )}
         </div>
 
-        {/* User Avatar with Golden Border */}
-        <div className="w-9 h-9 min-w-[36px] min-h-[36px] aspect-square rounded-xl bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 shadow-xs border border-amber-500/40">
-          <span>{currentUser.name.charAt(0)}</span>
+        {/* User Avatar with Golden Border & Quick Logout */}
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 min-w-[36px] min-h-[36px] aspect-square rounded-xl bg-slate-900 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 shadow-xs border border-amber-500/40">
+            <span>{currentUser.name.charAt(0)}</span>
+          </div>
+          <button
+            onClick={logoutUser}
+            title="Log Out"
+            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors border border-transparent hover:border-rose-100"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </header>

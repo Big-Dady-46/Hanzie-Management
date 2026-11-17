@@ -15,8 +15,11 @@ interface AppContextType {
   // Current user & Auth
   currentUser: User;
   setCurrentUser: (user: User) => void;
+  isAuthenticated: boolean;
+  loginUser: (email: string, password: string) => { success: boolean; message: string; user?: User };
+  logoutUser: () => void;
   switchUser: (userId: string) => void;
-  signupUser: (userData: { name: string; email: string; role: UserRole; department: string; phone?: string }) => { success: boolean; message: string };
+  signupUser: (userData: { name: string; email: string; password?: string; role: UserRole; department?: string; phone?: string }) => { success: boolean; message: string; user?: User };
   approveUser: (userId: string, role: UserRole, department: string, salary: number, assignedProjectIds?: string[]) => void;
   rejectUser: (userId: string) => void;
   
@@ -69,7 +72,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const STORAGE_KEY_PREFIX = 'hanzei_v5_demo_';
+const STORAGE_KEY_PREFIX = 'hanzie_cloud_v3_';
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // Load state from localStorage or fallback to Mock data
@@ -83,15 +86,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return INITIAL_USERS;
   });
 
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const savedId = localStorage.getItem(`${STORAGE_KEY_PREFIX}current_user_id`);
+      return Boolean(savedId);
+    }
+    return false;
+  });
+
   const [currentUser, setCurrentUser] = useState<User>(() => {
     if (typeof window !== 'undefined') {
       const savedId = localStorage.getItem(`${STORAGE_KEY_PREFIX}current_user_id`);
       if (savedId) {
-        const found = INITIAL_USERS.find(u => u.id === savedId);
+        const savedUsers = localStorage.getItem(`${STORAGE_KEY_PREFIX}users`);
+        const allUsers: User[] = savedUsers ? JSON.parse(savedUsers) : INITIAL_USERS;
+        const found = allUsers.find(u => u.id === savedId);
         if (found) return found;
       }
     }
-    // Default to the Software House Leader (CEO)
     return INITIAL_USERS[0];
   });
 
@@ -212,6 +224,58 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     a => a.userId === currentUser.id && a.date === todayStr
   ) || null;
 
+  // User Login (Admin & Regular Staff/Clients)
+  const loginUser = (email: string, password: string) => {
+    const cleanEmail = email.toLowerCase().trim();
+
+    // Check default Admin
+    if (cleanEmail === 'admin@gmail.com') {
+      if (password === 'Hanzie46@') {
+        let adminUser = users.find(u => u.email.toLowerCase() === 'admin@gmail.com');
+        if (!adminUser) {
+          adminUser = INITIAL_USERS[0];
+          setUsers(prev => [adminUser!, ...prev]);
+        }
+        setCurrentUser(adminUser);
+        setIsAuthenticated(true);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, adminUser.id);
+        }
+        showNotification(`Welcome back, Admin ${adminUser.name}!`);
+        return { success: true, message: 'Logged in successfully as Admin', user: adminUser };
+      } else {
+        return { success: false, message: 'Invalid Admin password. Default is Hanzie46@' };
+      }
+    }
+
+    // Check registered users
+    const found = users.find(u => u.email.toLowerCase().trim() === cleanEmail);
+    if (!found) {
+      return { success: false, message: 'No account registered with this email. Please sign up first!' };
+    }
+
+    if (found.password && found.password !== password) {
+      return { success: false, message: 'Incorrect password. Please try again.' };
+    }
+
+    setCurrentUser(found);
+    setIsAuthenticated(true);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, found.id);
+    }
+    showNotification(`Welcome back, ${found.name}!`);
+    return { success: true, message: 'Logged in successfully', user: found };
+  };
+
+  // User Logout
+  const logoutUser = () => {
+    setIsAuthenticated(false);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`${STORAGE_KEY_PREFIX}current_user_id`);
+    }
+    showNotification('Logged out successfully.');
+  };
+
   // Switch user role instantly (for demonstration / testing)
   const switchUser = (userId: string) => {
     const target = users.find(u => u.id === userId);
@@ -226,29 +290,47 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Sign up a new user (enters pending_approval)
-  const signupUser = (userData: { name: string; email: string; role: UserRole; department: string; phone?: string }) => {
-    const existing = users.find(u => u.email.toLowerCase() === userData.email.toLowerCase());
+  // Sign up a new user (with password & immediate active access)
+  const signupUser = (userData: { name: string; email: string; password?: string; role: UserRole; department?: string; phone?: string }) => {
+    const cleanEmail = userData.email.toLowerCase().trim();
+    const existing = users.find(u => u.email.toLowerCase().trim() === cleanEmail);
     if (existing) {
-      return { success: false, message: 'This email is already registered.' };
+      return { success: false, message: 'This email is already registered. Please sign in instead.' };
+    }
+
+    const isAdmin = cleanEmail === 'admin@gmail.com' || userData.role === 'leader';
+    let dept = userData.department;
+    if (!dept) {
+      if (userData.role === 'developer') dept = 'Development';
+      else if (userData.role === 'designer') dept = 'Design';
+      else if (userData.role === 'qa') dept = 'Quality Assurance';
+      else if (userData.role === 'support_cleaner') dept = 'Office & Maintenance';
+      else if (userData.role === 'client') dept = 'Clients';
+      else dept = 'Leadership';
     }
 
     const newUser: User = {
       id: `usr_${Date.now()}`,
-      name: userData.name,
-      email: userData.email,
-      role: userData.role,
-      department: userData.department as any,
+      name: userData.name.trim(),
+      email: cleanEmail,
+      password: userData.password || '',
+      role: isAdmin ? 'leader' : userData.role,
+      department: dept as any,
       phone: userData.phone || '',
-      status: 'pending_approval',
+      status: 'active',
       workStatus: 'offline',
       joinedDate: todayStr,
-      salary: 0,
+      salary: isAdmin ? 500000 : 0,
     };
 
     setUsers(prev => [newUser, ...prev]);
-    showNotification(`New account registered for ${newUser.name}. Waiting for Leader confirmation.`);
-    return { success: true, message: 'Your registration was submitted! Hanzei management will approve your access shortly.' };
+    setCurrentUser(newUser);
+    setIsAuthenticated(true);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, newUser.id);
+    }
+    showNotification(`Account created! Welcome, ${newUser.name}.`);
+    return { success: true, message: 'Account created successfully! Logged in.', user: newUser };
   };
 
   // Leader approves pending user
@@ -614,6 +696,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       value={{
         currentUser,
         setCurrentUser,
+        isAuthenticated,
+        loginUser,
+        logoutUser,
         switchUser,
         signupUser,
         approveUser,
