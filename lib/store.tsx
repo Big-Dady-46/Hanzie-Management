@@ -72,7 +72,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const STORAGE_KEY_PREFIX = 'hanzie_cloud_v3_';
+const STORAGE_KEY_PREFIX = 'hanzie_auth_v5_';
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // Load state from localStorage or fallback to Mock data
@@ -88,7 +88,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
-      const savedId = localStorage.getItem(`${STORAGE_KEY_PREFIX}current_user_id`);
+      const savedId = localStorage.getItem(`${STORAGE_KEY_PREFIX}session_user_id`);
       return Boolean(savedId);
     }
     return false;
@@ -96,7 +96,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const [currentUser, setCurrentUser] = useState<User>(() => {
     if (typeof window !== 'undefined') {
-      const savedId = localStorage.getItem(`${STORAGE_KEY_PREFIX}current_user_id`);
+      const savedId = localStorage.getItem(`${STORAGE_KEY_PREFIX}session_user_id`);
       if (savedId) {
         const savedUsers = localStorage.getItem(`${STORAGE_KEY_PREFIX}users`);
         const allUsers: User[] = savedUsers ? JSON.parse(savedUsers) : INITIAL_USERS;
@@ -183,9 +183,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem(`${STORAGE_KEY_PREFIX}eod_reports`, JSON.stringify(eodReports));
       localStorage.setItem(`${STORAGE_KEY_PREFIX}payroll`, JSON.stringify(payroll));
       localStorage.setItem(`${STORAGE_KEY_PREFIX}leaves`, JSON.stringify(leaves));
-      localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, currentUser.id);
+      
+      // ONLY save session_user_id if user is actually authenticated
+      if (isAuthenticated && currentUser?.id) {
+        localStorage.setItem(`${STORAGE_KEY_PREFIX}session_user_id`, currentUser.id);
+      } else {
+        localStorage.removeItem(`${STORAGE_KEY_PREFIX}session_user_id`);
+      }
     }
-  }, [users, projects, tasks, attendance, eodReports, payroll, leaves, currentUser]);
+  }, [users, projects, tasks, attendance, eodReports, payroll, leaves, currentUser, isAuthenticated]);
 
   // Realtime Supabase listeners if configured
   useEffect(() => {
@@ -239,7 +245,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setCurrentUser(adminUser);
         setIsAuthenticated(true);
         if (typeof window !== 'undefined') {
-          localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, adminUser.id);
+          localStorage.setItem(`${STORAGE_KEY_PREFIX}session_user_id`, adminUser.id);
         }
         showNotification(`Welcome back, Admin ${adminUser.name}!`);
         return { success: true, message: 'Logged in successfully as Admin', user: adminUser };
@@ -261,7 +267,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setCurrentUser(found);
     setIsAuthenticated(true);
     if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, found.id);
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}session_user_id`, found.id);
     }
     showNotification(`Welcome back, ${found.name}!`);
     return { success: true, message: 'Logged in successfully', user: found };
@@ -271,7 +277,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const logoutUser = () => {
     setIsAuthenticated(false);
     if (typeof window !== 'undefined') {
-      localStorage.removeItem(`${STORAGE_KEY_PREFIX}current_user_id`);
+      localStorage.removeItem(`${STORAGE_KEY_PREFIX}session_user_id`);
     }
     showNotification('Logged out successfully.');
   };
@@ -327,7 +333,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setCurrentUser(newUser);
     setIsAuthenticated(true);
     if (typeof window !== 'undefined') {
-      localStorage.setItem(`${STORAGE_KEY_PREFIX}current_user_id`, newUser.id);
+      localStorage.setItem(`${STORAGE_KEY_PREFIX}session_user_id`, newUser.id);
     }
     showNotification(`Account created! Welcome, ${newUser.name}.`);
     return { success: true, message: 'Account created successfully! Logged in.', user: newUser };
